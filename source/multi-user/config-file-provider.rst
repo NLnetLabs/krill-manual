@@ -36,8 +36,9 @@ How does it work?
 
 To add a user to the ``krill.conf`` file an administrator uses the ``krillc``
 command to compute a password *hash* for the user and then adds an entry to the
-``[auth_users]`` section including their username, password *hash* and any :ref:`attributes <doc_krill_multi_user_access_control>`
-that are relevant for that user.
+``[auth_users]`` section including their username, password *hash*, salt and any
+:ref:`attributes <doc_krill_multi_user_access_control>` that are relevant for that
+user.
 
 When a user enters their username and password into the web user interface a 
 hash of the password is computed and sent with the username to the Krill server.
@@ -124,15 +125,15 @@ dave_the_octopus  qnky8Zuj readwrite
 2. Configure Krill
 """"""""""""""""""
 
-For each user generate a password hash using the following command:
+For each user generate a password hash and salt using the following command:
 
 .. code-block:: bash
 
   $ krillc config user --id joe@example.com
-  Enter the password to hash: dFdsapE5
+  Enter the password to hash: ********
    
   [auth_users]
-  "joe@example.com" = { password_hash="f45d...b25f" }
+  "joe@example.com" = { password_hash="521e....0529", salt="d539....115e" }
 
 Then add the ``auth_type``, ``[auth_users]`` and individual user lines
 to ``krill.conf``. The end result should look something like this:
@@ -142,9 +143,9 @@ to ``krill.conf``. The end result should look something like this:
    auth_type = "config-file"
 
    [auth_users]
-   "joe@example.com"  = { attributes={ role="admin" },     password_hash="f45d...b25f" }
-   "sally"            = { attributes={ role="readonly" },  password_hash="..." }
-   "dave_the_octopus" = { attributes={ role="readwrite" }, password_hash="..." }
+   "joe@example.com"  = { attributes={ role="admin" },     password_hash="521e....0529", salt="d539....115e" }
+   "sally"            = { attributes={ role="readonly" },  password_hash="...", salt="..." }
+   "dave_the_octopus" = { attributes={ role="readwrite" }, password_hash="...", salt="..." }
 
 ----
 
@@ -181,10 +182,10 @@ team user does **NOT** have a ``role`` attribute!
    auth_private_attributes = [ "exc_cas" ]
 
    [auth_users]
-   "joe@example.com"   = { attributes={ role="admin" }, password_hash="f45d...b25f" }
-   "sally"             = { attributes={ role="readonly", inc_cas="ca1,ca3" },  password_hash="..." }
-   "dave_the_octopus"  = { attributes={ role="readwrite" }, exc_cas="some_private_ca" }, password_hash="..." }
-   "rob_from_team_one" = { attributes={ team="t1", teamrole="readwrite" }, password_hash="..." }
+   "joe@example.com"   = { attributes={ role="admin" }, password_hash="f45d...b25f", salt="..." }
+   "sally"             = { attributes={ role="readonly", inc_cas="ca1,ca3" },  password_hash="...", salt="..." }
+   "dave_the_octopus"  = { attributes={ role="readwrite" }, exc_cas="some_private_ca" }, password_hash="...", salt="..." }
+   "rob_from_team_one" = { attributes={ team="t1", teamrole="readwrite" }, password_hash="...", salt="..." }
 
 Additional sources of information
 ---------------------------------
