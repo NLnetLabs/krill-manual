@@ -1,4 +1,4 @@
-# unbound-manual
+# Krill User Manual
 The Official Krill User Manual, published at [krill.readthedocs.io](https://krill.readthedocs.io)
 
 
