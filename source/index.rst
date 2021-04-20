@@ -65,7 +65,6 @@ line and through an API.
    publication-server
    testbed
    docker
-   Running with Krill Manager <krillmanager/index>
 .. history
 .. authors
 .. license

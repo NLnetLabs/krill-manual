@@ -1,5 +1,7 @@
 .. _doc_krill_install_and_run:
 
+.. Warning:: This documentation if for the Krill v0.9.0 RC release.
+
 Install and Run
 ===============
 
@@ -7,17 +9,22 @@ Before you can start to use Krill you will need to install, configure and run
 the Krill application somewhere. Please follow the steps below and you will be
 ready to :ref:`doc_krill_get_started`.
 
-Getting started with Krill is quite easy either building from Cargo or running
-with Docker. In case you intend to serve your RPKI certificate and ROAs to the
+Getting started with Krill is quite easy either building from cargo using a
+debian package. In case you intend to serve your RPKI certificate and ROAs to the
 world yourself or you want to offer this as a service to others, you will also
 need to have a public Rsyncd and HTTPS web server available.
 
 Installing with APT/dpkg
 ------------------------
 
-Pre-built Debian/Ubuntu packages are available for recent operating system
-versions on x86_64 platforms. These can be installed using the standard ``apt``,
-``apt-get`` and ``dpkg`` commands as usual.
+.. Warning:: The Debian/Ubunto packages do not include the dedicated Krill Publication
+     Server yet. See `this issue for planned support <https://github.com/NLnetLabs/krill/issues/361>`_
+     For the moment please use `cargo` to install the Publication Server components
+     if you need them.
+
+Pre-built Debian/Ubuntu `packages <https://packages.nlnetlabs.nl/>`_ are available
+for recent versions on x86_64 platforms. These can be installed using the standard
+``apt``, ``apt-get`` and ``dpkg`` commands as usual.
 
 Unlike with installing with Cargo there is no need to have Rust or a C toolchain
 installed. Additionally, the packages come with systemd service file to easily
@@ -28,18 +35,18 @@ start and stop the Krill daemon.
           minimum version required by Krill and is higher than available in the
           official package repositories for those platforms.
 
-To install Krill from the NLnet Labs package repository:
+To install the Krill **Release Candidate** package from the NLnet Labs package repository:
 
 1. Run ``cargo uninstall krill`` if you previously installed Krill with Cargo.
 2. Add the line below that corresponds to your operating system to ``/etc/apt/sources.list`` or ``/etc/apt/sources.list.d/``:
 
 .. code-block:: bash
 
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch-proposed main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster-proposed main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial-proposed main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic-proposed main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal-proposed main
 
 2. Add the repository signing key to the listed of trusted keys:
 
@@ -169,11 +176,13 @@ this should be as simple as running:
 Building
 """"""""
 
-The easiest way to get Krill is to leave it to cargo by saying:
+The easiest way to get Krill v0.9.0 RC1 is to leave it to cargo by saying:
 
 .. code-block:: bash
 
-   cargo install krill
+   cargo install krill --git https://github.com/NLnetLabs/krill \
+                       --tag v0.9.0-rc1 \
+                       --locked
 
 If you want to update an installed version, you run the same command but
 add the ``-f`` flag, a.k.a. force, to approve overwriting the installed
