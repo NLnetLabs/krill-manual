@@ -1,6 +1,6 @@
 .. _doc_krill_install_and_run:
 
-.. Warning:: This documentation if for the Krill v0.9.0 RC release.
+.. Warning:: This documentation is intended for the Krill v0.9.0 RC release.
 
 Install and Run
 ===============
@@ -9,7 +9,7 @@ Before you can start to use Krill you will need to install, configure and run
 the Krill application somewhere. Please follow the steps below and you will be
 ready to :ref:`doc_krill_get_started`.
 
-Getting started with Krill is quite easy either building from cargo using a
+Getting started with Krill is quite easy either building from cargo or using a
 debian package. In case you intend to serve your RPKI certificate and ROAs to the
 world yourself or you want to offer this as a service to others, you will also
 need to have a public Rsyncd and HTTPS web server available.
@@ -27,7 +27,7 @@ for recent versions on x86_64 platforms. These can be installed using the standa
 ``apt``, ``apt-get`` and ``dpkg`` commands as usual.
 
 Unlike with installing with Cargo there is no need to have Rust or a C toolchain
-installed. Additionally, the packages come with systemd service file to easily
+installed. Additionally, the packages come with a systemd service file to easily
 start and stop the Krill daemon.
 
 .. Note:: For the oldest platforms, Ubuntu 16.04 LTS and Debian 9, the packaged
@@ -48,7 +48,7 @@ To install the Krill **Release Candidate** package from the NLnet Labs package r
   deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic-proposed main
   deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal-proposed main
 
-2. Add the repository signing key to the listed of trusted keys:
+2. Add the repository signing key to the trusted keys:
 
 .. code-block:: bash
 
@@ -56,7 +56,7 @@ To install the Krill **Release Candidate** package from the NLnet Labs package r
 
 3. Install Krill using ``sudo apt-get update`` and ``sudo apt-get install krill``.
 4. Review the generated configuration file at ``/etc/krill.conf``.
-   **Pay particular attention** to the ``service_uri`` and ``auth_token``
+   **Pay particular attention** to the ``service_uri`` and ``admin_token``
    settings. Tip: The configuration file was generated for you using the
    ``krillc config simple`` command.
 5. Once happy with the settings use ``sudo systemctl enable --now krill`` to instruct
@@ -90,7 +90,7 @@ Platform Support <https://forge.rust-lang.org/platform-support.html>`_
 page provides an overview of the various support levels.
 
 While some system distributions include Rust as system packages,
-Krill relies on a relatively new version of Rust, currently 1.42 or
+Krill relies on a relatively new version of Rust, currently 1.45 or
 newer. We therefore suggest to use the canonical Rust installation via a
 tool called :command:`rustup`.
 
