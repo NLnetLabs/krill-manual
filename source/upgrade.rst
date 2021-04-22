@@ -104,3 +104,42 @@ Was changed to:
       "service_uri": "https://localhost:3000/rfc6492/testbed"
     }
   }
+
+krillc parents contact
+^^^^^^^^^^^^^^^^^^^^^^
+
+The CLI command was unchanged:
+
+.. code-block:: text
+
+  $ krillc parents contact --parent testbed
+
+And the default text response is still the :rfc:`8183` Parent Response XML for the parent. But, the JSON
+response body was changed, and now includes an explicit "type": "rfc6492":
+
+OLD:
+
+.. code-block:: text
+
+  {
+    "rfc6492": {
+      "tag": null,
+      "id_cert": "MIIDNDCCAhygAwIBAgIBATANBgkqhkiG9w0BAQsFADAzMTEwLwYDVQQDEyg5N0VEOUFCMUQ4Q0JBNzFBMTJEQjE2MTU4OTA3Njk4QUI0QTAzMUQ5MB4XDTIwMDkxNjA5MTAxMloXDTM1MDkxNjA5MTUxMlowMzExMC8GA1UEAxMoOTdFRDlBQjFEOENCQTcxQTEyREIxNjE1ODkwNzY5OEFCNEEwMzFEOTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMnEJkDvrR7iY0VoRGvajDWxo2krplOnZynM1kgXtN8L3StS6YE7/sXvoG1C1pRPs/SBZ7gK6WvFlqdScZ6kbTVH51e+pLUV9Q7Uxqm4lSzWTmnjT/CmRRXqmcPlcPcAm8rhUW6GrZQ2mllil4pkZ+JNGugSQUJJb1bGg5+Et/YdIEDEO1stAIsNkfkAyELAeFULLhs0MuXpSKp/ZKu+IgMSt+Z/7is+qFt4cgMuiZRuADw8hTDoMuZpoxIqXeh4Nf3bUU06MXGgrpabVzArs11UVyXDC4ZG4oOsYDTNgIL5VYaBjiHtw+s+FWHYI3iTzwV8th2C1JI6LOOBkxZdxQUCAwEAAaNTMFEwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUl+2asdjLpxoS2xYViQdpirSgMdkwHwYDVR0jBBgwFoAUl+2asdjLpxoS2xYViQdpirSgMdkwDQYJKoZIhvcNAQELBQADggEBAB34RLGHufEpypzvDFzffkS7Oet9TUZSV1nB7EPGA7BJLvUnJt2SAv+0LhFRup518oQMpeM8HxA7vcRMt6JNTWydW/bYp/NnAk+u+Hw5AIwxuoGWgwyHXZh1xJFhwD35SqjMhxbo15J090+22zwAa8t6aqQAZhvACs2Jst1aHnnJEduQzGVZYLIYvGv5/K0t0i0eE5hINhtAy0hFGwteXms8/qA/mExsrjubC69SudPlMA3q8p2RmuwqmjSlwDjU1XrJ1j5wMCqeBoh8EnaMe+HVduQGHm0nHJbF3klz9mz3Tc6CILT4XA5mJq1g0LXypJ9c6KxZFoC10ce/enulLYw=",
+      "parent_handle": "testbed",
+      "child_handle": "newca",
+      "service_uri": "https://testbed.rpki.nlnetlabs.nl/rfc6492/testbed"
+    }
+  }
+
+NEW:
+
+.. code-block:: text
+
+  {
+    "type": "rfc6492",
+    "tag": null,
+    "id_cert": "MIIDNDCCAhygAwIBAgIBATANBgkqhkiG9w0BAQsFADAzMTEwLwYDVQQDEyg5N0VEOUFCMUQ4Q0JBNzFBMTJEQjE2MTU4OTA3Njk4QUI0QTAzMUQ5MB4XDTIwMDkxNjA5MTAxMloXDTM1MDkxNjA5MTUxMlowMzExMC8GA1UEAxMoOTdFRDlBQjFEOENCQTcxQTEyREIxNjE1ODkwNzY5OEFCNEEwMzFEOTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMnEJkDvrR7iY0VoRGvajDWxo2krplOnZynM1kgXtN8L3StS6YE7/sXvoG1C1pRPs/SBZ7gK6WvFlqdScZ6kbTVH51e+pLUV9Q7Uxqm4lSzWTmnjT/CmRRXqmcPlcPcAm8rhUW6GrZQ2mllil4pkZ+JNGugSQUJJb1bGg5+Et/YdIEDEO1stAIsNkfkAyELAeFULLhs0MuXpSKp/ZKu+IgMSt+Z/7is+qFt4cgMuiZRuADw8hTDoMuZpoxIqXeh4Nf3bUU06MXGgrpabVzArs11UVyXDC4ZG4oOsYDTNgIL5VYaBjiHtw+s+FWHYI3iTzwV8th2C1JI6LOOBkxZdxQUCAwEAAaNTMFEwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUl+2asdjLpxoS2xYViQdpirSgMdkwHwYDVR0jBBgwFoAUl+2asdjLpxoS2xYViQdpirSgMdkwDQYJKoZIhvcNAQELBQADggEBAB34RLGHufEpypzvDFzffkS7Oet9TUZSV1nB7EPGA7BJLvUnJt2SAv+0LhFRup518oQMpeM8HxA7vcRMt6JNTWydW/bYp/NnAk+u+Hw5AIwxuoGWgwyHXZh1xJFhwD35SqjMhxbo15J090+22zwAa8t6aqQAZhvACs2Jst1aHnnJEduQzGVZYLIYvGv5/K0t0i0eE5hINhtAy0hFGwteXms8/qA/mExsrjubC69SudPlMA3q8p2RmuwqmjSlwDjU1XrJ1j5wMCqeBoh8EnaMe+HVduQGHm0nHJbF3klz9mz3Tc6CILT4XA5mJq1g0LXypJ9c6KxZFoC10ce/enulLYw=",
+    "parent_handle": "ta",
+    "child_handle": "testbed",
+    "service_uri": "https://localhost:3000/rfc6492/ta"
+  }
