@@ -181,3 +181,9 @@ equivalent. In comparison to previous versions of Krill `rfc8181` was renamed to
       }
     }
   }
+
+krillc repo show
+^^^^^^^^^^^^^^^^
+
+The CLI command and API path are unchanged, but `rfc8181` was renamed to `repository_response` in
+the JSON response.
