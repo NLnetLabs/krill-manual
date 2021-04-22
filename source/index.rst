@@ -65,6 +65,7 @@ line and through an API.
    publication-server
    testbed
    docker
+   upgrade
 .. history
 .. authors
 .. license
