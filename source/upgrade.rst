@@ -201,7 +201,43 @@ The CLI command and API path are unchanged, but `rfc8181` was renamed to `reposi
 the JSON response.
 
 
+krillc children add
+^^^^^^^^^^^^^^^^^^^
 
+The CLI is unchanged, but because 'embedded' children are no longer supported we were able to simplify
+the JSON from:
+
+.. code-block:: text
+
+  {
+    "handle": "ca",
+    "resources": {
+      "asn": "AS1",
+      "v4": "10.0.0.0/8",
+      "v6": "::"
+    },
+    "auth": {
+      "rfc8183": {
+        "tag": null,
+        "child_handle": "ca",
+        "id_cert": "<base64>"
+      }
+    }
+  }
+
+To this:
+
+.. code-block:: text
+
+  {
+    "handle": "ca",
+    "resources": {
+      "asn": "AS1",
+      "v4": "10.0.0.0/8",
+      "v6": "::"
+    },
+    "id_cert": "<base64>"
+  }
 
 
 krillc history and  krillc action
