@@ -713,7 +713,7 @@ JSON:
 .. _cmd_krillc_repo_configure:
 
 krillc repo configure
-^^^^^^^^^^^^^^^^^^^^^
+---------------------
 
 This is used to configure the repository used by a CA.
 
@@ -730,36 +730,38 @@ think the issue has been resolved.
 
 Example CLI:
 
-```
-% krillc repo configure --ca newca --response ./data/new-ca-repository-response.xml
-```
+.. code-block:: text
+
+  $ krillc repo configure --ca newca --response ./data/new-ca-repository-response.xml
+
 
 The API will accept the plain :rfc:`8183` Repository Response XML if it's posted
 to the API path for the CA in question, but the CLI will post the XML formatted
 as its JSON equivalent:
 
 Example API:
-```
-% krillc repo configure --ca newca --response ./data/new-ca-repository-response.xml --api
-POST:
-  https://localhost:3000/api/v1/cas/newca/repo
-Headers:
-  content-type: application/json
-  Authorization: Bearer secret
-Body:
-{
-  "repository_response": {
-    "tag": null,
-    "publisher_handle": "localname",
-    "id_cert": "MIIDNDCCAhygAwIBAgIBATANBgkqhkiG9w0BAQsFADAzMTEwLwYDVQQDEyg4OEJBMzA2QkMzMUVFRkU3NzRDNzYzRUY1N0VBNUZEQzdBMTlERTI1MB4XDTIxMDMyOTA3NTg0M1oXDTM2MDMyOTA4MDM0M1owMzExMC8GA1UEAxMoODhCQTMwNkJDMzFFRUZFNzc0Qzc2M0VGNTdFQTVGREM3QTE5REUyNTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAORLpfOKS8M2QGBto1OdnDYdrgjxJeF+uU7mJLgqTT3l5NbkOXxgPClUqbbbfp/c7x5sy3JbmUWaQHtkl6N9l8vcRlQQfhk0vwlVCHcQQrcMViJ5GmGtEjo7+Uf9e0TDA+rrkdqOkpOLcGRKjs1SZNqCRktubQU7Ndc0ICLo6KsQ5VYvw0p6YJcsL33+jcOWsFe6D4dhYlQkw5QHXn5c0Eenvz1SQqE96pcXJ57gmnzO9iVjY9RqPoLWXSRub0pG3Q6x8naOq16uaJZyk8kVjYOayx5umR73fI9iyMG0YOF8H5vy6/gYAnYssX26kObXan0fD9rgv4aWK0Xzp5hwz1ECAwEAAaNTMFEwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUiLowa8Me7+d0x2PvV+pf3HoZ3iUwHwYDVR0jBBgwFoAUiLowa8Me7+d0x2PvV+pf3HoZ3iUwDQYJKoZIhvcNAQELBQADggEBAMtieNiamax1gUeSeGuA72NucPCZIdx2JrTIDhCAjLmPpvnXu1djGSa07YpgLiosnbtMMfsQO2O/Yz1VkQUTjLn2x7DKwuL9A8+IrYELSth4aCNSgPkhZfDL238MflAxptNRAoIeRGn8l3oSg4AUzBuScErwvBbHWShO66nV0wzVFb+mLvNas3Wd/GMiZHI/MwGZpj86Q/8wvyyw2C0b0ddWaoXwDyJjuxja0nHPDHVriJ8/xsOfBk144n1zyP++apQXmXorCy4hs9GPyr+HGeoL6kNydDxdwzJLCqWW7u3wSnxjCJk+hfGq82qNm90ALv5PaOb58fDgWwBwuvTP0AA=",
-    "service_uri": "https://localhost:3000/rfc8181/localname/",
-    "repo_info": {
-      "base_uri": "rsync://localhost/repo/localname/",
-      "rpki_notify": "https://localhost:3000/rrdp/notification.xml"
+
+.. code-block:: text
+
+  $ krillc repo configure --ca newca --response ./data/new-ca-repository-response.xml --api
+  POST:
+    https://localhost:3000/api/v1/cas/newca/repo
+  Headers:
+    content-type: application/json
+    Authorization: Bearer secret
+  Body:
+  {
+    "repository_response": {
+      "tag": null,
+      "publisher_handle": "localname",
+      "id_cert": "MIIDNDCCAhygAwIBAgIBATANBgkqhkiG9w0BAQsFADAzMTEwLwYDVQQDEyg4OEJBMzA2QkMzMUVFRkU3NzRDNzYzRUY1N0VBNUZEQzdBMTlERTI1MB4XDTIxMDMyOTA3NTg0M1oXDTM2MDMyOTA4MDM0M1owMzExMC8GA1UEAxMoODhCQTMwNkJDMzFFRUZFNzc0Qzc2M0VGNTdFQTVGREM3QTE5REUyNTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAORLpfOKS8M2QGBto1OdnDYdrgjxJeF+uU7mJLgqTT3l5NbkOXxgPClUqbbbfp/c7x5sy3JbmUWaQHtkl6N9l8vcRlQQfhk0vwlVCHcQQrcMViJ5GmGtEjo7+Uf9e0TDA+rrkdqOkpOLcGRKjs1SZNqCRktubQU7Ndc0ICLo6KsQ5VYvw0p6YJcsL33+jcOWsFe6D4dhYlQkw5QHXn5c0Eenvz1SQqE96pcXJ57gmnzO9iVjY9RqPoLWXSRub0pG3Q6x8naOq16uaJZyk8kVjYOayx5umR73fI9iyMG0YOF8H5vy6/gYAnYssX26kObXan0fD9rgv4aWK0Xzp5hwz1ECAwEAAaNTMFEwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUiLowa8Me7+d0x2PvV+pf3HoZ3iUwHwYDVR0jBBgwFoAUiLowa8Me7+d0x2PvV+pf3HoZ3iUwDQYJKoZIhvcNAQELBQADggEBAMtieNiamax1gUeSeGuA72NucPCZIdx2JrTIDhCAjLmPpvnXu1djGSa07YpgLiosnbtMMfsQO2O/Yz1VkQUTjLn2x7DKwuL9A8+IrYELSth4aCNSgPkhZfDL238MflAxptNRAoIeRGn8l3oSg4AUzBuScErwvBbHWShO66nV0wzVFb+mLvNas3Wd/GMiZHI/MwGZpj86Q/8wvyyw2C0b0ddWaoXwDyJjuxja0nHPDHVriJ8/xsOfBk144n1zyP++apQXmXorCy4hs9GPyr+HGeoL6kNydDxdwzJLCqWW7u3wSnxjCJk+hfGq82qNm90ALv5PaOb58fDgWwBwuvTP0AA=",
+      "service_uri": "https://localhost:3000/rfc8181/localname/",
+      "repo_info": {
+        "base_uri": "rsync://localhost/repo/localname/",
+        "rpki_notify": "https://localhost:3000/rrdp/notification.xml"
+      }
     }
   }
-}
-```
 
 .. Important:: In Krill 0.9.0 you cannot update the configuration of the repository
      used by your CA after it has been set.

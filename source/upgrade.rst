@@ -143,3 +143,41 @@ NEW:
     "child_handle": "testbed",
     "service_uri": "https://localhost:3000/rfc6492/ta"
   }
+
+krillc repo update
+^^^^^^^^^^^^^^^^^^
+
+This command has been renamed to `krillc repo configure`:
+
+.. code-block:: text
+
+  $ krillc repo configure --ca newca --response ./data/new-ca-repository-response.xml
+
+The API has also changed. The path is unchanged, but the following to add an "embedded" repository
+is **no longer supported**:
+
+.. code-block:: text
+
+  {
+    "tag": "string",
+    "id_cert": "string",
+    "child_handle": "string"
+  }
+
+The API end-point will accept either plain :rfc:`8183` Repository Response XML, or a JSON
+equivalent. In comparison to previous versions of Krill `rfc8181` was renamed to `repository_response`:
+
+.. code-block:: text
+
+  {
+    "repository_response": {
+      "tag": null,
+      "publisher_handle": "publisher",
+      "id_cert": "MIID..6g==",
+      "service_uri": "https://repo.example.com/rfc8181/publisher/",
+      "repo_info": {
+        "base_uri": "rsync://localhost/repo/ca/",
+        "rpki_notify": "https://localhost:3000/rrdp/notification.xml"
+      }
+    }
+  }
