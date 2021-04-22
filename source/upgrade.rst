@@ -21,11 +21,8 @@ changes are:
 But most importantly: **We wanted to make the API stable so we can work towards Krill 1.0**
 
 Here we will list all CLI commands and API calls that were changed between Krill 0.8.2 and this
-version.
-
-.. Warning:: This document is a work in progress, it is incomplete. We are in the process of
-     updating it and you can expect this to be completed before 23 April 18:00 CET.
-
+version. This list should be complete, so old CLI commands not listed here should not have changed.
+In case you do find something that we overlooked please let us know!
 
 krillc parents update
 ^^^^^^^^^^^^^^^^^^^^^
