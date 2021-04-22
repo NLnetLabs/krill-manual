@@ -144,6 +144,18 @@ NEW:
     "service_uri": "https://localhost:3000/rfc6492/ta"
   }
 
+krillc repo request
+^^^^^^^^^^^^^^^^^^^
+
+The CLI is unchanged, but the endpoints for getting the :rfc:`8183` Publisher Request XML and JSON
+have moved from 'repo', and are now under 'id':
+
+.. code-block:: text
+
+  /api/v1/cas/<name>/repo/request.xml  -> /api/v1/cas/<name>/id/publisher_request.xml
+  /api/v1/cas/<name>/repo/request.json -> /api/v1/cas/<name>/id/publisher_request.json
+
+
 krillc repo update
 ^^^^^^^^^^^^^^^^^^
 
@@ -187,6 +199,9 @@ krillc repo show
 
 The CLI command and API path are unchanged, but `rfc8181` was renamed to `repository_response` in
 the JSON response.
+
+
+
 
 
 krillc history and  krillc action
