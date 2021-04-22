@@ -187,3 +187,10 @@ krillc repo show
 
 The CLI command and API path are unchanged, but `rfc8181` was renamed to `repository_response` in
 the JSON response.
+
+
+krillc history and  krillc action
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The API and JSON are unchanged, but these commands have now been renamed to `krillc history commands`
+and `krillc history details`.
