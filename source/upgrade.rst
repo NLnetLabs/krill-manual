@@ -46,16 +46,20 @@ The CLI command is unchanged:
 
 But there were changes to the API.
 
-Adding a parent can be done by posting XML or JSON to: /api/v1/cas/<ca>/parents in which case the
-parent name will be extracted from the XML, or by posting to /api/v1/cas/<ca>/parents/<parent-name>
-in which case the parent name in the path will override the name in the submitted JSON or XML.
+Adding a parent can be done by posting XML or JSON to on of the following paths:
+
+.. code-block:: text
+
+  /api/v1/cas/<ca>/parents
+  /api/v1/cas/<ca>/parents/<handle>
+
+The `<handle>` is the LOCAL name that your CA will use for this parent. Regardless of how they
+like to call themselves. If it is omitted then it will be extracted from the XML `parent_handle`.
+If it is specified for a JSON POST but _differs_ from the `handle` in the JSON body, then an
+error is returned.
 
 The server will verify in all cases that the parent can be reached. If there was no parent for the
 name a parent will be added, otherwise the parent contact details will be updated.
-
-When posting the LOCAL parent name can be included in the path, in which case it overrides the parent
-handle in submitted XML. If the parent name is included in the path and JSON is submitted, then an error
-will be returned if the names in the path and the JSON do not match.
 
 The JSON body has to include the local name by which the CA will refer to its parent, this is also the
 name shown to the user in the UI. The local name maps to the handle field in the JSON below. The second
