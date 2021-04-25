@@ -3,6 +3,17 @@
 Krill
 =====
 
+|docsupdated| |discord| |twitter|
+
+.. |docsupdated| image:: https://img.shields.io/github/last-commit/NLnetLabs/krill-manual.svg?label=docs%20updated
+            :target: https://github.com/NLnetLabs/krill-manual/commits/main
+
+.. |discord| image:: https://img.shields.io/discord/818584154278199396?label=rpki%20on%20discord&logo=discord
+            :target: https://discord.gg/8dvKB5Ykhy
+
+.. |twitter| image:: https://img.shields.io/twitter/follow/krillrpki?style=social
+            :target: https://twitter.com/krillrpki/
+
 Krill is a free, open source Resource Public Key Infrastructure (RPKI) daemon,
 featuring a Certificate Authority (CA) and publication server, written by `NLnet
 Labs <https://nlnetlabs.nl>`_.
