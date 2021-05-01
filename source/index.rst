@@ -1,7 +1,7 @@
 .. _doc_krill:
 
-Krill 0.8.2 Can't Touch This
-============================
+Krill 0.8.2 ‘Can't Touch This’
+==============================
 
 Krill is a free, open source Resource Public Key Infrastructure (RPKI) daemon,
 featuring a Certificate Authority (CA) and publication server, written by `NLnet
