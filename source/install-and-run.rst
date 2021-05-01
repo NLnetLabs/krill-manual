@@ -1,33 +1,24 @@
 .. _doc_krill_install_and_run:
 
-.. Warning:: This documentation is intended for the Krill v0.9.0 RC release.
-
 Install and Run
 ===============
 
-Before you can start to use Krill you will need to install, configure and run
-the Krill application somewhere. Please follow the steps below and you will be
-ready to :ref:`doc_krill_get_started`.
+Getting started with Krill is quite easy by either installing a Debian and
+Ubuntu package, building from Cargo or using
+:ref:`Docker<doc_krill_running_docker>`. In case you intend to serve your RPKI
+certificate and ROAs to the world yourself or you want to offer this as a
+service to others, you will also need to have a public Rsyncd and HTTPS web
+server available.
 
-Getting started with Krill is quite easy either building from cargo or using a
-debian package. In case you intend to serve your RPKI certificate and ROAs to the
-world yourself or you want to offer this as a service to others, you will also
-need to have a public Rsyncd and HTTPS web server available.
+Installing with Debian and Ubuntu Packages
+------------------------------------------
 
-Installing with APT/dpkg
-------------------------
-
-.. Warning:: The Debian/Ubunto packages do not include the dedicated Krill Publication
-     Server yet. See `this issue for planned support <https://github.com/NLnetLabs/krill/issues/361>`_
-     For the moment please use `cargo` to install the Publication Server components
-     if you need them.
-
-Pre-built Debian/Ubuntu `packages <https://packages.nlnetlabs.nl/>`_ are available
-for recent versions on x86_64 platforms. These can be installed using the standard
-``apt``, ``apt-get`` and ``dpkg`` commands as usual.
+Pre-built Debian/Ubuntu packages are available for recent operating system
+versions on x86_64 platforms. These can be installed using the standard ``apt``,
+``apt-get`` and ``dpkg`` commands as usual.
 
 Unlike with installing with Cargo there is no need to have Rust or a C toolchain
-installed. Additionally, the packages come with a systemd service file to easily
+installed. Additionally, the packages come with systemd service file to easily
 start and stop the Krill daemon.
 
 .. Note:: For the oldest platforms, Ubuntu 16.04 LTS and Debian 9, the packaged
@@ -35,20 +26,20 @@ start and stop the Krill daemon.
           minimum version required by Krill and is higher than available in the
           official package repositories for those platforms.
 
-To install the Krill **Release Candidate** package from the NLnet Labs package repository:
+To install Krill from the NLnet Labs package repository:
 
 1. Run ``cargo uninstall krill`` if you previously installed Krill with Cargo.
 2. Add the line below that corresponds to your operating system to ``/etc/apt/sources.list`` or ``/etc/apt/sources.list.d/``:
 
 .. code-block:: bash
 
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch-proposed main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster-proposed main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial-proposed main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic-proposed main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal-proposed main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal main
 
-2. Add the repository signing key to the trusted keys:
+2. Add the repository signing key to the listed of trusted keys:
 
 .. code-block:: bash
 
@@ -56,17 +47,21 @@ To install the Krill **Release Candidate** package from the NLnet Labs package r
 
 3. Install Krill using ``sudo apt-get update`` and ``sudo apt-get install krill``.
 4. Review the generated configuration file at ``/etc/krill.conf``.
-   **Pay particular attention** to the ``service_uri`` and ``admin_token``
-   settings. Tip: The configuration file was generated for you using the
-   ``krillc config simple`` command.
+   Pay particular attention to the ``service_uri`` and ``auth_token`` settings. 
 5. Once happy with the settings use ``sudo systemctl enable --now krill`` to instruct
    systemd to enable the Krill service at boot and to start it immediately.
+
+.. Tip:: The configuration file was generated for you using the 
+         ``krillc config simple`` command. You can find a full example
+         configuration file with defaults in `the GitHub repository
+         <https://github.com/NLnetLabs/krill/blob/master/defaults/krill.conf>`_.
 
 The krill daemon runs as user ``krill`` and stores its data in
 ``/var/lib/krill``. You can manage the Krill daemon using the following
 commands:
 
-- Review the Krill logs with ``journalctl -u krill``, or view just the most recent entries with ``sytemctl status krill``.
+- Review the Krill logs with ``journalctl -u krill``, or view just the most 
+  recent entries with ``systemctl status krill``.
 
 - Stop Krill with ``sudo systemctl stop krill``.
 
@@ -77,8 +72,8 @@ commands:
 Installing with Cargo
 ---------------------
 
-There are three things you need for Krill: Rust, a C toolchain and OpenSSL.
-You can install Krill on any Operating System where you can fulfil these
+There are three things you need for Krill: Rust, the C toolchain and OpenSSL.
+You can install Krill on any operating system where you can fulfil these
 requirements, but we will assume that you will run this on a UNIX-like OS.
 
 Rust
@@ -90,7 +85,7 @@ Platform Support <https://forge.rust-lang.org/platform-support.html>`_
 page provides an overview of the various support levels.
 
 While some system distributions include Rust as system packages,
-Krill relies on a relatively new version of Rust, currently 1.45 or
+Krill relies on a relatively new version of Rust, currently 1.42 or
 newer. We therefore suggest to use the canonical Rust installation via a
 tool called :command:`rustup`.
 
@@ -176,13 +171,11 @@ this should be as simple as running:
 Building
 """"""""
 
-The easiest way to get Krill v0.9.0 RC1 is to leave it to cargo by saying:
+The easiest way to get Krill is to leave it to cargo by saying:
 
 .. code-block:: bash
 
-   cargo install krill --git https://github.com/NLnetLabs/krill \
-                       --tag v0.9.0-rc1 \
-                       --locked
+   cargo install --locked krill
 
 If you want to update an installed version, you run the same command but
 add the ``-f`` flag, a.k.a. force, to approve overwriting the installed
@@ -192,9 +185,8 @@ The command will build Krill and install it in the same directory
 that cargo itself lives in, likely :file:`$HOME/.cargo/bin`. This means
 Krill will be in your path, too.
 
-
 Generate Configuration File
----------------------------
+"""""""""""""""""""""""""""
 
 After the installation has completed, there are just two things you need to
 configure before you can start using Krill. First, you will need a data
@@ -218,15 +210,15 @@ and then store it in this directory.
   :ref:`krillc config simple<cmd_krillc_config_simple>` --token correct-horse-battery-staple --data ~/data/ > ~/data/krill.conf
 
 .. Note:: If you wish to run a self-hosted RPKI repository with Krill you will
-          need to use a different ``krillc config`` command. See :ref:`doc_krill_publication_server`
-          for more details.
+          need to use a different ``krillc config`` command. 
+          See :ref:`doc_krill_publication_server` for more details.
 
 You can find a full example configuration file with defaults in `the
 GitHub repository
 <https://github.com/NLnetLabs/krill/blob/master/defaults/krill.conf>`_.
 
 Start and Stop the Daemon
--------------------------
+"""""""""""""""""""""""""
 
 There is currently no standard script to start and stop Krill. You could use the
 following example script to start Krill. Make sure to update the
