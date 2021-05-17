@@ -157,6 +157,19 @@ but require more effort to setup and maintain:
   however still be possible to authenticate with Krill using its secret
   token.
 
+.. warning:: If you encounter HTTP 502 Bad Gateway errors from your HTTP proxy
+             in front of Krill when logging in, but Krill logs show HTTP 302 Found,
+             you may need to increase the HTTP response header buffer size used by
+             your proxy.
+             
+             With NGINX this can be done by increasing
+             `proxy_buffer_size <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size>`_
+             and `proxy_buffers <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffers>`_
+             in your NGINX configuration files.
+             
+             This issue occurs because the size of the HTTP response headers on
+             login to Krill when using OpenID Connect can be quite large.
+
 Choosing a provider
 -------------------
 
