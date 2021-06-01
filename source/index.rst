@@ -1,7 +1,7 @@
 .. _doc_krill:
 
-Krill
-=====
+Krill – *main* branch
+=====================
 
 |docsupdated| |discord| |twitter|
 
