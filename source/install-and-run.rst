@@ -33,18 +33,18 @@ start and stop the Krill daemon.
           minimum version required by Krill and is higher than available in the
           official package repositories for those platforms.
 
-To install the Krill **Release Candidate** package from the NLnet Labs package repository:
+To install the Krill package from the NLnet Labs package repository:
 
 1. Run ``cargo uninstall krill`` if you previously installed Krill with Cargo.
 2. Add the line below that corresponds to your operating system to ``/etc/apt/sources.list`` or ``/etc/apt/sources.list.d/``:
 
 .. code-block:: bash
 
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch-proposed main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster-proposed main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial-proposed main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic-proposed main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal-proposed main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic main
+  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal main
 
 2. Add the repository signing key to the trusted keys:
 
