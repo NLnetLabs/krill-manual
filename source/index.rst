@@ -1,7 +1,7 @@
 .. _doc_krill:
 
-Krill
-=====
+Krill 0.9.0 'One for All'
+=========================
 
 |docsupdated| |discord| |twitter|
 
