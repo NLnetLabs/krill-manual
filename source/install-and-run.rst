@@ -1,7 +1,5 @@
 .. _doc_krill_install_and_run:
 
-.. Warning:: This documentation is intended for the Krill v0.9.0 RC release.
-
 Install and Run
 ===============
 

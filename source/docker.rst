@@ -1,9 +1,5 @@
 .. _doc_krill_running_docker:
 
-.. Important:: Docker is not supported for Release Candidate builds. Furthermore
-      we do not have a Docker image for the dedicated Krill Publication Server
-      yet. See `this issue <https://github.com/NLnetLabs/krill/issues/490>`_
-
 Running with Docker
 ===================
 
