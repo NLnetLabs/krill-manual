@@ -35,14 +35,23 @@ local Publication Server:
 Install
 -------
 
-If you need to run your own Publication Server, then you can use the separate
-``krillpubd`` binary for the server, and the ``krillpubc`` binary as its command line
-interface (CLI). Both additional binaries are built when you :ref:`install Krill<doc_krill_install_and_run>`,
-but they are only used if you need to run your own Publication Server.
+Krill comes with an embedded Publication Server. You can use this to offer
+an `rfc`:8181 Publication Protocol service to your own CA, as well as
+remote CAs - for example CAs for relations that you delegated Internet
+Number Resources to.
 
-.. Note:: The Krill Publication Server does not have a UI. You will need to
-          manage it using the CLI or API instead.
+In principle you can enable the Publication Server on the same Krill instance
+that you use to operate your CAs. But, it may be better to use a separate
+instance for this purpose. This will allow more fine grained access control
+to either instance, and it makes it somewhat easier to parse the log files
+in case of issues.
 
+At some point we were more opinionated about this separation and we almost
+split up the Krill binary into two separate binaries for the CA and Publication
+Server functions. However, in the end we decided that you should be able to make
+your own judgement call.
+
+Here we will document a setup using a separate Publication Server instance.
 
 Configure
 ---------
@@ -54,7 +63,7 @@ following settings:
 .. code-block:: bash
 
   # choose your own secret for the authorization token for the CLI and API
-  auth_token =
+  admin_token =
 
   data_dir = "/path/to/your/krillpubd/data/"
   pid_file = "/path/to/your/krillpubd/krill.pid"
@@ -77,19 +86,6 @@ following settings:
   #       through the CLI.
   service_uri = "https://krill-repo-server.example.com/"
 
-  # We also recommend that you archive old publication events and
-  # use a process to either delete the archived data, or move it
-  # to long term storage where space is not an issue.
-  #
-  # If you don't do this, then all updated from CAs will be preserved.
-  # Typically this will mean that you get a new manifest and CRL file
-  # every 16 hours, on top of any ROA changes. This can add up over
-  # time.
-  #
-  # When archiving data will be moved to the following directory:
-  # $data_dir/pubd/0/archived
-  archive_threshold_days = 7
-
 If you want to review all options, you can download the :download:`default config file<examples/krillpubd.conf>`.
 
 
@@ -105,14 +101,14 @@ a valid HTTPS certificate, and which proxies `/rfc8181` to Krill.
 
 Note that you should not add any additional authentication mechanisms to this
 location. RFC 8181 uses cryptographically signed messages sent over HTTP and is
-secure. However, verifying messages and signing responses can be computationally
+secure. Note that verifying messages and signing responses can be computationally
 heavy, so if you know the source IP addresses of your publisher CAs, you may
 wish to restrict access based on this.
 
 Proxy for CLI and API
 ---------------------
 
-If you are okay with only using the ``krillpubc`` CLI on the machine where you run
+If you are okay with only using the ``krillc`` CLI on the machine where you run
 your Publication Server, then your safest option is to **not** proxy access to
 the API.
 
@@ -232,24 +228,24 @@ Example CLI:
 
 .. code-block:: bash
 
-   $ krillpubc server init --rrdp https://krillrepo.example.com/rrdp/ --rsync rsync://krillrepo.example.com/repo/
+   $ krillc pubserver server init --rrdp https://krillrepo.example.com/rrdp/ --rsync rsync://krillrepo.example.com/repo/
 
 There is probably no reason to use the API directly for this initialisation process,
-but you can:
+except perhaps for automation of test environments:
 
 .. code-block:: bash
 
-   $ krillpubc server init --rrdp https://krillrepo.example.com/rrdp/ --rsync rsync://krillrepo.example.com/repo/ --api
+   $ krillc pubserver server init --rrdp https://krillrepo.example.com/rrdp/ --rsync rsync://krillrepo.example.com/repo/ --api
    POST:
-     https://localhost:3000/api/v1/pubd/init
-   Headers:
-     content-type: application/json
-     Authorization: Bearer secret
-   Body:
-   {
-     "rrdp_base_uri": "https://krillrepo.example.com/rrdp/",
-     "rsync_jail": "rsync://krillrepo.example.com/repo/"
-   }
+     https://krill-ui-dev.do.nlnetlabs.nl/api/v1/pubd/init
+  Headers:
+    content-type: application/json
+    Authorization: Bearer secret
+  Body:
+  {
+    "rrdp_base_uri": "https://krillrepo.example.com/rrdp/",
+    "rsync_jail": "rsync://krillrepo.example.com/repo/"
+  }
 
 Provided that you also set up your Repository Servers, and that they are in sync,
 you can now verify that the set up works. Try to get the 'notification.xml' file
@@ -266,13 +262,13 @@ that it can be re-initialised:
 
 .. code-block:: bash
 
-   $ krillpubc server clear
+   $ krillc pubserver server clear
 
 Or through the API:
 
 .. code-block:: bash
 
-   $ krillpubc server clear --api
+   $ krillc pubserver server clear --api
    DELETE:
      https://localhost:3000/api/v1/pubd/init
    Headers:
@@ -302,11 +298,11 @@ Example CLI:
 
 .. code-block:: bash
 
-   $ krillpubc server stats
+   $ krillc pubserver server stats
    RRDP updated: 2021-04-08T06:40:01.337191+00:00
    RRDP session: ec00a09d-45f9-43ff-9e4d-2739f5e05c05
    RRDP serial:  29
-   
+
    Publisher, Objects, Size, Last Updated
    testbed, 2, 3908, 2021-04-08T07:38:25.106777+00:00
    ta, 3, 7592, 2021-04-08T07:38:25.557323+00:00
@@ -315,7 +311,7 @@ Example JSON response:
 
 .. code-block:: bash
 
-   $ krillpubc server stats --format json
+   $ krillc pubserver server stats --format json
    {
      "publishers": {
        "ta": {
@@ -338,7 +334,7 @@ Example API:
 
 .. code-block:: bash
 
-   $ krillpubc server stats --api
+   $ krillc pubserver server stats --api
    GET:
      https://localhost:3000/stats/repo
    Headers:
@@ -348,10 +344,6 @@ Example API:
 Manage Publishers
 -----------------
 
-As there is no UI support for this, you will need to use the command line
-interface using the :ref:`krillc publisher<cmd_krillc_publishers>` subcommand
-to manage publishers.
-
 Add a Publisher
 """""""""""""""
 
@@ -359,21 +351,21 @@ In order to add a CA as a publisher you will need to get its :rfc:`8183` Publish
 Request XML. If you had no repository defined in your CA, you can get this XML
 from the UI, as described :ref:`here<doc_krill_using_ui_repository_setup>`.
 
-The CLI will take an optional argument ``--publisher`` for this. If the argument
-is not specified then the publisher identifier handle will be taken from the XML.
-Handles need to be unique. So, you may want or need to override this - especially
-if you provide your Publication Server as a service to others. The publisher will
-learn the handle you chose in the response that they will get, so it is perfectly
-safe and within the RFC protocol to override it.
+The XML will include a so-called 'handle' - essentially the name that the CA likes
+to use for itself. This handle needs to be unique on the server side - we can't
+have all CAs calling themselves `mr-black`. For this reason the CLI offers an
+optional argument ``--publisher`` that allows overriding the handle in the reqeust
+with a locally unique value - e.g. a UUID.
 
-The CLI command will also report the server's :rfc:`8183` Repository Response XML.
-But, you can also retrieve this response again later (see below).
+After adding a publisher the server will respond with the unique :rfc:`8183` Repository
+Response XML for this publisher. You can also retrieve this response again later
+(see below).
 
 Example CLI:
 
 .. code-block:: bash
 
-   $ krillpubc add --publisher localname --request ./data/new-ca-publisher-request.xml
+   $ krillc pubserver publishers add --publisher localname --request ./data/new-ca-publisher-request.xml
    <repository_response xmlns="http://www.hactrn.net/uris/rpki/rpki-setup/" version="1" publisher_handle="localname" service_uri="https://localhost:3000/rfc8181/localname/" sia_base="rsync://localhost/repo/localname/" rrdp_notification_uri="https://localhost:3000/rrdp/notification.xml">
      <repository_bpki_ta>MIIDNDCCAhygAwIBAgIBATANBgkqhkiG9w0BAQsFADAzMTEwLwYDVQQDEyg4OEJBMzA2QkMzMUVFRkU3NzRDNzYzRUY1N0VBNUZEQzdBMTlERTI1MB4XDTIxMDMyOTA3NTg0M1oXDTM2MDMyOTA4MDM0M1owMzExMC8GA1UEAxMoODhCQTMwNkJDMzFFRUZFNzc0Qzc2M0VGNTdFQTVGREM3QTE5REUyNTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAORLpfOKS8M2QGBto1OdnDYdrgjxJeF+uU7mJLgqTT3l5NbkOXxgPClUqbbbfp/c7x5sy3JbmUWaQHtkl6N9l8vcRlQQfhk0vwlVCHcQQrcMViJ5GmGtEjo7+Uf9e0TDA+rrkdqOkpOLcGRKjs1SZNqCRktubQU7Ndc0ICLo6KsQ5VYvw0p6YJcsL33+jcOWsFe6D4dhYlQkw5QHXn5c0Eenvz1SQqE96pcXJ57gmnzO9iVjY9RqPoLWXSRub0pG3Q6x8naOq16uaJZyk8kVjYOayx5umR73fI9iyMG0YOF8H5vy6/gYAnYssX26kObXan0fD9rgv4aWK0Xzp5hwz1ECAwEAAaNTMFEwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUiLowa8Me7+d0x2PvV+pf3HoZ3iUwHwYDVR0jBBgwFoAUiLowa8Me7+d0x2PvV+pf3HoZ3iUwDQYJKoZIhvcNAQELBQADggEBAMtieNiamax1gUeSeGuA72NucPCZIdx2JrTIDhCAjLmPpvnXu1djGSa07YpgLiosnbtMMfsQO2O/Yz1VkQUTjLn2x7DKwuL9A8+IrYELSth4aCNSgPkhZfDL238MflAxptNRAoIeRGn8l3oSg4AUzBuScErwvBbHWShO66nV0wzVFb+mLvNas3Wd/GMiZHI/MwGZpj86Q/8wvyyw2C0b0ddWaoXwDyJjuxja0nHPDHVriJ8/xsOfBk144n1zyP++apQXmXorCy4hs9GPyr+HGeoL6kNydDxdwzJLCqWW7u3wSnxjCJk+hfGq82qNm90ALv5PaOb58fDgWwBwuvTP0AA=</repository_bpki_ta>
    </repository_response>
@@ -385,7 +377,7 @@ Example API:
 
 .. code-block:: bash
 
-   $ krillpubc add --publisher localname --request ./data/new-ca-publisher-request.xml --api
+   $ krillc pubserver publishers add --publisher localname --request ./data/new-ca-publisher-request.xml --api
    POST:
      https://localhost:3000/api/v1/pubd/publishers
    Headers:
@@ -407,14 +399,14 @@ Example CLI:
 
 .. code-block:: bash
 
-   $ krillpubc list
+   $ krillc pubserver publishers list
    Publishers: testbed, ta
 
 JSON reponse:
 
 .. code-block:: bash
 
-   $ krillpubc list --format json
+   $ krillc pubserver publishers list --format json
    {
      "publishers": [
        {
@@ -430,7 +422,7 @@ Example API:
 
 .. code-block:: bash
 
-   $ krillpubc list --api
+   $ krillc pubserver publishers list --api
    GET:
      https://localhost:3000/api/v1/pubd/publishers
    Headers:
@@ -446,14 +438,14 @@ Example CLI:
 
 .. code-block:: bash
 
-   $ krillpubc stale --seconds 60
+   $ krillc pubserver publishers stale --seconds 60
    Publishers: testbed, ta
 
 Example JSON response:
 
 .. code-block:: bash
 
-   $ krillpubc stale --seconds 60 --format json
+   $ krillc pubserver publishers stale --seconds 60 --format json
    {
      "publishers": [
        {
@@ -469,7 +461,7 @@ Example API:
 
 .. code-block:: bash
 
-   $ krillpubc stale --seconds 60 --api
+   $ krillc pubserver publishers stale --seconds 60 --api
    GET:
      https://localhost:3000/api/v1/pubd/stale/60
    Headers:
@@ -484,7 +476,7 @@ Example CLI:
 
 .. code-block:: bash
 
-   $ krillpubc show --publisher testbed
+   $ krillc pubserver publishers show --publisher testbed
    handle: testbed
    id: E90C21734C2C370A91A8475CB4F0E75DA4D0F0BF
    base uri: rsync://localhost/repo/testbed/
@@ -516,7 +508,7 @@ Example API:
 
 .. code-block:: bash
 
-   $ krillpubc show --publisher testbed --api
+   $ krillc pubserver publishers show --publisher testbed --api
    GET:
      https://localhost:3000/api/v1/pubd/publishers/testbed
    Headers:
@@ -533,13 +525,13 @@ Example CLI:
 
 .. code-block:: bash
 
-   % krillpubc remove --publisher publisher
+   % krillc pubserver publishers remove --publisher publisher
 
 Example API:
 
 .. code-block:: bash
 
-   $ krillpubc remove --publisher publisher --api
+   $ krillc pubserver publishers remove --publisher publisher --api
    DELETE:
      https://localhost:3000/api/v1/pubd/publishers/publisher
    Headers:
@@ -549,43 +541,13 @@ If you try to remove an unknown publisher, you will get an error:
 
 .. code-block:: bash
 
-   $ krillpubc remove --publisher publisher --format json
+   $ krillc pubserver publishers remove --publisher publisher --format json
    Http client error: Status: 404 Not Found, ErrorResponse: {"label":"pub-unknown","msg":"Unknown publisher 'publisher'","args":{"publisher":"publisher"}}
 
 
 Migrate existing Krill CAs
 --------------------------
 
-The Krill CA server has support for migrating your CAs from one Publication
-Server to another. A possible use case for this is that your RIR does not
-provide an RPKI publication service today, but they may provide one in future.
-
-The Krill UI does not support migrating the repository of your CA yet, as
-this is a bit of a corner case. If there is operator demand for this we will
-add support, but for now you can archive this trough the command line interface
-connecting to your Krill instance that hosts your CA.
-
-First you will need to get your CA's Publication Request XML using the
-following:
-
-.. code-block:: bash
-
-  $ krillc repo request
-
-You then need to give this XML to your Publication Server, be it provided by
-a third party or managed by yourself as described above. After receiving the
-Repository Response XML you can then update your CA's repository using:
-
-.. code-block:: bash
-
-  $ krillc repo update -reponse <path-to-xml>
-
-Krill will then make sure that objects are moved properly, and that a new
-certificate is requested from your parent(s) to match the new location.
-
-When this is done your CA can be safely removed from the old Publication Server
-altogether. Remove the publisher on the old Publication Server if you were self-hosting:
-
-.. code-block:: bash
-
-  $ krillpubc remove --publisher <publisher-handle>
+We have an `open issue <https://github.com/NLnetLabs/krill/issues/480>`_ to allow CAs to migrate
+their content from one publication server to another using a slightly adapted `rfc`:6489 RPKI key roll
+over. We intend to implement this asap and make it available in Krill release 0.9.1.
