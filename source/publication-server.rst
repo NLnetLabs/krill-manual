@@ -46,11 +46,6 @@ instance for this purpose. This will allow more fine grained access control
 to either instance, and it makes it somewhat easier to parse the log files
 in case of issues.
 
-At some point we were more opinionated about this separation and we almost
-split up the Krill binary into two separate binaries for the CA and Publication
-Server functions. However, in the end we decided that you should be able to make
-your own judgement call.
-
 Here we will document a setup using a separate Publication Server instance.
 
 Configure
@@ -60,7 +55,7 @@ Your Publication Server can use a very minimal configuration file, similar
 in style to the one used by the Krill CA server. You should configure the
 following settings:
 
-.. code-block:: bash
+.. code-block:: text
 
   # choose your own secret for the authorization token for the CLI and API
   admin_token =
@@ -180,7 +175,7 @@ files. Make sure that the Rsync URI including the 'module' matches the
 :file:`rsync_base` in your Krill configuration file. Basic configuration can
 then be as simple as:
 
-.. code-block:: bash
+.. code-block:: text
 
   $ cat /etc/rsyncd.conf
   uid = nobody
@@ -226,14 +221,14 @@ URIs reflect **your** setup of course:
 
 Example CLI:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver server init --rrdp https://krillrepo.example.com/rrdp/ --rsync rsync://krillrepo.example.com/repo/
 
 There is probably no reason to use the API directly for this initialisation process,
 except perhaps for automation of test environments:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver server init --rrdp https://krillrepo.example.com/rrdp/ --rsync rsync://krillrepo.example.com/repo/ --api
    POST:
@@ -252,7 +247,7 @@ you can now verify that the set up works. Try to get the 'notification.xml' file
 under your base URI, e.g. https://krillrepo.example.com/rrdp/notification.xml. Verify that
 access to your rsync server works by doing:
 
-.. code-block:: bash
+.. code-block:: text
 
   $ rsync --list-only rsync://krillrepo.example.com/repo/
 
@@ -260,13 +255,13 @@ If you are satisfied that things work, you can proceed to add publishers for you
 CAs. If not, then this is the moment to clear your Publication Server instance so
 that it can be re-initialised:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver server clear
 
 Or through the API:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver server clear --api
    DELETE:
@@ -296,7 +291,7 @@ used by publishers.
 
 Example CLI:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver server stats
    RRDP updated: 2021-04-08T06:40:01.337191+00:00
@@ -309,7 +304,7 @@ Example CLI:
 
 Example JSON response:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver server stats --format json
    {
@@ -332,7 +327,7 @@ Example JSON response:
 
 Example API:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver server stats --api
    GET:
@@ -363,7 +358,7 @@ Response XML for this publisher. You can also retrieve this response again later
 
 Example CLI:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers add --publisher localname --request ./data/new-ca-publisher-request.xml
    <repository_response xmlns="http://www.hactrn.net/uris/rpki/rpki-setup/" version="1" publisher_handle="localname" service_uri="https://localhost:3000/rfc8181/localname/" sia_base="rsync://localhost/repo/localname/" rrdp_notification_uri="https://localhost:3000/rrdp/notification.xml">
@@ -375,7 +370,7 @@ is demand then we can extend this in future to also accept the plain XML.
 
 Example API:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers add --publisher localname --request ./data/new-ca-publisher-request.xml --api
    POST:
@@ -397,14 +392,14 @@ You can list all current publishers using the following command:
 
 Example CLI:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers list
    Publishers: testbed, ta
 
 JSON reponse:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers list --format json
    {
@@ -420,7 +415,7 @@ JSON reponse:
 
 Example API:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers list --api
    GET:
@@ -436,14 +431,14 @@ may help to identify 3rd party publishers which are no longer active.
 
 Example CLI:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers stale --seconds 60
    Publishers: testbed, ta
 
 Example JSON response:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers stale --seconds 60 --format json
    {
@@ -459,7 +454,7 @@ Example JSON response:
 
 Example API:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers stale --seconds 60 --api
    GET:
@@ -474,7 +469,7 @@ Show details for a publisher, including the files that they published.
 
 Example CLI:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers show --publisher testbed
    handle: testbed
@@ -486,7 +481,7 @@ Example CLI:
 
 The JSON response also includes the full base64 encoded objects:
 
-.. code-block:: bash
+.. code-block:: text
 
    {
      "handle": "testbed",
@@ -506,7 +501,7 @@ The JSON response also includes the full base64 encoded objects:
 
 Example API:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers show --publisher testbed --api
    GET:
@@ -523,13 +518,13 @@ current content.
 
 Example CLI:
 
-.. code-block:: bash
+.. code-block:: text
 
    % krillc pubserver publishers remove --publisher publisher
 
 Example API:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers remove --publisher publisher --api
    DELETE:
@@ -539,7 +534,7 @@ Example API:
 
 If you try to remove an unknown publisher, you will get an error:
 
-.. code-block:: bash
+.. code-block:: text
 
    $ krillc pubserver publishers remove --publisher publisher --format json
    Http client error: Status: 404 Not Found, ErrorResponse: {"label":"pub-unknown","msg":"Unknown publisher 'publisher'","args":{"publisher":"publisher"}}
