@@ -1,5 +1,5 @@
 # Krill User Manual
-The Official Krill User Manual, published at [krill.readthedocs.io](https://krill.readthedocs.io)
+The Official Krill User Manual, published at [krill.docs.nlnetlabs.nl](https://krill.docs.nlnetlabs.nl)
 
 
 ## Style Guide
