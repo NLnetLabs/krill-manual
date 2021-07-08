@@ -226,3 +226,18 @@ when you are ready:
 .. code-block:: text
 
    krillc keyroll activate
+
+
+.. Note:: Krill will try to remove objects published at the old repository on
+     completion of this process. This is a best effort attempt. If the old server
+     is unresponsive, which may well have been the reason for migration, then it
+     will not try again. Furthermore, while :rfc:`8181` supports that a CA asks
+     to withdraw all objects, it does not support that a CA informs a server that
+     they no longer wish to be publish with them ever. I.e. it would be polite if
+     you told your server to remove your CA as a publisher through another channel.
+
+.. Note:: There is no way to cancel the migration once it has been initiated. You
+     will need to complete it, but then you can migrate again. Furthermore, because
+     this relies on the key rollover process you cannot do this migration if there
+     is a key rollover in progress. Krill will check for this, and refuse to do
+     the repository migration in this case.
