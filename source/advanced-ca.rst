@@ -28,11 +28,11 @@ For most users their CA will have only one parent CA and only one key and CA cer
 under that parent. But, krill supports having multiple so-called "Resource Classes" under
 a parent. The term Resource Class stems from :rfc:`6492` - essentially you can think of
 these as a way to to group a set of resources that can appear on a single certificate.
-This construct is needed because a RPKI CA certificates can have only one signing parent CA
-certificate. So, if your parent received resources from different sources, then they
-cannot sign a single certificate to you with resources from those sources. They would
-have to give you a signed certificate under each of their own certificates with the
-applicable resources.
+This construct is needed because RPKI CA certificates can have only one signing parent CA
+certificate. So, if your parent received resources on different certificate (presumably from
+different sources), then they cannot sign a single certificate to you with all those resources.
+They would have to give you a signed certificate under each of their own certificates
+with the applicable resources.
 
 Furthermore, Krill also supports the notion of having multiple parent CAs. Conceptually
 this is only a small leap from having to deal with potentially multiple Resource Classes
@@ -174,8 +174,8 @@ This stage should be short-lived. The revocation request is sent to the
 parent immediately. But it exists in order to deal with a possible failure
 to communicate with the parent when the revocation request is sent. In that
 case Krill will continue to try in the background. As soon as the old key
-is revoked Krill will remove it and the new state will be 'active': i.e.
-there is one current active key.
+is revoked Krill will remove it. After this has been done there is only
+one key again, and it's 'active'.
 
 .. _doc_krill_advanced_ca_migrate_repo:
 
