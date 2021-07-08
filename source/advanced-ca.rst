@@ -65,12 +65,12 @@ Then, you should wait 24 hours and before activating the new key and retiring th
 
 Caveats:
 
- - The `init` command will have no effect if your CA is in the middle of a rollover
- - The `activate` command will have no effect if your CA does not have a new key
+ - The ``init`` command will have no effect if your CA is in the middle of a rollover
+ - The ``activate`` command will have no effect if your CA does not have a new key
 
 Your ROAs and possible other objects, such as CA certificates delegated to child CAs
 if you have those, will be safe during a rollover. They will be re-issued under the
-new key when you run the `activate` command.
+new key when you run the ``activate`` command.
 
 
 Key Life Cycle Background
@@ -137,18 +137,18 @@ Resource Class. In conformance with :rfc:`6489` Krill will now start publishing
 a CRL and manifest for this key, but it will continue to publish all of its
 objects such as ROAs under the previous, still 'active' key.
 
-You can check whether your CA has reached this stage by running `krillc show`.
+You can check whether your CA has reached this stage by running ``krillc show``.
 This will print a section for **each** of your Resource Classes with their
 current 'state'. For example:
 
 .. code-block:: text
 
-Resource Class: 0
-Parent: testbed
-State: roll phase 2: new and active key    Resources:
-    ASNs:
-    IPv4: 192.168.0.0/16
-    IPv6:
+  Resource Class: 0
+  Parent: testbed
+  State: roll phase 2: new and active key    Resources:
+      ASNs:
+      IPv4: 192.168.0.0/16
+      IPv6:
 
 
 - roll phase 3: active and old key
