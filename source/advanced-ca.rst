@@ -217,7 +217,7 @@ perform an :rfc:`8181` 'list' query to see its currently published objects,
 before accepting it. If this query fails you will get an error message and
 nothing will change for your CA.
 
-As with normal key rollover :rfc:`6489` demands that you wait 24 hours before
+As with normal key rollovers :rfc:`6489` demands that you wait 24 hours before
 activating the new key, and removing the old one. However, there may be reasons
 why you need to move more quickly. In particular, if your old Publication Server
 or its Repository is unreachable. Run the following command to complete the process
