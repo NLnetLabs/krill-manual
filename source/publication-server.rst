@@ -57,14 +57,21 @@ following settings:
 
 .. code-block:: text
 
-  # choose your own secret for the authorization token for the CLI and API
+  # Choose your own secret for the authorization token for the CLI and API
   admin_token =
 
+  # If you installed krill using a package, then the default data directory
+  # and pid options are probably fine.
+  #
+  # If you installed krill by hand then you may wish to set the following:
   data_dir = "/path/to/your/krillpubd/data/"
   pid_file = "/path/to/your/krillpubd/krill.pid"
 
-  # Note, there is no built in log rotation in Krill. You may
-  # want to use the syslog facility instead. (see full defaults file below)
+  # Similarly, if you installed krill as a package it will use syslog, and
+  # this is probably desirable. If you want to use file logging you can
+  # configure this as follows, but note that there is no built-in log rotation
+  # in Krill.
+  log_type = "file"
   log_file = "/path/to/your/krill.log"
 
   # We recommend that you let the Krill daemon listen on localhost
@@ -80,6 +87,11 @@ following settings:
   #       is configured when you initialise your Publication Server
   #       through the CLI.
   service_uri = "https://krill-repo-server.example.com/"
+
+  # Disable the download of BGP information. Unless you are also using
+  # this server to host your CAs there is no need to keep this information
+  # in memory.
+  bgp_risdumps_enabled = false
 
 If you want to review all options, you can download the :download:`default config file<examples/krillpubd.conf>`.
 
