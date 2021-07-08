@@ -1,7 +1,7 @@
 .. _doc_krill_advanced_ca:
 
-Advanced Certification Authority Functions
-==========================================
+Advanced Functions
+==================
 
 Krill supports a number of advanced Certification Authority functions, none
 of which are currently supported through the web UI. In part this is because
