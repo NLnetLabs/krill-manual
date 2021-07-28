@@ -158,17 +158,21 @@ but require more effort to setup and maintain:
   token.
 
 .. warning:: If you encounter HTTP 502 Bad Gateway errors from your HTTP proxy
-             in front of Krill when logging in, but Krill logs show HTTP 302 Found,
-             you may need to increase the HTTP response header buffer size used by
-             your proxy.
+             in front of Krill when logging in, or login loops where you are taken
+             back to the OpenID Connect provider login page but the Krill logs show
+             a successful login, you may need to increase the HTTP request and/or
+             response header buffer sizes used by your proxy.
              
-             With NGINX this can be done by increasing
-             `proxy_buffer_size <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size>`_
-             and `proxy_buffers <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffers>`_
-             in your NGINX configuration files.
-             
-             This issue occurs because the size of the HTTP response headers on
-             login to Krill when using OpenID Connect can be quite large.
+             With NGINX this can be done by increasing settings such as `proxy_buffer_size <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size>`_, 
+             `proxy_buffers <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffers>`_, 
+             `http2_max_field_size <https://nginx.org/en/docs/http/ngx_http_v2_module.html#http2_max_field_size>`_ and 
+             `http2_max_header_size <https://nginx.org/en/docs/http/ngx_http_v2_module.html#http2_max_header_size>`_.
+             If using Kubernetes use the equivalent NGINX ingress controller ConfigMap
+             settings, e.g. `http2-max-field-size <https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#http2-max-field-size>`_. Thanks to GitHub user `TheEnbyperor <https://github.com/TheEnbyperor>`_ for the HTTP/2 and Kubernetes tips!
+
+             These issues occur because the size of the HTTP request &
+             response headers on login to Krill when using OpenID Connect
+             can be quite large.
 
 Choosing a provider
 -------------------
