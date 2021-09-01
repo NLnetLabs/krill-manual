@@ -80,6 +80,17 @@ If you are using the CLI you can create your CA using the subcommand :ref:`krill
 Repository Setup
 ----------------
 
+.. Note:: If you are a member of NIC.BR or APNIC, then you're in luck. Both
+    organisations provide an RPKI Publication Server as a service to their
+    members, so you can configure your Krill CA publish there.
+
+    If you need to run your own Publication Server then please have a look
+    :ref:`here<doc_krill_publication_server>` to see how you can use Krill
+    to achieve this.
+
+    In either case the same process described below applies from your Krill
+    CA's perspective.
+
 Before Krill can request a certificate from a parent CA, it will need to know
 where it will publish. You can add a parent before configuring a repository for
 your CA, but in that case Krill will postpone requesting a certificate until
@@ -107,6 +118,11 @@ tell add this configuration to your CA, or you can simply use the UI:
     :alt: Repository response
 
     Paste or upload the repository response XML
+
+
+.. Note:: Migrating to a new Repository later is not supported through the
+    web UI, but you can use the CLI to do this. Read more about this
+    :ref:`here<doc_krill_advanced_ca_migrate_repo>`
 
 .. _doc_krill_using_ui_parent_setup:
 

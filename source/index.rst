@@ -70,6 +70,7 @@ line and through an API.
    get-started
    manage-roas
    parent-interactions
+   advanced-ca
    cli
    multi-user
    monitoring
