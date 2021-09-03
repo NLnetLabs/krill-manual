@@ -4,8 +4,8 @@ Failure and Recovery Scenarios
 ===============================
 
 
-Krill CA temporarily unavailable
---------------------------------
+CA Temporarily Unavailable
+--------------------------
 
 +------------------------------------------------------------------------------+
 | Issue                                                                        |
@@ -40,8 +40,8 @@ then your :ref:`CA publication point will become expired<failure_repo_expired>`
 and the impact will be bigger.
 
 
-Krill CA Parent Temporarily Unavailable
----------------------------------------
+Parent Temporarily Unavailable
+------------------------------
 
 +------------------------------------------------------------------------------+
 | Issue                                                                        |
@@ -77,8 +77,8 @@ your CA for contacting the parent CA.
 
 .. _failure_repo_expired:
 
-Krill CA Publication Point Expired
-----------------------------------
+Publication Point Expired
+-------------------------
 
 +------------------------------------------------------------------------------+
 | Issue                                                                        |
@@ -148,8 +148,8 @@ If it can be helped it would therefore be advisable that your parent
 does not delegate resources for which they also manage ROAs.
 
 
-Krill CA Parent Publication Point Expired
------------------------------------------
+Parent Publication Point Expired
+--------------------------------
 
 +------------------------------------------------------------------------------+
 | Issue                                                                        |
