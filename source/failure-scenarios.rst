@@ -96,7 +96,7 @@ Publication Point Expired
 
 When your manifest or CRL become expired your RPKI objects
 will become invalid. This problem can occur if your CA is
-down, or if your CA cannot publish update objects at its
+down, or if your CA cannot publish updated objects at its
 publication server, for a prolonged period of time.
 
 Krill uses a default validity time of 24 hours for manifests
