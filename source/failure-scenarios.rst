@@ -57,7 +57,7 @@ Parent Temporarily Unavailable
 | You cannot perform a key roll                                                |
 +------------------------------------------------------------------------------+
 
-As long as the parent repository is not expired (see below) this has minimal impact
+As long as the parent repository is not expired (:ref:`see below<failure_parent_repo_expired>`) this has minimal impact
 on your CA. Krill CAs will check for updated resource and validity time entitlements
 every 10 minutes, and they will just keep trying.
 
@@ -133,9 +133,10 @@ of which allow the possibly more specific prefix and ASN.
 In the set up we see today this is unlikely to happen as most
 Krill CAs will operate directly under a parent RIR or NIR, and
 will not delegate prefixes to children. RIRs and NIRs do not
-issue ROAs, so in case your publication point would be rejected
-there would be no remaining valid ROA objects for your announcement.
-The result is that they then get an RPKI validity state "not found".
+issue ROAs for delegated prefixes, so in case your publication
+point would be rejected there would be no remaining valid ROA
+objects for your announcement. The result is that they then
+get an RPKI validity state "not found".
 
 However, in complicated setups your routes can become invalid. For
 example if your organisation operates a main CA under an RIR, and
@@ -147,6 +148,7 @@ then your routes can become "invalid".
 If it can be helped it would therefore be advisable that your parent
 does not delegate resources for which they also manage ROAs.
 
+.. _failure_parent_repo_expired:
 
 Parent Publication Point Expired
 --------------------------------
