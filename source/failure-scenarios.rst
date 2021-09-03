@@ -1,18 +1,28 @@
 .. _doc_krill_failure_scenarios:
 
-Krill Failure and Recovery Scenarios
-====================================
+Failure and Recovery Scenarios
+===============================
 
 
 Krill CA temporarily unavailable
 --------------------------------
 
-Issue: the Krill instance for your CA is unavailable
++------------------------------------------------------------------------------+
+| Issue                                                                        |
++==============================================================================+
+| The Krill instance for your CA is temporarily unavailable, e.g. because of   |
+| an upgrade, or because of an unforeseen outage.                              |
++------------------------------------------------------------------------------+
 
-Consequences:
-1. You cannot change ROAs
-2. You cannot change delegations to child CAs
-3. Krill will not update its repository
++------------------------------------------------------------------------------+
+| Consequences                                                                 |
++==============================================================================+
+| You cannot change ROAs.                                                      |
++------------------------------------------------------------------------------+
+| You cannot change delegations to child CAs.                                  |
++------------------------------------------------------------------------------+
+| Krill will not update its repository.                                        |
++------------------------------------------------------------------------------+
 
 The RPKI objects which were published by your CA will remain
 unchanged. This means that as long as your manifest and CRL
