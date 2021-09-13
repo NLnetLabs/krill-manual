@@ -57,6 +57,8 @@ REDUNDANT (AS0) | An AS0 ROA is considered redundant in case you have at least o
                 | the entire prefix for a real ASN. In such cases this ROA does not provide any
                 | further protection on top of that existing ROA.
 
+PREFIX REMOVED  ROA cannot be published, its prefix is no longer on your certificate(s)
+
 =============== =========================================================================================
 
 If you just set up your Krill instance you will see that your announcements all
@@ -122,6 +124,10 @@ DISALLOWING     Remove     | If you want to create a ROA to disallow announcemen
 NOT SEEN        Remove     Keep the ROA if it is for a planned or backup announcement.
 
 REDUNDANT       Remove
+
+PREFIX REMOVED  Remove     | Keep the ROA if you believe that your prefix will be re-added by
+                           | any parent.
+
 =============== ========== =============================================================================
 
 .. _krill_add_roa:
