@@ -4,11 +4,15 @@ Upgrading to this Version
 =========================
 
 
+v0.9.0/1 to 0.9.2
+-----------------
 
+The Prometheus metrics have been updated. The metric ``krill_cas_roas`` has been renamed
+to ``krill_cas_bgp_roas_total`` for consistency. Please have a look at the updated
+:ref:`monitoring page<doc_krill_monitoring>` for more details.
 
-
-API Changes in v0.9.0
----------------------
+v0.8.2 and below to v0.9.x
+--------------------------
 
 There are a number of API changes between v0.9.0 and previous versions. The main reasons for these
 changes are:
