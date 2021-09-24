@@ -1919,11 +1919,14 @@ to manage some of your prefixes.
        krillc children [SUBCOMMAND]
 
    SUBCOMMANDS:
-       :ref:`add<cmd_krillc_children_add>`         Add a child to a CA.
-       :ref:`info<cmd_krillc_children_info>`        Show info for a child (id and resources).
-       :ref:`update<cmd_krillc_children_update>`      Update an existing child of a CA.
-       :ref:`response<cmd_krillc_children_response>`    Get the RFC8183 response for a child.
-       :ref:`remove<cmd_krillc_children_remove>`      Remove an existing child from a CA.
+       :ref:`add<cmd_krillc_children_add>`            Add a child to a CA
+       :ref:`info<cmd_krillc_children_info>`           Show info for a child (id and resources)
+       :ref:`update<cmd_krillc_children_update>`         Update an existing child of a CA
+       :ref:`response<cmd_krillc_children_response>`       Show the RFC8183 Parent Response XML
+       :ref:`connections<cmd_krillc_children_connections>`    Show connections stats for children of a CA
+       :ref:`suspend<cmd_krillc_children_suspend>`        Suspend a child CA: hide certificate(s) issued to child
+       :ref:`unsuspend<cmd_krillc_children_unsuspend>`      Suspend a child CA: republish certificate(s) issued to child
+       :ref:`remove<cmd_krillc_children_remove>`         Remove an existing child from a CA
 
 .. _cmd_krillc_children_add:
 
@@ -1981,7 +1984,8 @@ Example API call:
 krillc children info
 --------------------
 
-Show info for a child (id and resources).
+Show info for a child: state, id certificate info and resources. The
+"state" can either be "active", or "suspended".
 
 Example CLI:
 
@@ -2011,12 +2015,14 @@ Example CLI:
 
   SHA256 hash of PEM encoded certificate: 992ac17d85fef11d8be4aa37806586ce68b61fe9cf65c0965928dbce0c398a99
   resources: asn: , v4: 10.0.0.0/8, 192.168.0.0/16, v6:
+  state: active
 
 Example JSON response:
 
 .. code-block:: json
 
   {
+    "state": "active",
     "id_cert": {
       "pem": "-----BEGIN CERTIFICATE-----\nMIIDNDCCAhygAwIBAgIBATANBgkqhkiG9w0BAQsFADAzMTEwLwYDVQQDEyhFRjJE\nNzgwRkNCRkU1QjZBMkExMjA1OUM0MDlDN0M5Mjc3NTQxOTU2MB4XDTIxMDQwNzE0\nMzUxNFoXDTM2MDQwNzE0NDAxNFowMzExMC8GA1UEAxMoRUYyRDc4MEZDQkZFNUI2\nQTJBMTIwNTlDNDA5QzdDOTI3NzU0MTk1NjCCASIwDQYJKoZIhvcNAQEBBQADggEP\nADCCAQoCggEBANuBsEO4C9n7PlYcDT0PTeZntR5l778lZQDsgxiB7ofLrg8lKcf8\nugFiYI4vRqR+gDMHhR3t/X3Ho5gC7uuKf4LYqbJj+Z9ltr/236/hDYJfWMXZVcEu\nL+wUble1zhe2NKrgnAkpReVMSdiugoqZ9ICK2Fwkj5jCGc/qHiWOba7T78zfij8O\nlB/dGlJvkAY8b/XTNKsTrLozi1uVAC8GqDrV5MEgY/NfzUvgA024yxx/rC6QBDEo\nBjnP7wDFiaZ2lwvL2beVYu6/hVcXQzsVN+ijy7cGdkE6zi0meXJLTHPEpoA88hi3\nPi+pIDBIQ3wTcpQIOqAq/SZuh4dbZK7BV8MCAwEAAaNTMFEwDwYDVR0TAQH/BAUw\nAwEB/zAdBgNVHQ4EFgQU7y14D8v+W2oqEgWcQJx8kndUGVYwHwYDVR0jBBgwFoAU\n7y14D8v+W2oqEgWcQJx8kndUGVYwDQYJKoZIhvcNAQELBQADggEBAArqsa/gpJtO\nNdgIWV1EqwEzhKKA2EP6tLDF9ejsdMFNYrYr+2hVWaoLsSuarfwfLFSgKDFqR6sh\n3ljYq6mIz9gdkjBOJsR9JyHFEtsDsRpf8Hs1WlbIb8bWb73Cp/YPMPVBpmG15Z9i\nKantzC1tck+E1xYW5awvj+YZqGVqyFdPJOZWmaYoS83kWvg4g4IucXTH6wwy23MQ\n7+0gyoK4wxfXRQmWjlXpLueCOsJo7ZXopsDAmXHLoFKZVEXn1ocQNc91l521BEQ6\nt/d7srQA4IxZCRGh9B+JdAIOKuXBA0nncmMJLQN8Qpxlz2bxKKAgXBLdoDqjbTDV\nbXTPM8YLRgc=\n-----END CERTIFICATE-----\n",
       "hash": "992ac17d85fef11d8be4aa37806586ce68b61fe9cf65c0965928dbce0c398a99"
@@ -2121,16 +2127,180 @@ the CLI converts it. Other API endpoints support getting such files in either JS
 RFC standard XML format. If there is desire to support this here as well, then we will
 add this in a future release.
 
+.. _cmd_krillc_children_connections:
+
+krillc children connections
+---------------------------
+
+Show the connections stats for children of a CA. This can be useful for monitoring
+for potentially deactivated child CAs. Furthermore the user-agent for the last known
+connection from each child is shown. This can help to monitor for children running
+potentially outdated RPKI CA implementations (old krill versions or other implementations).
+
+Example CLI:
+
+.. code-block:: text
+
+  $ krillc children connections --ca testbed
+  handle,user_agent,last_exchange,result,state
+  CA2,krill/0.9.2-rc3,2021-09-24T10:00:00+00:00,success,active
+  ca,krill/0.9.2-rc3,2021-09-24T10:00:00+00:00,success,active
+  CA1,krill/0.9.2-rc1,2021-09-13T14:30:00+00:00,success,active
+  dummy_ca,n/a,never,n/a,active
+
+
+Example API call:
+
+.. code-block:: text
+
+  $ krillc children connections --ca testbed --api
+  GET:
+    https://localhost:3000/api/v1/cas/testbed/stats/children/connections
+  Headers:
+    Authorization: Bearer secret
+
+Example JSON response:
+
+.. code-block:: json
+
+  {
+    "children": [
+      {
+        "handle": "newca",
+        "last_exchange": {
+          "timestamp": 1632477600,
+          "result": "Success",
+          "user_agent": "krill/0.9.2"
+        },
+        "state": "active"
+      },
+      {
+        "handle": "oldca",
+        "last_exchange": {
+          "timestamp": 1632477600,
+          "result": "Success",
+          "user_agent": "krill"
+        },
+        "state": "active"
+      },
+      {
+        "handle": "brandnewca",
+        "last_exchange": null,
+        "state": "active"
+      },
+    ]
+  }
+
+Note that krill 0.9.1 and below use the user-agent "krill", while krill
+0.9.2 and above include the version, e.g.: "krill/0.9.2". Other RPKI CA
+implementation may or may not include user-agents strings in their requests.
+
+Furthermore note that the "last_exchange" may be "null" in case a CA was
+just added by the parent, but the child CA did not import the parent XML
+response yet - or was otherwise unable to connect.
+
+The "last_exchange" field will also be "null" after upgrading to krill 0.9.2.
+This information was not kept prior to krill 0.9.2 so, after upgrading, this
+will only be set when your existing child CAs connect for the first time.
+
+
+.. _cmd_krillc_children_suspend:
+
+krillc children suspend
+-----------------------
+
+If you believe that a child CA has been deactivated then you may wish to "suspend"
+it, rather than remove it altogether. If you suspend a child CA, then any
+certificate(s) issued to it by your CA will be withdrawn, and they will no longer
+be processed by RPKI validation software. This is particularly useful if the
+manifest and CRL of the child CA have expired, and presumably their ROAs are no
+longer maintained either.
+
+If and when a "suspended" child CA connects to your CA again, it will automatically
+be "un-suspended". Meaning that any certificate(s) previously issued  to this
+child will be published again.
+
+The main goal of this is to facilitate an easier recovery path in cases where
+a child CA suffers a long outage. By "suspending" them until the child CA is
+reactivated you suppress RPKI validation errors for their expired publication
+point, while ensuring that the delegation to this CA will be re-enabled as soon
+as it is successfully started.
+
+Example CLI/API:
+
+.. code-block:: text
+
+  $ krillc children suspend --ca testbed --child newca --api
+
+  POST:
+    https://localhost:3000/api/v1/cas/testbed/children/newca
+  Headers:
+    content-type: application/json
+    Authorization: Bearer secret
+  Body:
+  {
+    "suspend": true
+  }
+
+.. Important:: It is not always trivial to figure out if a child CA has been
+               deactivated. The expiry of the child CA's manifest and CRL is
+               a strong indication of this, but this information is not available
+               to the krill CA parent. What it *does* have is the knowledge of
+               when a child CA connected for the last time.
+
+               If the child CA did not connect for a long time, then the parent
+               may be inclined to think that they have been deactived. This
+               is true for child CAs running Krill 0.9.2 or above, because here
+               the maximum configurable 'refresh' rate is one hour. So, if you
+               have not seen any connection attempts for such child CAs for, say
+               8 hours, then you can safely suspend them.
+
+               However, earlier krill versions, while using a default of 10 minutes,
+               would allow overriding this value without any upper bound. Other
+               RPKI CA implementations may also use longer cycles.
+
+               In short: be careful before deciding that a child CA is truly
+               deactived.
+
+
+.. _cmd_krillc_children_unsuspend:
+
+krillc children unsuspend
+-------------------------
+
+If needed you can manually "un-suspend" a "suspended" child CA. Generally speaking
+there is no need do this, because a child will be un-suspended automatically whenever
+it re-connects with your CA.
+
+Example CLI/API:
+
+.. code-block:: text
+
+  $ krillc children unsuspend --ca testbed --child newca --api
+  POST:
+    https://localhost:3000/api/v1/cas/testbed/children/newca
+  Headers:
+    content-type: application/json
+    Authorization: Bearer secret
+  Body:
+  {
+    "suspend": false
+  }
+
+
 .. _cmd_krillc_children_remove:
 
 krillc children remove
 ----------------------
 
-Remove an existing child from a CA. We suggest that you discuss this action with
-your child first. Removing the child will revoke their certificate(s), but they
-may continue to ask for their entitlements until they decide to remove your CA
-as a parent as well. Of course if the child had multiple parents, they may continue
-to maintain healthy relationships with their other parent(s).
+Remove an existing child from a CA. This removes and revokes any certificate(s)
+issued to this child CA. Furthermore this child CA, if still active or re-activated,
+will no longer be allowed to connect to your CA. They will have to remove you as
+a parent first and then re-do the XML exchange with you in order to be re-added
+as a child.
+
+if you think that the child CA may be temporarily disabled, then you may wish to
+"suspend" them instead.
 
 Example CLI / API call:
 

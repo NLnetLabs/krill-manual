@@ -75,6 +75,7 @@ line and through an API.
    multi-user
    monitoring
    publication-server
+   manage-children
    testbed
    docker
    upgrade
