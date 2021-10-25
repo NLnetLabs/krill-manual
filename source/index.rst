@@ -1,6 +1,6 @@
 .. _doc_krill:
 
-Krill 0.9.0 'One for All'
+Krill 0.9.2
 =========================
 
 |docsupdated| |discord| |twitter|
@@ -75,9 +75,11 @@ line and through an API.
    multi-user
    monitoring
    publication-server
+   manage-children
    testbed
    docker
    upgrade
+   failure-scenarios
 .. history
 .. authors
 .. license
