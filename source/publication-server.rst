@@ -555,6 +555,6 @@ If you try to remove an unknown publisher, you will get an error:
 Migrate existing Krill CAs
 --------------------------
 
-We have an `open issue <https://github.com/NLnetLabs/krill/issues/480>`_ to allow CAs to migrate
-their content from one publication server to another using a slightly adapted `rfc`:6489 RPKI key roll
-over. We intend to implement this asap and make it available in Krill release 0.9.1.
+If you have an existing Krill CA that is currently publishing under another
+publication server, then you can
+:ref:`migrate it to using a new repository<doc_krill_advanced_ca_migrate_repo>`.

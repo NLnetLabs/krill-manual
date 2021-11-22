@@ -210,7 +210,7 @@ your CA to use this by running:
 
 .. code-block:: text
 
-   krillc repo configure --request </path/to/repo-response.xml>
+   krillc repo configure --response </path/to/repo-response.xml>
 
 Note: Krill will verify that it can successfully connect to the new server and
 perform an :rfc:`8181` 'list' query to see its currently published objects,
