@@ -5,72 +5,295 @@ Install and Run
 
 Before you can start to use Krill you will need to install, configure and run
 the Krill application somewhere. Please follow the steps below and you will be
-ready to :ref:`doc_krill_get_started`.
+ready to :ref:`get started<doc_krill_get_started>`.
 
-Getting started with Krill is quite easy either building from cargo or using a
-debian package. In case you intend to serve your RPKI certificate and ROAs to the
-world yourself or you want to offer this as a service to others, you will also
-need to have a public Rsyncd and HTTPS web server available.
+System Requirements
+-------------------
 
-Installing with APT/dpkg
-------------------------
+Krill has minimal system requirements. When choosing a system, make sure
+you have 2GB of available memory and 8GB of disk space for the application. A 
+powerful CPU is not required.
 
-.. Warning:: The Debian/Ubunto packages do not include the dedicated Krill Publication
-     Server yet. See `this issue for planned support <https://github.com/NLnetLabs/krill/issues/361>`_
-     For the moment please use `cargo` to install the Publication Server components
-     if you need them.
+Quick Start
+-----------
 
-Pre-built Debian/Ubuntu `packages <https://packages.nlnetlabs.nl/>`_ are available
-for recent versions on x86_64 platforms. These can be installed using the standard
-``apt``, ``apt-get`` and ``dpkg`` commands as usual.
+Getting started with Krill is really easy by either installing a binary package
+for Debian and Ubuntu or for Red Hat Enterprise Linux and CentOS. You can also
+run with :ref:`Docker<doc_krill_running_docker>` or build from Cargo, Rust's
+build system and package manager.
 
-Unlike with installing with Cargo there is no need to have Rust or a C toolchain
-installed. Additionally, the packages come with a systemd service file to easily
-start and stop the Krill daemon.
+In case you intend to serve your RPKI certificate and ROAs to the world yourself
+or you want to offer this as a service to others, you will also need to have a
+public rsyncd and HTTPS web server available.
 
 .. Note:: For the oldest platforms, Ubuntu 16.04 LTS and Debian 9, the packaged
-          krill binary is statically linked with OpenSSL 1.1.0 as this is the
+          Krill binary is statically linked with OpenSSL 1.1.0 as this is the
           minimum version required by Krill and is higher than available in the
           official package repositories for those platforms.
 
-To install the Krill package from the NLnet Labs package repository:
+.. tabs::
 
-1. Run ``cargo uninstall krill`` if you previously installed Krill with Cargo.
-2. Add the line below that corresponds to your operating system to ``/etc/apt/sources.list`` or ``/etc/apt/sources.list.d/``:
+   .. group-tab:: Debian Packages
 
-.. code-block:: bash
+       If you have a machine with an amd64/x86_64 architecture running a recent
+       Debian or Ubuntu distribution, you can install Krill from our `software
+       package repository <https://packages.nlnetlabs.nl>`_.
+       
+       To use this repository, add the line below that corresponds to your
+       operating system to your :file:`/etc/apt/sources.list` or
+       :file:`/etc/apt/sources.list.d/`:
 
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic main
-  deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal main
+       .. code-block:: text
 
-2. Add the repository signing key to the trusted keys:
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch main
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster main
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ bullseye main
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial main
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic main
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal main
 
-.. code-block:: bash
+       Then run the following commands to add the public key and update the
+       repository list:
 
-  wget -qO- https://packages.nlnetlabs.nl/aptkey.asc | sudo apt-key add -
+       .. code-block:: text
 
-3. Install Krill using ``sudo apt-get update`` and ``sudo apt-get install krill``.
-4. Review the generated configuration file at ``/etc/krill.conf``.
-   **Pay particular attention** to the ``service_uri`` and ``admin_token``
-   settings. Tip: The configuration file was generated for you using the
-   ``krillc config simple`` command.
-5. Once happy with the settings use ``sudo systemctl enable --now krill`` to instruct
-   systemd to enable the Krill service at boot and to start it immediately.
+          wget -qO- https://packages.nlnetlabs.nl/aptkey.asc | sudo apt-key add -
+          sudo apt update
 
-The krill daemon runs as user ``krill`` and stores its data in
-``/var/lib/krill``. You can manage the Krill daemon using the following
-commands:
+       You can then install Krill by running:
 
-- Review the Krill logs with ``journalctl -u krill``, or view just the most recent entries with ``sytemctl status krill``.
+       .. code-block:: bash
 
-- Stop Krill with ``sudo systemctl stop krill``.
+          sudo apt install krill
 
-- Learn more about Krill using ``man krill`` and ``man krillc``.
+       Review the generated configuration file at ``/etc/krill.conf``. **Pay 
+       particular attention** to the ``service_uri`` and ``admin_token``
+       settings. Tip: The configuration file was generated for you using the
+       ``krillc config simple`` command.
+       
+       Once happy with the settings use ``sudo systemctl enable --now krill`` to
+       instruct systemd to enable the Krill service at boot and to start it
+       immediately. The krill daemon runs as user ``krill`` and stores its data
+       in ``/var/lib/krill``. 
+       
+       You can check the status of Krill with:
+       
+       .. code-block:: bash 
+       
+          sudo systemctl status krill
+       
+       You can view the logs with: 
+       
+       .. code-block:: bash
+       
+          sudo journalctl --unit=krill
 
-- Upgrade Krill by running ``apt-get update`` and ``apt-get install krill``.
+   .. group-tab:: RPM Packages
+
+       If you have a machine with an amd64/x86_64 architecture running a
+       :abbr:`RHEL (Red Hat Enterprise Linux)`/CentOS 7 or 8 distribution, or a
+       compatible OS such as Rocky Linux, you can install Krill from our
+       `software package repository <https://packages.nlnetlabs.nl>`_. 
+       
+       To use this repository, create a file named 
+       :file:`/etc/yum.repos.d/nlnetlabs.repo`, enter this configuration and 
+       save it:
+       
+       .. code-block:: text
+       
+          [nlnetlabs]
+          name=NLnet Labs
+          baseurl=https://packages.nlnetlabs.nl/linux/centos/$releasever/main/$basearch
+          enabled=1
+        
+       Then run the following command to add the public key:
+       
+       .. code-block:: bash
+       
+          sudo rpm --import https://packages.nlnetlabs.nl/aptkey.asc
+       
+       You can then install Krill by running:
+        
+       .. code-block:: bash
+          
+          sudo yum install -y krill
+           
+       Review the generated configuration file at ``/etc/krill.conf``. **Pay 
+       particular attention** to the ``service_uri`` and ``admin_token``
+       settings. Tip: The configuration file was generated for you using the
+       ``krillc config simple`` command.
+          
+       Once happy with the settings use ``sudo systemctl enable --now krill`` to
+       instruct systemd to enable the Krill service at boot and to start it
+       immediately. The krill daemon runs as user ``krill`` and stores its data
+       in ``/var/lib/krill``. 
+      
+       You can check the status of Krill with:
+      
+       .. code-block:: bash 
+      
+          sudo systemctl status krill
+      
+       You can view the logs with: 
+       
+       .. code-block:: bash
+       
+          sudo journalctl --unit=krill
+                      
+   .. group-tab:: Cargo
+
+       Assuming you have a newly installed Debian or Ubuntu machine, you will
+       need to install the C toolchain, OpenSSL and Rust. You can then install
+       Krill using:
+
+       .. code-block:: bash
+
+          sudo apt install curl build-essential libssl-dev openssl pkg-config
+          curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+          source ~/.cargo/env
+          cargo install --locked krill
+
+Updating
+--------
+
+.. tabs::
+
+   .. group-tab:: Debian Packages
+
+       To update an existing Krill installation, first update the repository
+       using:
+
+       .. code-block:: text
+
+          sudo apt update
+
+       You can use this command to get an overview of the available versions:
+
+       .. code-block:: text
+
+          sudo apt policy krill
+
+       You can upgrade an existing Krill installation to the latest version
+       using:
+
+       .. code-block:: text
+
+          sudo apt --only-upgrade install krill
+          
+   .. group-tab:: RPM Packages
+
+       To update an existing Krill installation, you can use this command 
+       to get an overview of the available versions:
+        
+       .. code-block:: bash
+        
+          sudo yum --showduplicates list krill
+          
+       You can update to the latest version using:
+         
+       .. code-block:: bash
+         
+          sudo yum update -y krill
+             
+   .. group-tab:: Cargo
+
+       If you want to install the latest version of Krill using Cargo, it's
+       recommended to also update Rust to the latest version first. Use the 
+       ``--force`` option to  overwrite an existing version with the latest 
+       release:
+               
+       .. code-block:: text
+
+          rustup update
+          cargo install --locked --force krill
+          
+Installing Specific Versions
+----------------------------
+
+Before every new release of Krill, one or more release candidates are provided
+for testing through every installation method. You can also install a specific
+version, if needed.
+
+.. tabs::
+
+   .. group-tab:: Debian Packages
+
+       To install release candidates of Krill, add the line below that 
+       corresponds to your operating system to your ``/etc/apt/sources.list`` or
+       ``/etc/apt/sources.list.d/``:
+
+       .. code-block:: text
+
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch-proposed main
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster-proposed main
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ bullseye-proposed main
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial-proposed main
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic-proposed main 
+          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal-proposed main
+
+       You can use this command to get an overview of the available versions:
+
+       .. code-block:: text
+
+          sudo apt policy krill
+
+       You can install a specific version using ``<package name>=<version>``,
+       e.g.:
+
+       .. code-block:: text
+
+          sudo apt install krill=0.9.0~rc2-1buster
+          
+   .. group-tab:: RPM Packages
+
+       To install release candidates of Krill, create an additional repo 
+       file named :file:`/etc/yum.repos.d/nlnetlabs-testing.repo`, enter this
+       configuration and save it:
+       
+       .. code-block:: text
+       
+          [nlnetlabs-testing]
+          name=NLnet Labs Testing
+          baseurl=https://packages.nlnetlabs.nl/linux/centos/$releasever/proposed/$basearch
+          enabled=1
+        
+       You can use this command to get an overview of the available versions:
+        
+       .. code-block:: bash
+        
+          sudo yum --showduplicates list krill
+          
+       You can install a specific version using 
+       ``<package name>-<version info>``, e.g.:
+         
+       .. code-block:: bash
+         
+          sudo yum install -y krill-0.9.0~rc2
+                  
+   .. group-tab:: Cargo
+
+       All release versions of Krill, as well as release candidates, are
+       available on `crates.io <https://crates.io/crates/krill/versions>`_,
+       the Rust package registry. If you want to install a specific version of
+       Krill using Cargo, explicitly use the ``--version`` option. If
+       needed, use the ``--force`` option to overwrite an existing version:
+               
+       .. code-block:: text
+
+          cargo install --locked --force krill --version 0.9.0-rc2
+
+       All new features of Krill are built on a branch and merged via a
+       `pull request <https://github.com/NLnetLabs/krill/pulls>`_, allowing
+       you to easily try them out using Cargo. If you want to try the a specific
+       branch from the repository you can use the ``--git`` and ``--branch``
+       options:
+
+       .. code-block:: text
+
+          cargo install --git https://github.com/NLnetLabs/krill.git --branch main
+          
+       For more installation options refer to the `Cargo book
+       <https://doc.rust-lang.org/cargo/commands/cargo-install.html#install-options>`_.
 
 Installing with Cargo
 ---------------------
