@@ -75,18 +75,18 @@ line and through an API.
    :caption: Core
    :name: toc-core
     
-   manage-roas
    parent-interactions
-   advanced-ca
-   cli
+   manage-roas
+   monitoring
    
 .. toctree::
    :maxdepth: 2
    :caption: Advanced
    :name: toc-advanced
    
+   cli
+   advanced-ca
    multi-user
-   monitoring
    publication-server
    manage-children
    
