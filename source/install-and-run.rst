@@ -7,13 +7,6 @@ Before you can start to use Krill you will need to install, configure and run
 the Krill application somewhere. Please follow the steps below and you will be
 ready to :ref:`get started<doc_krill_get_started>`.
 
-System Requirements
--------------------
-
-Krill has minimal system requirements. When choosing a system, make sure
-you have 2GB of available memory and 8GB of disk space for the application. A 
-powerful CPU is not required.
-
 Quick Start
 -----------
 
