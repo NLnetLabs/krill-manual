@@ -85,10 +85,10 @@ line and through an API.
    :name: toc-advanced
    
    cli
-   advanced-ca
    multi-user
    publication-server
    manage-children
+   advanced-ca
    
 .. toctree::
    :maxdepth: 2
