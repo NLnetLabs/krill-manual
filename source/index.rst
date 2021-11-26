@@ -62,24 +62,44 @@ line and through an API.
 
 .. toctree::
    :maxdepth: 2
-   :name: toc-krill
+   :caption: Getting Started
+   :name: toc-getting-started
 
    before-you-start
    architecture
    install-and-run
    get-started
-   manage-roas
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: Core
+   :name: toc-core
+    
    parent-interactions
-   advanced-ca
+   manage-roas
+   monitoring
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: Advanced
+   :name: toc-advanced
+   
    cli
    multi-user
-   monitoring
    publication-server
    manage-children
+   advanced-ca
+   
+.. toctree::
+   :maxdepth: 2
+   :caption: Reference
+   :name: toc-reference
+   
    testbed
    docker
    upgrade
    failure-scenarios
+   
 .. history
 .. authors
 .. license
