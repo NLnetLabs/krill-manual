@@ -3,6 +3,21 @@
 Upgrading to this Version
 =========================
 
+v0.9.0/1/2 to 0.9.3
+-------------------
+There are no API changes, but users may want to be aware that the 'next update' time
+for manifests and CRLs has been changed from a fixed 24 hours (by default) to 24 hours
+and a random amount of extra time between 0 and 240 minutes (4 hours). This does not
+affect the validity of objects, but may lead to surprises if you are monitoring that
+republication would happen withing 17 hours after last publication (8 hours before
+objects would expire). This can now take up to 21 hours (using defaults).
+
+Furthermore experimental ASPA support was added, but it's hidden in the CLI until the
+ASPA standards reach stability in the IETF. If you want to read more about the
+experimental ASPA support in Krill then have a look here:
+
+https://krill.docs.nlnetlabs.nl/en/prototype-aspa-support/manage-aspas.html
+
 
 v0.9.0/1 to 0.9.2
 -----------------

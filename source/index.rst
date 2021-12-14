@@ -1,6 +1,6 @@
 .. _doc_krill:
 
-Krill 0.9.2
+Krill 0.9.3
 =========================
 
 |docsupdated| |discord| |twitter|
@@ -69,37 +69,37 @@ line and through an API.
    architecture
    install-and-run
    get-started
-   
+
 .. toctree::
    :maxdepth: 2
    :caption: Core
    :name: toc-core
-    
+
    parent-interactions
    manage-roas
    monitoring
-   
+
 .. toctree::
    :maxdepth: 2
    :caption: Advanced
    :name: toc-advanced
-   
+
    cli
    multi-user
    publication-server
    manage-children
    advanced-ca
-   
+
 .. toctree::
    :maxdepth: 2
    :caption: Reference
    :name: toc-reference
-   
+
    testbed
    docker
    upgrade
    failure-scenarios
-   
+
 .. history
 .. authors
 .. license
