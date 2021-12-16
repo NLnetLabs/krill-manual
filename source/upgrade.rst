@@ -3,8 +3,18 @@
 Upgrading to this Version
 =========================
 
-v0.9.0/1/2 to 0.9.3
--------------------
+v0.9.3 to v0.9.4
+----------------
+There are no API changes or data migrations.
+
+After upgrading the Publicaiton Server (if you run one) will use 1 as the first
+RRDP serial number, instead of 0. Furthermore, you will now be able to configure
+the timeout for a complete RFC 6492 and RFC 8181 client HTTP request-response
+round-trip to the parent or publisher, excluding the time required to establish
+the connection, using `post_protocol_msg_timeout_seconds`.
+
+v0.9.0/1/2 to v0.9.3
+--------------------
 There are no API changes, but users may want to be aware that the 'next update' time
 for manifests and CRLs has been changed from a fixed 24 hours (by default) to 24 hours
 and a random amount of extra time between 0 and 240 minutes (4 hours). This does not
@@ -19,8 +29,8 @@ experimental ASPA support in Krill then have a look here:
 https://krill.docs.nlnetlabs.nl/en/prototype-aspa-support/manage-aspas.html
 
 
-v0.9.0/1 to 0.9.2
------------------
+v0.9.0/1 to v0.9.2
+------------------
 
 The Prometheus metrics have been updated. The metric ``krill_cas_roas`` has been renamed
 to ``krill_cas_bgp_roas_total`` for consistency. Please have a look at the updated
