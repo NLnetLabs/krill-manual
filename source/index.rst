@@ -90,8 +90,8 @@ line and through an API.
    multi-user
    publication-server
    manage-children
-   keyroll
-   migrate-repo
+   ca-keyroll
+   ca-migrate-repo
 
 
 .. toctree::

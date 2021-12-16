@@ -556,4 +556,4 @@ Migrate existing Krill CAs
 --------------------------
 
 If you have an existing Krill CA that is currently publishing under another
-publication server, then you can :ref:`migrate it to using a new repository<doc_ca_migrate_repo>`.
+publication server, then you can :ref:`migrate it to using a new repository<doc_krill_ca_migrate_repo>`.
