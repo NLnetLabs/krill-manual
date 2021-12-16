@@ -120,8 +120,7 @@ tell add this configuration to your CA, or you can simply use the UI:
 
 
 .. Note:: Migrating to a new Repository later is not supported through the
-    web UI, but you can use the CLI to do this. Read more about this
-    :ref:`here<doc_kirll_ca_migrate_repo>`
+    web UI, but :ref:`you can use the CLI to do this<doc_krill_ca_migrate_repo>`.
 
 .. _doc_krill_using_ui_parent_setup:
 
