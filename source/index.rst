@@ -90,7 +90,9 @@ line and through an API.
    multi-user
    publication-server
    manage-children
-   advanced-ca
+   keyroll
+   migrate-repo
+
 
 .. toctree::
    :maxdepth: 2
