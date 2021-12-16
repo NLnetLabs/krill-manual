@@ -18,11 +18,12 @@ Krill is a free, open source Resource Public Key Infrastructure (RPKI) daemon,
 featuring a Certificate Authority (CA) and publication server, written by `NLnet
 Labs <https://nlnetlabs.nl>`_.
 
-For a quick summary of what's new and changed in the latest version see the `release notes <https://github.com/NLnetLabs/krill/releases/latest>`_.
-If upgrading consult the :ref:`upgrade guide<doc_krill_upgrade>`. You are welcome to ask questions
-or post comments and ideas on our `RPKI mailing list <https://nlnetlabs.nl/mailman/listinfo/rpki>`_.
+You are welcome to ask questions or post comments and ideas on our `RPKI mailing list <https://nlnetlabs.nl/mailman/listinfo/rpki>`_.
 If you find a bug in Krill, feel free to create an issue on GitHub. Krill is distributed under the
 Mozilla Public License 2.0.
+
+.. Note:: For a quick summary of what's new and changed in the latest version see the `release notes <https://github.com/NLnetLabs/krill/releases/latest>`_.
+          If upgrading consult the :ref:`upgrade guide<doc_krill_upgrade>`.
 
 .. figure:: img/krill-ui-welome.png
     :align: center
