@@ -26,37 +26,47 @@ public rsyncd and HTTPS web server available.
 
 .. tabs::
 
-   .. group-tab:: Debian Packages
+   .. group-tab:: Debian
 
-       If you have a machine with an amd64/x86_64 architecture running a recent
-       Debian or Ubuntu distribution, you can install Krill from our `software
-       package repository <https://packages.nlnetlabs.nl>`_.
+       If you have a machine with an amd64/x86_64 architecture running Debian 9,
+       10 or 11, you can install Krill from our `software package
+       repository <https://packages.nlnetlabs.nl>`_. 
        
-       To use this repository, add the line below that corresponds to your
-       operating system to your :file:`/etc/apt/sources.list` or
-       :file:`/etc/apt/sources.list.d/`:
-
-       .. code-block:: text
-
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch main
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster main
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ bullseye main
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial main
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic main
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal main
-
-       Then run the following commands to add the public key and update the
-       repository list:
-
-       .. code-block:: text
-
-          wget -qO- https://packages.nlnetlabs.nl/aptkey.asc | sudo apt-key add -
-          sudo apt update
-
-       You can then install Krill by running:
+       First update the ``apt`` package index: 
 
        .. code-block:: bash
 
+          sudo apt update
+
+       Then install packages to allow ``apt`` to use a repository over HTTPS:
+
+       .. code-block:: bash
+
+          sudo apt install \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release
+
+       Add the GPG key from NLnet Labs:
+
+       .. code-block:: bash
+
+          curl -fsSL https://packages.nlnetlabs.nl/aptkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/nlnetlabs-archive-keyring.gpg
+
+       Now, use the following command to set up the *main* repository:
+
+       .. code-block:: bash
+
+          echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nlnetlabs-archive-keyring.gpg] https://packages.nlnetlabs.nl/linux/debian \
+          $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/nlnetlabs.list > /dev/null
+
+       After updating the ``apt`` package index you can install Krill:
+
+       .. code-block:: bash
+
+          sudo apt update
           sudo apt install krill
 
        Review the generated configuration file at ``/etc/krill.conf``. **Pay 
@@ -81,7 +91,72 @@ public rsyncd and HTTPS web server available.
        
           sudo journalctl --unit=krill
 
-   .. group-tab:: RPM Packages
+   .. group-tab:: Ubuntu
+
+       If you have a machine with an amd64/x86_64 architecture running Ubuntu
+       16.x, 18.x, or 20.x, you can install Krill from our `software
+       package repository <https://packages.nlnetlabs.nl>`_. 
+       
+       First update the ``apt`` package index: 
+
+       .. code-block:: bash
+
+          sudo apt update
+
+       Then install packages to allow ``apt`` to use a repository over HTTPS:
+
+       .. code-block:: bash
+
+          sudo apt install \
+            ca-certificates \
+            curl \
+            gnupg \
+            lsb-release
+
+       Add the GPG key from NLnet Labs:
+
+       .. code-block:: bash
+
+          curl -fsSL https://packages.nlnetlabs.nl/aptkey.asc | sudo gpg --dearmor -o /usr/share/keyrings/nlnetlabs-archive-keyring.gpg
+
+       Now, use the following command to set up the *main* repository:
+
+       .. code-block:: bash
+
+          echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nlnetlabs-archive-keyring.gpg] https://packages.nlnetlabs.nl/linux/ubuntu \
+          $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/nlnetlabs.list > /dev/null
+
+       After updating the ``apt`` package index you can install Krill:
+
+       .. code-block:: bash
+
+          sudo apt update
+          sudo apt install krill
+
+       Review the generated configuration file at ``/etc/krill.conf``. **Pay 
+       particular attention** to the ``service_uri`` and ``admin_token``
+       settings. Tip: The configuration file was generated for you using the
+       ``krillc config simple`` command.
+       
+       Once happy with the settings use ``sudo systemctl enable --now krill`` to
+       instruct systemd to enable the Krill service at boot and to start it
+       immediately. The krill daemon runs as user ``krill`` and stores its data
+       in ``/var/lib/krill``. 
+       
+       You can check the status of Krill with:
+       
+       .. code-block:: bash 
+       
+          sudo systemctl status krill
+       
+       You can view the logs with: 
+       
+       .. code-block:: bash
+       
+          sudo journalctl --unit=krill
+
+   .. group-tab:: RHEL/CentOS
 
        If you have a machine with an amd64/x86_64 architecture running a
        :abbr:`RHEL (Red Hat Enterprise Linux)`/CentOS 7 or 8 distribution, or a
@@ -151,7 +226,7 @@ Updating
 
 .. tabs::
 
-   .. group-tab:: Debian Packages
+   .. group-tab:: Debian
 
        To update an existing Krill installation, first update the repository
        using:
@@ -172,8 +247,30 @@ Updating
        .. code-block:: text
 
           sudo apt --only-upgrade install krill
-          
-   .. group-tab:: RPM Packages
+
+   .. group-tab:: Ubuntu
+
+       To update an existing Krill installation, first update the repository
+       using:
+
+       .. code-block:: text
+
+          sudo apt update
+
+       You can use this command to get an overview of the available versions:
+
+       .. code-block:: text
+
+          sudo apt policy krill
+
+       You can upgrade an existing Krill installation to the latest version
+       using:
+
+       .. code-block:: text
+
+          sudo apt --only-upgrade install krill
+
+   .. group-tab:: RHEL/CentOS
 
        To update an existing Krill installation, you can use this command 
        to get an overview of the available versions:
@@ -203,43 +300,85 @@ Updating
 Installing Specific Versions
 ----------------------------
 
-Before every new release of Krill, one or more release candidates are provided
-for testing through every installation method. You can also install a specific
-version, if needed.
+Before every new release of Krill, one or more release candidates are 
+provided for testing through every installation method. You can also install
+a specific version, if needed.
 
 .. tabs::
 
-   .. group-tab:: Debian Packages
+   .. group-tab:: Debian
 
-       To install release candidates of Krill, add the line below that 
-       corresponds to your operating system to your ``/etc/apt/sources.list`` or
-       ``/etc/apt/sources.list.d/``:
+       If you would like to try out release candidates of Routinator you can add
+       the *proposed* repository to the existing *main* repository described
+       earlier. 
+       
+       Assuming you already have followed the steps to install regular releases,
+       run this command to add the additional repository:
 
-       .. code-block:: text
+       .. code-block:: bash
 
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ stretch-proposed main
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ buster-proposed main
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/debian/ bullseye-proposed main
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ xenial-proposed main
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ bionic-proposed main 
-          deb [arch=amd64] https://packages.nlnetlabs.nl/linux/ubuntu/ focal-proposed main
+          echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nlnetlabs-archive-keyring.gpg] https://packages.nlnetlabs.nl/linux/debian \
+          $(lsb_release -cs)-proposed main" | sudo tee /etc/apt/sources.list.d/nlnetlabs-proposed.list > /dev/null
 
-       You can use this command to get an overview of the available versions:
+       Make sure to update the ``apt`` package index:
 
-       .. code-block:: text
+       .. code-block:: bash
+
+          sudo apt update
+       
+       You can now use this command to get an overview of the available 
+       versions:
+
+       .. code-block:: bash
 
           sudo apt policy krill
 
        You can install a specific version using ``<package name>=<version>``,
        e.g.:
 
-       .. code-block:: text
+       .. code-block:: bash
 
           sudo apt install krill=0.9.0~rc2-1buster
-          
-   .. group-tab:: RPM Packages
 
-       To install release candidates of Krill, create an additional repo 
+   .. group-tab:: Ubuntu
+
+       If you would like to try out release candidates of Krill you can add
+       the *proposed* repository to the existing *main* repository described
+       earlier. 
+       
+       Assuming you already have followed the steps to install regular releases,
+       run this command to add the additional repository:
+
+       .. code-block:: bash
+
+          echo \
+          "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/nlnetlabs-archive-keyring.gpg] https://packages.nlnetlabs.nl/linux/ubuntu \
+          $(lsb_release -cs)-proposed main" | sudo tee /etc/apt/sources.list.d/nlnetlabs-proposed.list > /dev/null
+
+       Make sure to update the ``apt`` package index:
+
+       .. code-block:: bash
+
+          sudo apt update
+       
+       You can now use this command to get an overview of the available 
+       versions:
+
+       .. code-block:: bash
+
+          sudo apt policy krill
+
+       You can install a specific version using ``<package name>=<version>``,
+       e.g.:
+
+       .. code-block:: bash
+
+          sudo apt install krill=0.9.0~rc2-1bionic
+          
+   .. group-tab:: RHEL/CentOS
+
+       To install release candidates of Routinator, create an additional repo 
        file named :file:`/etc/yum.repos.d/nlnetlabs-testing.repo`, enter this
        configuration and save it:
        
@@ -262,7 +401,7 @@ version, if needed.
        .. code-block:: bash
          
           sudo yum install -y krill-0.9.0~rc2
-                  
+                            
    .. group-tab:: Cargo
 
        All release versions of Krill, as well as release candidates, are
