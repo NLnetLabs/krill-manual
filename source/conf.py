@@ -16,14 +16,20 @@
 # import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
+import datetime
 import sphinx_rtd_theme
-import versionwarning
+try:
+    import versionwarning
+    versionbanner = True
+except ModuleNotFoundError:
+    versionbanner = False
 
 # -- Project information -----------------------------------------------------
 
 project = 'Krill'
-copyright = '2021, NLnet Labs'
-author = 'NLnet Labs (CC-BY 3.0)'
+year = datetime.datetime.now().year
+copyright = f'2018–{year}, NLnet Labs'
+author = 'NLnet Labs'
 
 # The short X.Y version
 version = ''
@@ -31,11 +37,16 @@ version = ''
 release = ''
 
 # -- Version Warning Banner configuration ------------------------------------
-versionwarning_messages = {
-    'latest': 'You are reading the <code class="docutils literal notranslate"><span class="pre">latest</span></code> (unstable) version of this documentation, which may describe features which are not available in the <a href="/en/stable/">stable version</a>.',
-}
-versionwarning_banner_title = 'Note'
-versionwarning_body_selector = 'div[itemprop="articleBody"]'
+if versionbanner:
+    versionwarning_messages = {
+        'latest': 'You are reading the <code class="docutils literal notranslate"><span class="pre">latest</span></code> (unstable) version of this documentation, which may describe features which are not available in the <a href="/en/stable/">stable version</a>.',
+    }
+    versionwarning_banner_title = 'Note'
+    versionwarning_body_selector = 'div[itemprop="articleBody"]'
+
+# -- Sphinx Tabs configuration -----------------------------------------------
+
+sphinx_tabs_disable_tab_closing = True
 
 # -- General configuration ---------------------------------------------------
 
@@ -50,9 +61,19 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.ifconfig',
     'sphinx_tabs.tabs',
-    'versionwarning.extension',
     'sphinx_copybutton',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.autosectionlabel'
 ]
+if versionbanner:
+    extensions.append('versionwarning.extension')
+
+intersphinx_mapping = {
+    'rtrtr': ('https://rtrtr.docs.nlnetlabs.nl/en/stable/', None),
+    'routinator': ('https://routinator.docs.nlnetlabs.nl/en/stable/', None)
+}
+
+autosectionlabel_prefix_document = True
 
 # Add any paths that contain templates here, relative to this directory.
 # templates_path = ['../templates']
