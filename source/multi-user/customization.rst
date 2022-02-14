@@ -24,7 +24,7 @@ denied.
 Examples
 --------
 
-Some examples showing the power of this can be seen in `doc/policies <https://github.com/NLnetLabs/krill/doc/policies>`_
+Some examples showing the power of this can be seen in `doc/policies <https://github.com/NLnetLabs/krill/tree/main/doc/policies>`_
 directory in the Krill source code repository.
 
 `role-per-ca-demo`
