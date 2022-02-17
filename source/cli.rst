@@ -2302,6 +2302,10 @@ as a child.
 if you think that the child CA may be temporarily disabled, then you may wish to
 "suspend" them instead.
 
+.. Important:: If the child CA was created in krill using the `krillc children add --ca testbed --child newca` 
+               command, this command does not remove the child CA.  You must still execute 
+               `krillc delete --ca newca` in order to compelety remove the child CA.
+
 Example CLI / API call:
 
 .. code-block:: text
