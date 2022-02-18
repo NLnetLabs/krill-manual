@@ -1,6 +1,6 @@
 .. _doc_krill:
 
-Krill 0.9.4
+Krill 0.9.5
 ===========
 
 |docsupdated| |discord| |twitter|
