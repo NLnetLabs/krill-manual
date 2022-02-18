@@ -8,17 +8,17 @@ Upgrade
 
 Krill upgrades may sometimes require that existing data is migrated
 to a new format used by the new release. Krill will perform these
-migrations automatically in case you install a new version of krill
+migrations automatically in case you install a new version of Krill
 and restart it.
 
 As the first step of this upgrade, any data that needs to be migrated
-is prepared under a new directory called  ```upgrade-data``` under the
-```data_dir``` you configured. If you used a package to install krill
-then the latter would be ```/var/lib/krill/data```.
+is prepared under a new directory called :file:`upgrade-data` under the
+:file:`data_dir` you configured. If you used a package to install Krill
+then the latter would be :file:`/var/lib/krill/data`.
 
-If all is well then krill will rename directories under the data_dir
+If all is well then Krill will rename directories under the :file:`data_dir`
 and archive your old data structures under directories called
-```arch_cas_{version}``` and/or ```arch_pubd_{version}```. You can
+:samp:`arch_cas_{version}` and/or :samp:`arch_pubd_{version}`. You can
 safely remove these directories in order to save space later.
 
 It is unlikely that a data migration should fail. We use automated and
@@ -43,7 +43,7 @@ Starting with Krill 0.9.5 we have introduced a new command line tool
 that can be used to help prepare for krill migrations.
 
 If you built krill using cargo then you will find that a new binary
-called 'krillup' is installed alongside with krill. But, if you are
+called :command:`krillup` is installed alongside with krill. But, if you are
 using the packages that we provide then you can install and upgrade
 this binary separately. For example on a Debian system:
 
@@ -51,22 +51,22 @@ this binary separately. For example on a Debian system:
 
   sudo apt install krillup
 
-If you install and/or upgrade 'krillup' first, before upgrading krill
-itself then you will be able to prepare and verify an upgrade while
+If you install and/or upgrade :command:`krillup` first, before upgrading 
+Krill itself then you will be able to prepare and verify an upgrade while
 krill is running. This is especially useful for large operations because
 some of these upgrades can take a while. By using the separate tool any
 downtime is limited. Furthermore, if the preparation should unexpectedly
 fail, then there will be no need to reinstall a previous version of
 krill. You can simply abort the upgrade.
 
-To run ```krillup``` only needs to be told where your config file lives.
+To run :command:`krillup` only needs to be told where your config file lives.
 Here we use it to prepare an upgrade, where no actual data migration is
 needed. This is not an error, so it will just report that the upgrade
 does not require preparation:
 
 .. code-block:: text
 
-  % krillup -c ./defaults/krill.conf
+  $ krillup -c ./defaults/krill.conf
   2022-02-18 16:51:26 [INFO] Prepare upgrade using configuration file: ./defaults/krill.conf
   2022-02-18 16:51:26 [INFO] Processing data from: ./data
   2022-02-18 16:51:26 [INFO] Saving prepared data to: ./data/upgrade-data
@@ -79,15 +79,15 @@ does not require preparation:
                data from the point before the upgrade and accepting that
                any changes since then will have been lost.
 
-               So, please read up on :ref:`important changes<doc_krill_important_changes>` to see if you
-               would be affected by functionality or API changes before
-               you upgrade.
+               So, please read up on :ref:`important
+               changes<doc_krill_important_changes>` to see if you would be
+               affected by functionality or API changes before you upgrade.
 
 
 
 
-Imprtant Changes
-----------------
+Important Changes
+-----------------
 
 .. _doc_krill_important_changes:
 
@@ -101,7 +101,8 @@ After upgrading the Publication Server (if you run one) will use 1 as
 the first RRDP serial number, instead of 0. Furthermore, you will now
 be able to configure the timeout for a complete RFC 6492 and RFC 8181
 client HTTP request-response round-trip to the parent or publisher,
-excluding the time required to establish the connection, using `post_protocol_msg_timeout_seconds`.
+excluding the time required to establish the connection, using 
+`post_protocol_msg_timeout_seconds`.
 
 v0.9.0/1/2 to v0.9.3
 ~~~~~~~~~~~~~~~~~~~~
