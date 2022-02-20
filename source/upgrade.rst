@@ -42,7 +42,7 @@ krill itself.
 Starting with Krill 0.9.5 we have introduced a new command line tool
 that can be used to help prepare for krill migrations.
 
-If you built krill using cargo then you will find that a new binary
+If you built Krill using Cargo then you will find that a new binary
 called :command:`krillup` is installed alongside with krill. But, if you are
 using the packages that we provide then you can install and upgrade
 this binary separately. For example on a Debian system:
@@ -53,13 +53,13 @@ this binary separately. For example on a Debian system:
 
 If you install and/or upgrade :command:`krillup` first, before upgrading 
 Krill itself then you will be able to prepare and verify an upgrade while
-krill is running. This is especially useful for large operations because
+Krill is running. This is especially useful for large operations because
 some of these upgrades can take a while. By using the separate tool any
 downtime is limited. Furthermore, if the preparation should unexpectedly
 fail, then there will be no need to reinstall a previous version of
-krill. You can simply abort the upgrade.
+Krill. You can simply abort the upgrade.
 
-To run :command:`krillup` only needs to be told where your config file lives.
+:command:`krillup` only needs to be told where your config file lives.
 Here we use it to prepare an upgrade, where no actual data migration is
 needed. This is not an error, so it will just report that the upgrade
 does not require preparation:
@@ -74,17 +74,14 @@ does not require preparation:
 
 
 .. Important:: Once migrated data cannot be rolled back to the format
-               of a previous krill version. So, while an upgrade can
-               be aborted, it cannot be undone - other than by restoring
+               of a previous Krill version. So, while an upgrade can
+               be aborted, it cannot be undone — other than by restoring
                data from the point before the upgrade and accepting that
                any changes since then will have been lost.
 
                So, please read up on :ref:`important
                changes<doc_krill_important_changes>` to see if you would be
                affected by functionality or API changes before you upgrade.
-
-
-
 
 Important Changes
 -----------------
@@ -97,9 +94,9 @@ v0.9.3 to v0.9.5
 
 There are no API changes or data migrations.
 
-After upgrading the Publication Server (if you run one) will use 1 as
-the first RRDP serial number, instead of 0. Furthermore, you will now
-be able to configure the timeout for a complete RFC 6492 and RFC 8181
+After upgrading the Publication Server (if you run one) will use ``1`` as
+the first RRDP serial number, instead of ``0``. Furthermore, you will now
+be able to configure the timeout for a complete :RFC:`6492` and :RFC:`8181`
 client HTTP request-response round-trip to the parent or publisher,
 excluding the time required to establish the connection, using 
 `post_protocol_msg_timeout_seconds`.
@@ -157,8 +154,8 @@ In case you do find something that we overlooked please let us know!
 krillc parents update
 ^^^^^^^^^^^^^^^^^^^^^
 
-The 'update' command has been removed and is now folded in to
-`krillc parents add`.
+The :command:`update` command has been removed and is now folded in to
+:command:`krillc parents add`.
 
 krillc parents add
 ^^^^^^^^^^^^^^^^^^
@@ -183,10 +180,10 @@ following paths:
   /api/v1/cas/<ca>/parents
   /api/v1/cas/<ca>/parents/<handle>
 
-The `<handle>` is the LOCAL name that your CA will use for this parent.
+The ``<handle>`` is the LOCAL name that your CA will use for this parent.
 Regardless of how they like to call themselves. If it is omitted then
-it will be extracted from the XML `parent_handle`. If it is specified
-for a JSON POST but _differs_ from the `handle` in the JSON body, then
+it will be extracted from the XML ``parent_handle``. If it is specified
+for a JSON POST but _differs_ from the ``handle`` in the JSON body, then
 an error is returned.
 
 The server will verify in all cases that the parent can be reached. If
@@ -199,11 +196,11 @@ local name maps to the handle field in the JSON below. The second
 component is the contact. Krill used to support an embedded type, but
 this is no longer supported.
 
-Instead of a JSON member under `contact` we now have "type": "rfc6492"
+Instead of a JSON member under ``contact`` we now have ``"type": "rfc6492"``
 here. We still have this type because this allows for the notion of
 Trust Anchor - which we use in test setups - and it keeps the door open
 to future additions (eg if there ever is an RFC 6492 bis). The remainder
-of the structure is unchanged, and maps to the RFC 8183 Parent Response
+of the structure is unchanged, and maps to the :RFC:`8183` Parent Response
 XML, but then in JSON format. Note that the parent_handle is the handle
 that the parent wants the CA to use in messages sent to it - and it may
 be different from the local name stored in handle.
@@ -252,7 +249,7 @@ The CLI command was unchanged:
 
 And the default text response is still the :rfc:`8183` Parent Response
 XML for the parent. But, the JSON response body was changed, and now
-includes an explicit "type": "rfc6492":
+includes an explicit ``"type": "rfc6492"``:
 
 OLD:
 
@@ -285,8 +282,8 @@ krillc repo request
 ^^^^^^^^^^^^^^^^^^^
 
 The CLI is unchanged, but the endpoints for getting the :rfc:`8183`
-Publisher Request XML and JSON have moved from 'repo', and are now
-under 'id':
+Publisher Request XML and JSON have moved from :file:`repo`, and are now
+under :file:`id`:
 
 .. code-block:: text
 
@@ -297,7 +294,7 @@ under 'id':
 krillc repo update
 ^^^^^^^^^^^^^^^^^^
 
-This command has been renamed to `krillc repo configure`:
+This command has been renamed to :command:`krillc repo configure`:
 
 .. code-block:: text
 
@@ -336,8 +333,8 @@ of Krill `rfc8181` was renamed to `repository_response`:
 krillc repo show
 ^^^^^^^^^^^^^^^^
 
-The CLI command and API path are unchanged, but `rfc8181` was renamed
-to `repository_response` in the JSON response.
+The CLI command and API path are unchanged, but ``rfc8181`` was renamed
+to ``repository_response`` in the JSON response.
 
 
 krillc children add
@@ -383,4 +380,4 @@ krillc history and krillc action
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The API and JSON are unchanged, but these commands have now been
-renamed to `krillc history commands` and `krillc history details`.
+renamed to ``krillc history commands`` and ``krillc history details``.
