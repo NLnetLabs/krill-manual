@@ -8,7 +8,7 @@ Running a Publication Server
                the responsibility to keep a public rsync and web server
                available at all times.
 
-               **Both nic.br and APNIC provide publication as a service to their
+               **NIC.br, ARIN and APNIC provide publication as a service to their
                members.**
 
 Why run your own?

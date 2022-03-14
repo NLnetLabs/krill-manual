@@ -79,7 +79,7 @@ If you are using the CLI you can create your CA using the subcommand :ref:`krill
 Repository Setup
 ----------------
 
-.. Note:: If you are a member of NIC.BR or APNIC, then you're in luck. Both
+.. Note:: If you are a member of NIC.BR, ARIN or APNIC, then you're in luck. These
     organisations provide an RPKI Publication Server as a service to their
     members, so you can configure your Krill CA publish there.
 
