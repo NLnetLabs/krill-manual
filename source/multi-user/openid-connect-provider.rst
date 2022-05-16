@@ -166,7 +166,7 @@ but require more effort to setup and maintain:
              With NGINX this can be done by increasing settings such as `proxy_buffer_size <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffer_size>`_, 
              `proxy_buffers <http://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_buffers>`_, `large_client_header_buffers <http://nginx.org/en/docs/http/ngx_http_core_module.html#large_client_header_buffers>`_ (or `http2_max_field_size <https://nginx.org/en/docs/http/ngx_http_v2_module.html#http2_max_field_size>`_ and 
              `http2_max_header_size <https://nginx.org/en/docs/http/ngx_http_v2_module.html#http2_max_header_size>`_
-             before NGINX v1.19.7). Thanks to GitHub user `racompton <https://github.com/racompton>`_ for the `large_client_header_buffers` tip!
+             before NGINX v1.19.7). Thanks to GitHub user `racompton <https://github.com/racompton>`_ for the ``large_client_header_buffers`` tip!
              If using Kubernetes use the equivalent NGINX ingress controller ConfigMap
              settings, e.g. `http2-max-field-size <https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#http2-max-field-size>`_. Thanks to GitHub user `TheEnbyperor <https://github.com/TheEnbyperor>`_ for the HTTP/2 and Kubernetes tips!
 
