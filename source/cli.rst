@@ -507,10 +507,17 @@ Example CLI:
   URI: https://localhost:3000/rfc8181/localname/
   Status: success
   Last contacted: 2021-04-08T11:20:00+00:00
-  Next contact on or before: 2021-04-08T11:30:00+00:00
-  Resource Entitlements: asn: AS65000, v4: 10.0.0.0/8, v6: 2001:db8::/32
+  Resource Entitlements: asn: AS65000, ipv4: 10.0.0.0/8, ipv6: 2001:db8::/32
     resource class: 0
+    entitled resources: asn: 'AS65000', ipv4: '10.0.0.0/8', ipv6: '2001:db8::/32'
+    entitled not after: 2023-03-15T14:23:57+00:00
     issuing cert uri: rsync://localhost/repo/ta/0/0BA5C132B94891CB2D3A89EDE12F01ACA4BCD3DC.cer
+    issuing cert PEM:
+
+  -----BEGIN CERTIFICATE-----
+  MIIFKzCCBBOgAwIBA...
+  -----END CERTIFICATE-----
+
     received certificate(s):
       published at: rsync://localhost/repo/testbed/0/16B31C92EB116BC60026C50944AD44205DD9ACBD.cer
       resources:    asn: AS65000, v4: 10.0.0.0/8, v6: 2001:db8::/32
@@ -537,31 +544,34 @@ certificates used by parent CAs to sign the certificates of your CA:
         "uri": "https://localhost:3000/rfc8181/localname/",
         "result": "Success"
       },
-      "next_exchange_before": 1617882000,
+      "last_success": 1617881400,
       "all_resources": {
         "asn": "AS65000",
-        "v4": "10.0.0.0/8",
-        "v6": "2001:db8::/32"
+        "ipv4": "10.0.0.0/8",
+        "ipv6": "2001:db8::/32"
       },
-      "entitlements": {
-        "0": {
-          "parent_cert": {
-            "uri": "rsync://localhost/repo/ta/0/0BA5C132B94891CB2D3A89EDE12F01ACA4BCD3DC.cer",
-            "cert_pem": "-----BEGIN CERTIFICATE-----\nMIIHKDCCBhCgAwIBAgIUAgyEh9bfPbsXmR1LTAPsL045+tYwDQYJKoZIhvcNAQELBQAwggItMYICKTCCAiUGA1UEAxOCAhwzMDgyMDEwQTAyODIwMTAxMDBEODAxQzQzQ0U4NkYyQjI5MEM1QUVENEE0QjAxMTIwMjNBMjQzRTgzQjkzMkUyOTREMTc0Nzk5MTFFNUU5QTEwNURFREEzN0ZBQkEwNDFFRjYwRjA2QjE5NDAxMTIyMzY0QkI4RjYwRTQ1OUQ3RDYxM0UzNzQ1NzI1MkZDQjk3QUVBNzBGM0YxREI2NzIyQjkzNEIxREVBNTBGMDM2Q0FEOTc3QTBGMjhBNTA4QzY4NjM2OEI3QzQ1Qzc4MERGREZFQkNCNUU4MTBCODk0QkRFMzM5ODNCMjI1RjM5RDJCQTRGMzdEOUI5MjU2MjZFMkUyN0Y1RUJGRDJGMzc3MzY2MTEyREExNzdFQUY4RDdDMTY3NDQwNTgxQkMzNjY4N0Y2MjM3MkZGRDNCQ0NCODlCRjNDQkJBNzJBN0U0NEEwNkZDMUM1RDMwRUU2ODYxMjZCNjhEOENFRDczQkJFREUxN0M5RTJDMTNDRDIyNTYzMzI0NzgwMjVFMUYyMTdEMEREMzI2MzhDRDU1OENEMzZBRjcxMTlDOTJDQ0JFMUE0M0VGRjAyMDFEQjdGRTY4OTZCQzFGNkMwNzZFN0JGN0ZDNzAxRTc2NTVFMENBQ0I4RDk5OTlERkNBMzc2NkEzMkMzRUFCQTVGMTczMTlDQTg5QUZCNDlEQkU3MTZDNjYwMzAyMDMwMTAwMDEwHhcNMjEwMzI5MDc1ODQ2WhcNMjIwMzI4MDgwMzQ2WjAzMTEwLwYDVQQDEygwQkE1QzEzMkI5NDg5MUNCMkQzQTg5RURFMTJGMDFBQ0E0QkNEM0RDMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArKUiUmy4gbuaafgIP/q4q9w/gwwsAjoIP+cTm0FSmqhvqsc1GVI4DQ4mspjZ+O7esFqQywmcnU9MphnGq4EJwYKqT417fU8OQj/WbiCfFhnTrVTiz/LdLdDB4+VaypGfDwPuHb8pavj2dysKiGjLcF8zdon7a/xErHqOdetKlbY20TlvVvmLUeVVKfcnDkT8nsu2k+P+5BHBrb6oQoG4IhZ/w5n65m/ozLsq7pfLrsLgFe2b4zTXhu8KdJ/W1vsshM73jkpUdkvKxif6+H4mBrlMnWg7Jo0bRuff/C0dOAWdiPMXUs53Nw3+SBUjRxhXVWdbcHflkje58pcMkGKSBwIDAQABo4ICNjCCAjIwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUC6XBMrlIkcstOont4S8BrKS809wwHwYDVR0jBBgwFoAUS9B/WEM89XrPSCIpOOkwBxZdNKQwDgYDVR0PAQH/BAQDAgEGMFkGA1UdHwRSMFAwTqBMoEqGSHJzeW5jOi8vbG9jYWxob3N0L3JlcG8vdGEvMC80QkQwN0Y1ODQzM0NGNTdBQ0Y0ODIyMjkzOEU5MzAwNzE2NUQzNEE0LmNybDA3BggrBgEFBQcBAQQrMCkwJwYIKwYBBQUHMAKGG3JzeW5jOi8vbG9jYWxob3N0L3RhL3RhLmNlcjCB1AYIKwYBBQUHAQsEgccwgcQwLQYIKwYBBQUHMAWGIXJzeW5jOi8vbG9jYWxob3N0L3JlcG8vdGVzdGJlZC8wLzBZBggrBgEFBQcwCoZNcnN5bmM6Ly9sb2NhbGhvc3QvcmVwby90ZXN0YmVkLzAvMEJBNUMxMzJCOTQ4OTFDQjJEM0E4OUVERTEyRjAxQUNBNEJDRDNEQy5tZnQwOAYIKwYBBQUHMA2GLGh0dHBzOi8vbG9jYWxob3N0OjMwMDAvcnJkcC9ub3RpZmljYXRpb24ueG1sMBgGA1UdIAEB/wQOMAwwCgYIKwYBBQUHDgIwJwYIKwYBBQUHAQcBAf8EGDAWMAkEAgABMAMDAQAwCQQCAAIwAwMBADAhBggrBgEFBQcBCAEB/wQSMBCgDjAMMAoCAQACBQD/////MA0GCSqGSIb3DQEBCwUAA4IBAQA3rQv0h6x5zX6iGfUZsH0wFSbQQrZgWoql8PsHANokm+Kaxeq3waemrp1/LCzdsMF4+74m6ijDmdbDbHlPyiQwpu3L1vZafj4eBPMdI7xFYgEgabddAGR60b272BgVIO6yND3B6UMeT56NzcCOtOcPtjlgucU3pufaCwup9p9AqRpJOTKfeuiLOw0a5c/yLU1zu3TmDP65+7zaIJebUxOpJ9/4HSG7HsKEU9NHXr414vknGUr8XXiQ0/7f8DrpecGEK2fKu87kBYlewj4zNxJOeQ4heQ4/hJtEeS6dLKz+/VwaUbudlN9/c5QF5ow2bAsNM//ieEWWRL+B0Srr9uNr\n-----END CERTIFICATE-----\n"
+      "classes": [
+        {
+          "class_name": "0",
+          "resource_set": {
+            "asn": "AS65000",
+            "ipv4": "10.0.0.0/8",
+            "ipv6": "2001:db8::/32"
           },
-          "received": [
+          "not_after": "2023-03-15T14:23:57Z",
+          "issued_certs": [
             {
               "uri": "rsync://localhost/repo/testbed/0/16B31C92EB116BC60026C50944AD44205DD9ACBD.cer",
-              "resources": {
-                "asn": "AS65000",
-                "v4": "10.0.0.0/8",
-                "v6": "2001:db8::/32"
-              },
-              "cert_pem": "-----BEGIN CERTIFICATE-----\nMIIFYDCCBEigAwIBAgIUN5PzATTKVrjgual4CpJMaggW2EIwDQYJKoZIhvcNAQELBQAwMzExMC8GA1UEAxMoMEJBNUMxMzJCOTQ4OTFDQjJEM0E4OUVERTEyRjAxQUNBNEJDRDNEQzAeFw0yMTA0MDgwOTQ4MjVaFw0yMjA0MDcwOTUzMjVaMDMxMTAvBgNVBAMTKDE2QjMxQzkyRUIxMTZCQzYwMDI2QzUwOTQ0QUQ0NDIwNUREOUFDQkQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDsBouGWEPhWg+XsRDGZyuFLDPiIExy7p4b3bjNPBfHeSqHCeOwiVIVS2xiIAGO2NBcv+hL2OFKNCAnpd71hOXMBNXW/7OHN8TU6crIu1/w1gkf6UCXFrv+poW9EJHnLonMa4ZFLSFsvQACIGUpxIuiQjaSYFltTbb+o2c9KWoKsX0kZqt5zOrgAP8cke8SFGHdqqenPInXKTgyss9kCs9pFtMk6BIa6KjRvqFVZIf6xG53ytJ3JqsGjvEo8qoHYxkvkMtbjhjlmW097i6DeC1241X3SG64DSMk1CNv1xt5MSXubLzWOD+2lLId/ngql4OV0bLkbb63J/26c8FZOThZAgMBAAGjggJqMIICZjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBQWsxyS6xFrxgAmxQlErUQgXdmsvTAfBgNVHSMEGDAWgBQLpcEyuUiRyy06ie3hLwGspLzT3DAOBgNVHQ8BAf8EBAMCAQYwXgYDVR0fBFcwVTBToFGgT4ZNcnN5bmM6Ly9sb2NhbGhvc3QvcmVwby90ZXN0YmVkLzAvMEJBNUMxMzJCOTQ4OTFDQjJEM0E4OUVERTEyRjAxQUNBNEJDRDNEQy5jcmwwZAYIKwYBBQUHAQEEWDBWMFQGCCsGAQUFBzAChkhyc3luYzovL2xvY2FsaG9zdC9yZXBvL3RhLzAvMEJBNUMxMzJCOTQ4OTFDQjJEM0E4OUVERTEyRjAxQUNBNEJDRDNEQy5jZXIwgdgGCCsGAQUFBwELBIHLMIHIMC8GCCsGAQUFBzAFhiNyc3luYzovL2xvY2FsaG9zdC9yZXBvL2xvY2FsbmFtZS8wLzBbBggrBgEFBQcwCoZPcnN5bmM6Ly9sb2NhbGhvc3QvcmVwby9sb2NhbG5hbWUvMC8xNkIzMUM5MkVCMTE2QkM2MDAyNkM1MDk0NEFENDQyMDVERDlBQ0JELm1mdDA4BggrBgEFBQcwDYYsaHR0cHM6Ly9sb2NhbGhvc3Q6MzAwMC9ycmRwL25vdGlmaWNhdGlvbi54bWwwGAYDVR0gAQH/BA4wDDAKBggrBgEFBQcOAjAsBggrBgEFBQcBBwEB/wQdMBswCgQCAAEwBAMCAAowDQQCAAIwBwMFACABDbgwGgYIKwYBBQUHAQgBAf8ECzAJoAcwBQIDAP3oMA0GCSqGSIb3DQEBCwUAA4IBAQB8hxBbJjvgVRMfXsotTNwKCc2Q0QO92xmZlV19Uh0/Yja+sYhyg/pG1/ZTvhOLIxGWap8JmqOnYa9XgX8uUlsV8LgJoEH3Gde3txcGtfLO99ugvbnKKGOcPxB8AX5hAhhfdiSnt3V06dEz3HUoTYdUKTV0bZr3dhRIBa94esAS7lsP2vhHEQ8gVjZGWVvS7lGju+kuwm9H3PBscW/K8349vN0QJUZGm3gAUsM5PlnAqbkM7VFIyu8g2Yp9g+M/iwaHar8CqABKxLBThYgqrPLLv6CsZD3mjk5BkXVZh6R9dBcR7sPbSfGBWPWCv8SwLknyQDOvsWTho1Ga6AibjUQp\n-----END CERTIFICATE-----\n"
+              "req_limit": {},
+              "cert": "MII..."
             }
-          ]
+          ],
+          "signing_cert": {
+            "url": "rsync://localhost/repo/ta/0/0BA5C132B94891CB2D3A89EDE12F01ACA4BCD3DC.cer",
+            "cert": "MII..."
+          }
         }
-      }
+      ]
     }
   }
 
@@ -757,8 +767,8 @@ Example API:
       "id_cert": "MIIDNDCCAhygAwIBAgIBATANBgkqhkiG9w0BAQsFADAzMTEwLwYDVQQDEyg4OEJBMzA2QkMzMUVFRkU3NzRDNzYzRUY1N0VBNUZEQzdBMTlERTI1MB4XDTIxMDMyOTA3NTg0M1oXDTM2MDMyOTA4MDM0M1owMzExMC8GA1UEAxMoODhCQTMwNkJDMzFFRUZFNzc0Qzc2M0VGNTdFQTVGREM3QTE5REUyNTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAORLpfOKS8M2QGBto1OdnDYdrgjxJeF+uU7mJLgqTT3l5NbkOXxgPClUqbbbfp/c7x5sy3JbmUWaQHtkl6N9l8vcRlQQfhk0vwlVCHcQQrcMViJ5GmGtEjo7+Uf9e0TDA+rrkdqOkpOLcGRKjs1SZNqCRktubQU7Ndc0ICLo6KsQ5VYvw0p6YJcsL33+jcOWsFe6D4dhYlQkw5QHXn5c0Eenvz1SQqE96pcXJ57gmnzO9iVjY9RqPoLWXSRub0pG3Q6x8naOq16uaJZyk8kVjYOayx5umR73fI9iyMG0YOF8H5vy6/gYAnYssX26kObXan0fD9rgv4aWK0Xzp5hwz1ECAwEAAaNTMFEwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUiLowa8Me7+d0x2PvV+pf3HoZ3iUwHwYDVR0jBBgwFoAUiLowa8Me7+d0x2PvV+pf3HoZ3iUwDQYJKoZIhvcNAQELBQADggEBAMtieNiamax1gUeSeGuA72NucPCZIdx2JrTIDhCAjLmPpvnXu1djGSa07YpgLiosnbtMMfsQO2O/Yz1VkQUTjLn2x7DKwuL9A8+IrYELSth4aCNSgPkhZfDL238MflAxptNRAoIeRGn8l3oSg4AUzBuScErwvBbHWShO66nV0wzVFb+mLvNas3Wd/GMiZHI/MwGZpj86Q/8wvyyw2C0b0ddWaoXwDyJjuxja0nHPDHVriJ8/xsOfBk144n1zyP++apQXmXorCy4hs9GPyr+HGeoL6kNydDxdwzJLCqWW7u3wSnxjCJk+hfGq82qNm90ALv5PaOb58fDgWwBwuvTP0AA=",
       "service_uri": "https://localhost:3000/rfc8181/localname/",
       "repo_info": {
-        "base_uri": "rsync://localhost/repo/localname/",
-        "rpki_notify": "https://localhost:3000/rrdp/notification.xml"
+        "sia_base": "rsync://localhost/repo/localname/",
+        "rrdp_notification_uri": "https://localhost:3000/rrdp/notification.xml"
       }
     }
   }
@@ -937,8 +947,8 @@ Example JSON response of the API:
       "hash": "992ac17d85fef11d8be4aa37806586ce68b61fe9cf65c0965928dbce0c398a99"
     },
     "repo_info": {
-      "base_uri": "rsync://localhost/repo/localname/",
-      "rpki_notify": "https://localhost:3000/rrdp/notification.xml"
+      "sia_base": "rsync://localhost/repo/localname/",
+      "rrdp_notification_uri": "https://localhost:3000/rrdp/notification.xml"
     },
     "parents": [
       {
@@ -948,8 +958,8 @@ Example JSON response of the API:
     ],
     "resources": {
       "asn": "AS65000",
-      "v4": "10.0.0.0/8",
-      "v6": "2001:db8::/32"
+      "ipv4": "10.0.0.0/8",
+      "ipv6": "2001:db8::/32"
     },
     "resource_classes": {
       "0": {
@@ -964,8 +974,8 @@ Example JSON response of the API:
                 "uri": "rsync://localhost/repo/testbed/0/16B31C92EB116BC60026C50944AD44205DD9ACBD.cer",
                 "resources": {
                   "asn": "AS65000",
-                  "v4": "10.0.0.0/8",
-                  "v6": "2001:db8::/32"
+                  "ipv4": "10.0.0.0/8",
+                  "ipv6": "2001:db8::/32"
                 }
               },
               "request": null
@@ -974,7 +984,8 @@ Example JSON response of the API:
         }
       }
     },
-    "children": []
+    "children": [],
+    "suspended_children": []
   }
 
 
@@ -1247,8 +1258,8 @@ If you want to see the full details, then have a look at the JSON response inste
             "resource_class_name": "0",
             "resources": {
               "asn": "AS65000",
-              "v4": "10.0.0.0/8",
-              "v6": "2001:db8::/32"
+              "ipv4": "10.0.0.0/8",
+              "ipv6": "2001:db8::/32"
             }
           }
         ]
@@ -1284,8 +1295,8 @@ If you want to see the full details, then have a look at the JSON response inste
               "class_name": "0",
               "limit": {
                 "asn": "none",
-                "v4": "none",
-                "v6": "none"
+                "ipv4": "none",
+                "ipv6": "none"
               },
               "csr": "MIIDjzCCAncCAQAwMzExMC8GA1UEAxMoMTZCMzFDOTJFQjExNkJDNjAwMjZDNTA5NDRBRDQ0MjA1REQ5QUNCRDCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAOwGi4ZYQ+FaD5exEMZnK4UsM+IgTHLunhvduM08F8d5KocJ47CJUhVLbGIgAY7Y0Fy/6EvY4Uo0ICel3vWE5cwE1db/s4c3xNTpysi7X/DWCR/pQJcWu/6mhb0QkecuicxrhkUtIWy9AAIgZSnEi6JCNpJgWW1Ntv6jZz0pagqxfSRmq3nM6uAA/xyR7xIUYd2qp6c8idcpODKyz2QKz2kW0yToEhroqNG+oVVkh/rEbnfK0ncmqwaO8SjyqgdjGS+Qy1uOGOWZbT3uLoN4LXbjVfdIbrgNIyTUI2/XG3kxJe5svNY4P7aUsh3+eCqXg5XRsuRtvrcn/bpzwVk5OFkCAwEAAaCCARUwggERBgkqhkiG9w0BCQ4xggECMIH/MA8GA1UdEwEB/wQFMAMBAf8wDgYDVR0PAQH/BAQDAgEGMIHbBggrBgEFBQcBCwEBAASByzCByDAvBggrBgEFBQcwBYYjcnN5bmM6Ly9sb2NhbGhvc3QvcmVwby9sb2NhbG5hbWUvMC8wWwYIKwYBBQUHMAqGT3JzeW5jOi8vbG9jYWxob3N0L3JlcG8vbG9jYWxuYW1lLzAvMTZCMzFDOTJFQjExNkJDNjAwMjZDNTA5NDRBRDQ0MjA1REQ5QUNCRC5tZnQwOAYIKwYBBQUHMA2GLGh0dHBzOi8vbG9jYWxob3N0OjMwMDAvcnJkcC9ub3RpZmljYXRpb24ueG1sMA0GCSqGSIb3DQEBCwUAA4IBAQBFxEkEqMOnNWuIZalQkX/hxjAia3vtLrYtET1InOF/5UtRClDX5EWl34JRCXEIkDgWWbCVmxQyTw0VfqKImT/JqzC/NXrWMJBVJ27JgkHH5TITHGgfIjDRS19+JOFdiCBlQWgU3V5zfMGlB0263xRteX7A1kLedLuvt51DgNMwyWFgp/PkJKUCTEYi27j6DOF5J8jZ7JD5lMBs7gOGAiUJSzCBY7XfjEeVmePRLJ8hB0Wa/n3h+ni6UTOF6itKPmHqddxpiEb8ij987gCTjuZQisi9j+JKoPqzXon2vOx+GJjo4Sb++HD0buatiEmj5SvUmV8gl0F/msh4F4a5YG8r"
             },
@@ -1973,8 +1984,8 @@ Example API call:
     "handle": "newca",
     "resources": {
       "asn": "AS65000",
-      "v4": "10.0.0.0/8",
-      "v6": "2001:db8::/32"
+      "ipv4": "10.0.0.0/8",
+      "ipv6": "2001:db8::/32"
     },
     "id_cert": "MIIDNDCCAhygAwIBAgIBATANBgkqhkiG9w0BAQsFADAzMTEwLwYDVQQDEyhFRjJENzgwRkNCRkU1QjZBMkExMjA1OUM0MDlDN0M5Mjc3NTQxOTU2MB4XDTIxMDQwNzE0MzUxNFoXDTM2MDQwNzE0NDAxNFowMzExMC8GA1UEAxMoRUYyRDc4MEZDQkZFNUI2QTJBMTIwNTlDNDA5QzdDOTI3NzU0MTk1NjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANuBsEO4C9n7PlYcDT0PTeZntR5l778lZQDsgxiB7ofLrg8lKcf8ugFiYI4vRqR+gDMHhR3t/X3Ho5gC7uuKf4LYqbJj+Z9ltr/236/hDYJfWMXZVcEuL+wUble1zhe2NKrgnAkpReVMSdiugoqZ9ICK2Fwkj5jCGc/qHiWOba7T78zfij8OlB/dGlJvkAY8b/XTNKsTrLozi1uVAC8GqDrV5MEgY/NfzUvgA024yxx/rC6QBDEoBjnP7wDFiaZ2lwvL2beVYu6/hVcXQzsVN+ijy7cGdkE6zi0meXJLTHPEpoA88hi3Pi+pIDBIQ3wTcpQIOqAq/SZuh4dbZK7BV8MCAwEAAaNTMFEwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQU7y14D8v+W2oqEgWcQJx8kndUGVYwHwYDVR0jBBgwFoAU7y14D8v+W2oqEgWcQJx8kndUGVYwDQYJKoZIhvcNAQELBQADggEBAArqsa/gpJtONdgIWV1EqwEzhKKA2EP6tLDF9ejsdMFNYrYr+2hVWaoLsSuarfwfLFSgKDFqR6sh3ljYq6mIz9gdkjBOJsR9JyHFEtsDsRpf8Hs1WlbIb8bWb73Cp/YPMPVBpmG15Z9iKantzC1tck+E1xYW5awvj+YZqGVqyFdPJOZWmaYoS83kWvg4g4IucXTH6wwy23MQ7+0gyoK4wxfXRQmWjlXpLueCOsJo7ZXopsDAmXHLoFKZVEXn1ocQNc91l521BEQ6t/d7srQA4IxZCRGh9B+JdAIOKuXBA0nncmMJLQN8Qpxlz2bxKKAgXBLdoDqjbTDVbXTPM8YLRgc="
   }
@@ -2029,8 +2040,8 @@ Example JSON response:
     },
     "entitled_resources": {
       "asn": "",
-      "v4": "10.0.0.0/8, 192.168.0.0/16",
-      "v6": ""
+      "ipv4": "10.0.0.0/8, 192.168.0.0/16",
+      "ipv6": ""
     }
   }
 
@@ -2070,8 +2081,8 @@ identity certificate that they will use when sending :rfc:`6492` requests.
     "id_cert": null,
     "resources": {
       "asn": "",
-      "v4": "10.0.0.0/8",
-      "v6": ""
+      "ipv4": "10.0.0.0/8",
+      "ipv6": ""
     }
   }
 

@@ -51,7 +51,7 @@ this binary separately. For example on a Debian system:
 
   sudo apt install krillup
 
-If you install and/or upgrade :command:`krillup` first, before upgrading 
+If you install and/or upgrade :command:`krillup` first, before upgrading
 Krill itself then you will be able to prepare and verify an upgrade while
 Krill is running. This is especially useful for large operations because
 some of these upgrades can take a while. By using the separate tool any
@@ -88,6 +88,39 @@ Important Changes
 
 .. _doc_krill_important_changes:
 
+v0.10.0
+~~~~~~~
+
+JSON Field Name Changes
+^^^^^^^^^^^^^^^^^^^^^^^
+
+When migrating support for RFC 6492, 8181 and 8183 into the base library
+`rpki-rs` (issue #765) we renamed some fields which are also used in the
+JSON structures of the Krill API:
+
++-----------+----------+-----------------------------------------------+
+| pre-0.10.0| 0.10.0   | reason                                        |                                                                        |
++===========+==========+===============================================+
+| v4        | ipv4     | More decscriptive                             |
++-----------+----------+-----------------------------------------------+
+| v6        | ipv6     | More decscriptive                             |
++-----------+----------+-----------------------------------------------+
+| base_uri  | sia_base | Term used in :rfc:`8183`                      |
++-----------+----------+-----------------------------------------------+
+| rpki_notify | rrdp_notification_uri | Term used in :rfc:`8183`       |
++-----------+----------+-----------------------------------------------+
+
+We still accept the old names as aliases on input, but if you are parsing
+JSON responses yourself then you will need to update your code to accept
+the new names.
+
+Parent Status Reporting
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The parent status API and CLI text response now include the last known
+full :rfc:`6492` "Resource Class List Response" content that your CA
+received.
+
 
 v0.9.3 to v0.9.5
 ~~~~~~~~~~~~~~~~
@@ -98,7 +131,7 @@ After upgrading the Publication Server (if you run one) will use ``1`` as
 the first RRDP serial number, instead of ``0``. Furthermore, you will now
 be able to configure the timeout for a complete :RFC:`6492` and :RFC:`8181`
 client HTTP request-response round-trip to the parent or publisher,
-excluding the time required to establish the connection, using 
+excluding the time required to establish the connection, using
 `post_protocol_msg_timeout_seconds`.
 
 v0.9.0/1/2 to v0.9.3
