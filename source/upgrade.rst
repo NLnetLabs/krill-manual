@@ -98,17 +98,17 @@ When migrating support for RFC 6492, 8181 and 8183 into the base library
 `rpki-rs` (issue #765) we renamed some fields which are also used in the
 JSON structures of the Krill API:
 
-+-----------+----------+-----------------------------------------------+
-| pre-0.10.0| 0.10.0   | reason                                        |                                                                        |
-+===========+==========+===============================================+
-| v4        | ipv4     | More decscriptive                             |
-+-----------+----------+-----------------------------------------------+
-| v6        | ipv6     | More decscriptive                             |
-+-----------+----------+-----------------------------------------------+
-| base_uri  | sia_base | Term used in :rfc:`8183`                      |
-+-----------+----------+-----------------------------------------------+
-| rpki_notify | rrdp_notification_uri | Term used in :rfc:`8183`       |
-+-----------+----------+-----------------------------------------------+
++-------------+-----------------------+------------------------------+
+| pre-0.10.0  | 0.10.0                | reason                       |                                                                        |
++=============+=======================+==============================+
+| v4          | ipv4                  | More decscriptive            |
++-------------+-----------------------+------------------------------+
+| v6          | ipv6                  | More decscriptive            |
++-------------+-----------------------+------------------------------+
+| base_uri    | sia_base              | Term used in :rfc:`8183`     |
++-------------+-----------------------+------------ -----------------+
+| rpki_notify | rrdp_notification_uri | Term used in :rfc:`8183`     |
++-------------+-----------------------+------------------------------+
 
 We still accept the old names as aliases on input, but if you are parsing
 JSON responses yourself then you will need to update your code to accept
