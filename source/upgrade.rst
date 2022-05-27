@@ -105,9 +105,9 @@ JSON structures of the Krill API:
 +-------------+-----------------------+------------------------------+
 | v6          | ipv6                  | More decscriptive            |
 +-------------+-----------------------+------------------------------+
-| base_uri    | sia_base              | Term used in :rfc:`8183`     |
+| base_uri    | sia_base              | Term used in RFC 8183        |
 +-------------+-----------------------+------------------------------+
-| rpki_notify | rrdp_notification_uri | Term used in :rfc:`8183`     |
+| rpki_notify | rrdp_notification_uri | Term used in RFC 8183        |
 +-------------+-----------------------+------------------------------+
 
 We still accept the old names as aliases on input, but if you are parsing
