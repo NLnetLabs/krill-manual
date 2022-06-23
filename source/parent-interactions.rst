@@ -33,8 +33,8 @@ ROAs available to the world.
 Of the five RIRs, APNIC and ARIN currently offer RPKI publication as a service for
 their members, upon request. Most other RIRs have it on their roadmap. NIC.br,
 the Brazilian NIR, provides an RPKI repository server for their members as well.
-This means that in most cases you will have to publish your certificate and ROAs
-yourself, as described in the :ref:`doc_krill_publication_server` section.
+If you need to publish your certificate and ROAs yourself, follow the steps
+described in the :ref:`doc_krill_publication_server` section.
 
 .. _member_portals:
 
@@ -66,7 +66,7 @@ AFRINIC
 """""""
 
 AFRINIC have delegated RPKI available in their test environment, but it’s not
-operational yet. Work to bring it to production is planned for later in 2020.
+operational yet.
 
 APNIC
 """""
@@ -75,9 +75,22 @@ If you are already using the hosted RPKI service provided by APNIC and you would
 like to switch to delegated RPKI, there is currently no option for this with
 MyAPNIC. Please open a ticket with the APNIC help desk to resolve this.
 
-Please note that APNIC offers RPKI publication as a service upon request. It is
+Please note that APNIC offers RPKI publication as a service. It is highly
+recommended to make use of this, as it relieves you of the need to run a
+highly available repository yourself. We provide a `step-by-step guide
+<https://blog.nlnetlabs.nl/running-krill-under-apnic/>`_ to set this up.
+
+ARIN
+""""
+
+If you are already using the hosted RPKI service provided by ARIN and you would
+like to switch to delegated RPKI, there is currently no option for this with
+ARIN Online. Please open a ticket with the ARIN help desk to resolve this.
+
+Please note that ARIN offers RPKI publication as a service. It is
 highly recommended to make use of this, as it relieves you of the need to run a
-highly available repository yourself.
+highly available repository yourself. We provide a `step-by-step guide
+<https://blog.nlnetlabs.nl/running-krill-under-arin/>`_ to set this up.
 
 LACNIC
 """"""
