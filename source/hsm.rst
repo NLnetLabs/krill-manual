@@ -1,16 +1,16 @@
 .. _doc_krill_hsm:
 
-Hardware Signing Modules
-========================
+Hardware Security Modules
+=========================
 
-Krill uses openssl by default for key generation, and it stores the
+Krill uses OpenSSL by default for key generation, and it stores the
 private keys thus generated in the `keys` directory under its data
 directory. For many organisations this will be good enough, provided
 of course that they ensure that access to the server and backup data
 is restricted.
 
 If you want to take security one (big) step up, then you may want to
-use a Hardware Signing Module (HSM) instead. HSMs are devices that can
+use a Hardware Security Module (HSM) instead. HSMs are devices that can
 be used to safeguard and manage digital keys. They are designed to allow
 applications to use private keys, whilst ensuring that the actual
 private keys are never leaked outside of the device - not even to the
