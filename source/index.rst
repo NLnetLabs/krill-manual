@@ -92,6 +92,7 @@ line and through an API.
    manage-children
    ca-keyroll
    ca-migrate-repo
+   hsm
 
 
 .. toctree::
