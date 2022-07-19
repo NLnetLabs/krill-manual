@@ -94,7 +94,7 @@ public rsyncd and HTTPS web server available.
    .. group-tab:: Ubuntu
 
        If you have a machine with an amd64/x86_64 architecture running Ubuntu
-       16.x, 18.x, or 20.x, you can install Krill from our `software
+       16.x, 18.x, 20.x or 22.x, you can install Krill from our `software
        package repository <https://packages.nlnetlabs.nl>`_. 
        
        First update the ``apt`` package index: 
