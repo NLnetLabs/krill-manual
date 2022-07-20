@@ -260,7 +260,7 @@ pointers you need to get this setup working:
 
    # KMIP signer configuration
    #
-   # Krill interacts with a KMIP v1.2 compatible cryptographic device via the TCP+TTVL
+   # Krill interacts with a KMIP v1.2 compatible cryptographic device via the TCP+TTLV
    # protocol. This requires knowing the hostname, port number, and details required to
    # authenticate with the provider.
    #
