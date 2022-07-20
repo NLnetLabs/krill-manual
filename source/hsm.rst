@@ -146,7 +146,7 @@ much so that there are commercial offerings that can bridge from one to
 the other, HSMs may offer support for both and both standards are
 maintained by `OASIS <https://www.oasis-open.org/>`_. From a Krill server
 operation perspective however they are very different and each has its
-own PROs and CONs.
+own pros and cons.
 
 PKCS#11 works by delegating configuration, logging, administration,
 maintenance and upgrade of the interface with the HSM to a library file
