@@ -258,7 +258,7 @@ Configuring a PKCS#11 signer
 """"""""""""""""""""""""""""
 
 .. Note:: To actually use a PKCS#11 based signer you must first set it
-          up according to the vendors instructions. This may require
+          up according to the vendor's instructions. This may require
           creating additional configuration files outside of Krill,
           setting passwords, provisioning users, exporting shell
           environment variables for use by the library while running as
