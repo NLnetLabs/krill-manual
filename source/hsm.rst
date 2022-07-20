@@ -156,7 +156,7 @@ the system running Krill. However, as a separate component it can
 connect in any way it needs to the backend which can be local or remote,
 or possibly even to a cluster of systems. Krill sees only the library,
 it has no way of knowing whether the backend is local or remote,
-singlular or clustered. However it also has no way of controlling how
+singular or clustered. This means it also has no way of controlling how
 long the library will block to wait for a task to complete or how many
 requests it can handle at once or how many system resources it uses.
 
