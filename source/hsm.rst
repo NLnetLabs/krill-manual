@@ -59,7 +59,7 @@ HSM.
 .. Note:: Krill uses one-off signing keys for the EE certificates used
           in RPKI Signed Objects (such as ROAs and Manifests). These
           keys are generated whenever such an object is created, and
-          used only once for signing, and then they are detroyed.
+          used only once for signing, and then they are destroyed.
 
           Such keys will **NOT** be created with, stored in or signed
           with the HSM. This is because it can be slow to generate, sign
