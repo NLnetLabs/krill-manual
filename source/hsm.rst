@@ -294,7 +294,7 @@ Configuring a KMIP signer
           in order to populate the associated settings in the
           ``krill.conf`` file.
 
-For a KMIP signer you must specify the host FQDN or IP address, and
+For a KMIP signer you must specify the fully-qualified domain name (FQDN) or IP address of the host, and
 optionally other connection details such as port number, client
 certificate, server CA certificate, username and password.
 
