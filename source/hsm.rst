@@ -184,9 +184,12 @@ Migrating to or between HSMs
 
 Krill does not support migration of existing RPKI CA private keys from
 one signer to another. Instead you will need to perform a
-:ref:`key rollover<doc_krill_ca_keyroll>` for each CA. **NOTE:** Not all
-keys can be rolled. See the warning above about migration of ID keys
-used in parent/child and CA/publication server relationships.
+:ref:`key rollover<doc_krill_ca_keyroll>` for each CA.
+
+.. Note:: Not all keys can be rolled. See the warning above about
+          migration of ID keys used in parent/child and CA/publication 
+          server relationships.
+ 
 
 To perform a key roll from one signer to another you must first change
 the ``default_signer`` in ``krill.conf`` to the new signer, and then
