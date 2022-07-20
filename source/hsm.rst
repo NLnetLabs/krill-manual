@@ -389,7 +389,7 @@ with a key is handled by the signer that possesses the key.
 SoftHSMv2 Example
 -----------------
 
-Lets see how to setup `SoftHSMv2 <https://github.com/opendnssec/SoftHSMv2>`_
+Let's see how to setup `SoftHSMv2 <https://github.com/opendnssec/SoftHSMv2>`_
 with Krill. This example uses commands suitable for an Ubuntu operating
 system, for other operating systems you may need to use slightly
 different commands.
