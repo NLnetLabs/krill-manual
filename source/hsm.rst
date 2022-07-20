@@ -64,7 +64,7 @@ pointers you need to get this setup working:
    #
    # Krill supports three types of signer:
    #
-   #     - OpenSSL based: Uses the OpenSSL library installed on the host O/S. On older
+   #   - OpenSSL based: Uses the OpenSSL library installed on the host O/S. On older
    #     operating systems it might be that a newer version of OpenSSL than is supported
    #     by the host O/S has been compiled into Krill itself and will be used instead.
    #
