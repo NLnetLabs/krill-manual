@@ -1803,6 +1803,139 @@ Example output of the "suggest" option:
 ....
 
 
+.. _cmd_krillc_bgpsec:
+
+krillc bgpsec
+-------------
+
+Manage BGPSec Router Certificates for your CA.
+
+Krill lets users create :RFC:8209 BGPSec Router Certificates. These
+certificates are used in BGPSec to authorise a router key for an ASN
+in the RPKI.
+
+At the moment BGPSec deployment is virtually non-existent, so you are
+unlikely to need this. However, this functionality is provided in the
+hope that it will help the community gain operational experience that
+may help BGPSec deployment.
+
+Currently BGPSec Router Certificates can only be managed through the
+API. If there is popular demand we will add this to the UI in future.
+
+.. parsed-literal::
+
+   USAGE:
+       krillc bgpsec [SUBCOMMAND]
+
+   SUBCOMMANDS:
+       :ref:`list<cmd_krillc_bgpsec_list>`      Show current BGPSec configurations
+       :ref:`add<cmd_krillc_bgpsec_add>`      Add BGPSec configurations
+       :ref:`remove<cmd_krillc_bgpsec_remove>`      Remove a BGPSec definition
+
+
+.. _cmd_krillc_bgpsec_list:
+
+krillc bgpsec list
+------------------
+
+Show the current BGPSec configurations.
+
+Example CLI:
+
+.. code-block:: bash
+
+  $ krillc bgpsec list
+  ASN, key identifier, CSR base64
+  AS211321, 17316903F0671229E8808BA8E8AB0105FA915A07, MIH.....
+
+Example JSON response:
+
+.. code-block:: json
+  [
+    {
+      "asn": 65000,
+      "key_identifier": "17316903F0671229E8808BA8E8AB0105FA915A07",
+      "csr": "MIH7...."
+    }
+  ]
+
+.. _cmd_krillc_bgpsec_add:
+
+krillc bgpsec add
+-----------------
+
+Add a new BGPSec configurations. I.e. choose an ASN you hold and a
+Certificate Sign Request (CSR) you got from your router so that Krill
+can create a BGPSec Router Certificate for it.
+
+Example CLI:
+
+.. code-block:: bash
+
+  $ krillc bgpsec add --asn AS65000 --csr ./router-csr.der
+
+This will submit the following JSON to the API:
+
+.. code-block:: text
+
+  $ krillc bgpsec add --asn AS65000 --csr ./router-csr.der --api
+  POST:
+    https://localhost:3000/api/v1/cas/local-testbed-child/bgpsec
+  Headers:
+    content-type: application/json
+    Authorization: Bearer secret
+  Body:
+  {
+    "add": [
+      {
+        "asn": 65000,
+        "csr": "MIH7MIGiAgEAMBoxGDAWBgNVBAMMD1JPVVRFUi0wMDAwM0NDQTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABE9dBTAcT+j96+mhvyAqX7JLae1+spSSGPCsnus5EITTrdMvnEc2J4B/DBs2N3Fzb2euM+AqWdtoH+LXsmxqvKOgJjAkBgkqhkiG9w0BCQ4xFzAVMBMGA1UdJQQMMAoGCCsGAQUFBwMeMAoGCCqGSM49BAMCA0gAMEUCIQCKJSWZeF7XHuHkFeAN7zOzhEgM+6WyaklaIo3J3lRPmgIgD9kPSO0AjVf1cEUnQrgC5D/5SMaUJ2hp3r8joKFq3hA="
+      }
+    ],
+    "remove": []
+}
+
+
+.. _cmd_krillc_bgpsec_remove:
+
+krillc bgpsec remove
+--------------------
+
+Note that Krill may actually create multiple BGPSec Router Certificates
+based on the CSR *if* you hold the ASN multiple times. E.g. under
+mutliple parents. In practice this is unlikely to happen, but this is
+conceptually important when it comes to removal. You can remove any and
+all BGPSec Router Certificate by asking Krill to remove the configuration
+for a given ASN and router key identifier (as shown in the list command).
+
+Example CLI:
+
+.. code-block:: text
+
+  $ krillc bgpsec remove --asn AS65000 --key 17316903F0671229E8808BA8E8AB0105FA915A07
+
+This submits the following JSON to the API:
+
+.. code-block:: text
+
+  $ krillc bgpsec remove --asn AS65000 --key 17316903F0671229E8808BA8E8AB0105FA915A07 --api
+  POST:
+    https://localhost:3000/api/v1/cas/local-testbed-child/bgpsec
+  Headers:
+    content-type: application/json
+    Authorization: Bearer secret
+  Body:
+  {
+    "add": [],
+    "remove": [
+      "ROUTER-00033979-17316903F0671229E8808BA8E8AB0105FA915A07"
+    ]
+  }
+
+Careful observers may have noticed that the API supports mutliple additions
+and removals in a single update. However, such bulk changes are not yet
+supported in the CLI.
+
 
 .. _cmd_krillc_bulk:
 
