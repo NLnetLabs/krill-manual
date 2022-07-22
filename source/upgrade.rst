@@ -121,6 +121,88 @@ The parent status API and CLI text response now include the last known
 full :rfc:`6492` "Resource Class List Response" content that your CA
 received.
 
+The json structure of the parent statuses response changed from:
+
+.. code-block:: json
+
+  {
+    "my_parent": {
+    "last_exchange": {
+      "timestamp": 1617881400,
+      "uri": "https://localhost:3000/rfc8181/localname/",
+      "result": "Success"
+    },
+    "next_exchange_before": 1617882000,
+    "all_resources": {
+      "asn": "AS65000",
+      "v4": "10.0.0.0/8",
+      "v6": "2001:db8::/32"
+    },
+    "entitlements": {
+      "0": {
+        "parent_cert": {
+          "uri": "rsync://localhost/repo/ta/0/0BA5C132B94891CB2D3A89EDE12F01ACA4BCD3DC.cer",
+          "cert_pem": "-----BEGIN CERTIFICATE-----\nMIIHKDCCBhCgAwIBAgIUAgyEh9bfPbsXmR1LTAPsL045+tYwDQYJKoZIhvcNAQELBQAwggItMYICKTCCAiUGA1UEAxOCAhwzMDgyMDEwQTAyODIwMTAxMDBEODAxQzQzQ0U4NkYyQjI5MEM1QUVENEE0QjAxMTIwMjNBMjQzRTgzQjkzMkUyOTREMTc0Nzk5MTFFNUU5QTEwNURFREEzN0ZBQkEwNDFFRjYwRjA2QjE5NDAxMTIyMzY0QkI4RjYwRTQ1OUQ3RDYxM0UzNzQ1NzI1MkZDQjk3QUVBNzBGM0YxREI2NzIyQjkzNEIxREVBNTBGMDM2Q0FEOTc3QTBGMjhBNTA4QzY4NjM2OEI3QzQ1Qzc4MERGREZFQkNCNUU4MTBCODk0QkRFMzM5ODNCMjI1RjM5RDJCQTRGMzdEOUI5MjU2MjZFMkUyN0Y1RUJGRDJGMzc3MzY2MTEyREExNzdFQUY4RDdDMTY3NDQwNTgxQkMzNjY4N0Y2MjM3MkZGRDNCQ0NCODlCRjNDQkJBNzJBN0U0NEEwNkZDMUM1RDMwRUU2ODYxMjZCNjhEOENFRDczQkJFREUxN0M5RTJDMTNDRDIyNTYzMzI0NzgwMjVFMUYyMTdEMEREMzI2MzhDRDU1OENEMzZBRjcxMTlDOTJDQ0JFMUE0M0VGRjAyMDFEQjdGRTY4OTZCQzFGNkMwNzZFN0JGN0ZDNzAxRTc2NTVFMENBQ0I4RDk5OTlERkNBMzc2NkEzMkMzRUFCQTVGMTczMTlDQTg5QUZCNDlEQkU3MTZDNjYwMzAyMDMwMTAwMDEwHhcNMjEwMzI5MDc1ODQ2WhcNMjIwMzI4MDgwMzQ2WjAzMTEwLwYDVQQDEygwQkE1QzEzMkI5NDg5MUNCMkQzQTg5RURFMTJGMDFBQ0E0QkNEM0RDMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArKUiUmy4gbuaafgIP/q4q9w/gwwsAjoIP+cTm0FSmqhvqsc1GVI4DQ4mspjZ+O7esFqQywmcnU9MphnGq4EJwYKqT417fU8OQj/WbiCfFhnTrVTiz/LdLdDB4+VaypGfDwPuHb8pavj2dysKiGjLcF8zdon7a/xErHqOdetKlbY20TlvVvmLUeVVKfcnDkT8nsu2k+P+5BHBrb6oQoG4IhZ/w5n65m/ozLsq7pfLrsLgFe2b4zTXhu8KdJ/W1vsshM73jkpUdkvKxif6+H4mBrlMnWg7Jo0bRuff/C0dOAWdiPMXUs53Nw3+SBUjRxhXVWdbcHflkje58pcMkGKSBwIDAQABo4ICNjCCAjIwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4EFgQUC6XBMrlIkcstOont4S8BrKS809wwHwYDVR0jBBgwFoAUS9B/WEM89XrPSCIpOOkwBxZdNKQwDgYDVR0PAQH/BAQDAgEGMFkGA1UdHwRSMFAwTqBMoEqGSHJzeW5jOi8vbG9jYWxob3N0L3JlcG8vdGEvMC80QkQwN0Y1ODQzM0NGNTdBQ0Y0ODIyMjkzOEU5MzAwNzE2NUQzNEE0LmNybDA3BggrBgEFBQcBAQQrMCkwJwYIKwYBBQUHMAKGG3JzeW5jOi8vbG9jYWxob3N0L3RhL3RhLmNlcjCB1AYIKwYBBQUHAQsEgccwgcQwLQYIKwYBBQUHMAWGIXJzeW5jOi8vbG9jYWxob3N0L3JlcG8vdGVzdGJlZC8wLzBZBggrBgEFBQcwCoZNcnN5bmM6Ly9sb2NhbGhvc3QvcmVwby90ZXN0YmVkLzAvMEJBNUMxMzJCOTQ4OTFDQjJEM0E4OUVERTEyRjAxQUNBNEJDRDNEQy5tZnQwOAYIKwYBBQUHMA2GLGh0dHBzOi8vbG9jYWxob3N0OjMwMDAvcnJkcC9ub3RpZmljYXRpb24ueG1sMBgGA1UdIAEB/wQOMAwwCgYIKwYBBQUHDgIwJwYIKwYBBQUHAQcBAf8EGDAWMAkEAgABMAMDAQAwCQQCAAIwAwMBADAhBggrBgEFBQcBCAEB/wQSMBCgDjAMMAoCAQACBQD/////MA0GCSqGSIb3DQEBCwUAA4IBAQA3rQv0h6x5zX6iGfUZsH0wFSbQQrZgWoql8PsHANokm+Kaxeq3waemrp1/LCzdsMF4+74m6ijDmdbDbHlPyiQwpu3L1vZafj4eBPMdI7xFYgEgabddAGR60b272BgVIO6yND3B6UMeT56NzcCOtOcPtjlgucU3pufaCwup9p9AqRpJOTKfeuiLOw0a5c/yLU1zu3TmDP65+7zaIJebUxOpJ9/4HSG7HsKEU9NHXr414vknGUr8XXiQ0/7f8DrpecGEK2fKu87kBYlewj4zNxJOeQ4heQ4/hJtEeS6dLKz+/VwaUbudlN9/c5QF5ow2bAsNM//ieEWWRL+B0Srr9uNr\n-----END CERTIFICATE-----\n"
+        },
+        "received": [
+          {
+            "uri": "rsync://localhost/repo/testbed/0/16B31C92EB116BC60026C50944AD44205DD9ACBD.cer",
+            "resources": {
+              "asn": "AS65000",
+              "v4": "10.0.0.0/8",
+              "v6": "2001:db8::/32"
+            },
+            "cert_pem": "-----BEGIN CERTIFICATE-----\nMIIFYDCCBEigAwIBAgIUN5PzATTKVrjgual4CpJMaggW2EIwDQYJKoZIhvcNAQELBQAwMzExMC8GA1UEAxMoMEJBNUMxMzJCOTQ4OTFDQjJEM0E4OUVERTEyRjAxQUNBNEJDRDNEQzAeFw0yMTA0MDgwOTQ4MjVaFw0yMjA0MDcwOTUzMjVaMDMxMTAvBgNVBAMTKDE2QjMxQzkyRUIxMTZCQzYwMDI2QzUwOTQ0QUQ0NDIwNUREOUFDQkQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDsBouGWEPhWg+XsRDGZyuFLDPiIExy7p4b3bjNPBfHeSqHCeOwiVIVS2xiIAGO2NBcv+hL2OFKNCAnpd71hOXMBNXW/7OHN8TU6crIu1/w1gkf6UCXFrv+poW9EJHnLonMa4ZFLSFsvQACIGUpxIuiQjaSYFltTbb+o2c9KWoKsX0kZqt5zOrgAP8cke8SFGHdqqenPInXKTgyss9kCs9pFtMk6BIa6KjRvqFVZIf6xG53ytJ3JqsGjvEo8qoHYxkvkMtbjhjlmW097i6DeC1241X3SG64DSMk1CNv1xt5MSXubLzWOD+2lLId/ngql4OV0bLkbb63J/26c8FZOThZAgMBAAGjggJqMIICZjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQWBBQWsxyS6xFrxgAmxQlErUQgXdmsvTAfBgNVHSMEGDAWgBQLpcEyuUiRyy06ie3hLwGspLzT3DAOBgNVHQ8BAf8EBAMCAQYwXgYDVR0fBFcwVTBToFGgT4ZNcnN5bmM6Ly9sb2NhbGhvc3QvcmVwby90ZXN0YmVkLzAvMEJBNUMxMzJCOTQ4OTFDQjJEM0E4OUVERTEyRjAxQUNBNEJDRDNEQy5jcmwwZAYIKwYBBQUHAQEEWDBWMFQGCCsGAQUFBzAChkhyc3luYzovL2xvY2FsaG9zdC9yZXBvL3RhLzAvMEJBNUMxMzJCOTQ4OTFDQjJEM0E4OUVERTEyRjAxQUNBNEJDRDNEQy5jZXIwgdgGCCsGAQUFBwELBIHLMIHIMC8GCCsGAQUFBzAFhiNyc3luYzovL2xvY2FsaG9zdC9yZXBvL2xvY2FsbmFtZS8wLzBbBggrBgEFBQcwCoZPcnN5bmM6Ly9sb2NhbGhvc3QvcmVwby9sb2NhbG5hbWUvMC8xNkIzMUM5MkVCMTE2QkM2MDAyNkM1MDk0NEFENDQyMDVERDlBQ0JELm1mdDA4BggrBgEFBQcwDYYsaHR0cHM6Ly9sb2NhbGhvc3Q6MzAwMC9ycmRwL25vdGlmaWNhdGlvbi54bWwwGAYDVR0gAQH/BA4wDDAKBggrBgEFBQcOAjAsBggrBgEFBQcBBwEB/wQdMBswCgQCAAEwBAMCAAowDQQCAAIwBwMFACABDbgwGgYIKwYBBQUHAQgBAf8ECzAJoAcwBQIDAP3oMA0GCSqGSIb3DQEBCwUAA4IBAQB8hxBbJjvgVRMfXsotTNwKCc2Q0QO92xmZlV19Uh0/Yja+sYhyg/pG1/ZTvhOLIxGWap8JmqOnYa9XgX8uUlsV8LgJoEH3Gde3txcGtfLO99ugvbnKKGOcPxB8AX5hAhhfdiSnt3V06dEz3HUoTYdUKTV0bZr3dhRIBa94esAS7lsP2vhHEQ8gVjZGWVvS7lGju+kuwm9H3PBscW/K8349vN0QJUZGm3gAUsM5PlnAqbkM7VFIyu8g2Yp9g+M/iwaHar8CqABKxLBThYgqrPLLv6CsZD3mjk5BkXVZh6R9dBcR7sPbSfGBWPWCv8SwLknyQDOvsWTho1Ga6AibjUQp\n-----END CERTIFICATE-----\n"
+          }
+        ]
+      }
+    }
+  }
+
+
+To:
+
+.. code-block:: json
+
+  {
+    "my_parent": {
+      "last_exchange": {
+        "timestamp": 1617881400,
+        "uri": "https://localhost:3000/rfc8181/localname/",
+        "result": "Success"
+      },
+      "last_success": 1617881400,
+      "all_resources": {
+        "asn": "AS65000",
+        "ipv4": "10.0.0.0/8",
+        "ipv6": "2001:db8::/32"
+      },
+      "classes": [
+        {
+          "class_name": "0",
+          "resource_set": {
+            "asn": "AS65000",
+            "ipv4": "10.0.0.0/8",
+            "ipv6": "2001:db8::/32"
+          },
+          "not_after": "2023-03-15T14:23:57Z",
+          "issued_certs": [
+            {
+              "uri": "rsync://localhost/repo/testbed/0/16B31C92EB116BC60026C50944AD44205DD9ACBD.cer",
+              "req_limit": {},
+              "cert": "MII..."
+            }
+          ],
+          "signing_cert": {
+            "url": "rsync://localhost/repo/ta/0/0BA5C132B94891CB2D3A89EDE12F01ACA4BCD3DC.cer",
+            "cert": "MII..."
+          }
+        }
+      ]
+    }
+  }
+
+
 
 v0.9.3 to v0.9.5
 ~~~~~~~~~~~~~~~~
