@@ -3,12 +3,12 @@
 Running a Krill Test Environment
 ================================
 
-You do not need to run your own Krill Test Enviroment if you just want to
+You do not need to run your own Krill Test Environment if you just want to
 try out Krill. You can simply install Krill on a test machine and set it
 up under the public Krill based RPKI testbed that NLnet Labs runs here:
-https://testbed.rpki.nlnetlabs.nl/index.html#/testbed
+https://testbed.krill.cloud/index.html#/testbed
 
-Read more about this in our `blog <https://blog.nlnetlabs.nl/testing----123-delegated-rpki/>`_.
+Read more about this in our `blog <https://blog.nlnetlabs.nl/testing-the-waters-with-krill/>`_.
 
 But of course, you are perfectly welcome to run your own Test environment
 as well. That way you have total control over your test environment. This
@@ -21,10 +21,10 @@ You may want to do things differently and that would be fine, but we hope that
 this provides a useful walkthrough.
 
 
-Install a proxy server
+Install a Proxy Server
 ^^^^^^^^^^^^^^^^^^^^^^
 
-Here we use nginx, but of course you can use an alternative if you prefer:
+Here we use NGINX, but of course you can use an alternative if you prefer:
 
 .. code-block:: bash
 
@@ -63,7 +63,7 @@ Set up Letsencrypt
 ^^^^^^^^^^^^^^^^^^
 
 This is as easy as installing the `certbot` and running its interactive
-script to setup integration with ngingx:
+script to setup integration with NGINX:
 
 .. code-block:: bash
 
