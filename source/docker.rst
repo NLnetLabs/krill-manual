@@ -209,3 +209,33 @@ own and take complete control:
 
 This will instruct Docker to replace the default config file used by Docker
 Krill with the file :file:`/tmp/krill.conf` on your host computer.
+
+Running as a non-root user
+--------------------------
+
+The Krill Docker image supports running Krill as the non-root user "krill"
+(UID 1012, GID 1012) but for backward compatibility runs by default as user
+"root".
+
+One can specify that Krill should run as user "krill" like so:
+
+.. code-block:: bash
+
+   docker run -u krill
+
+Running as a different username, UID and/or GID requires building the Docker
+image yourself, e.g.:
+
+.. code-block:: bash
+
+   cd path/to/krill/git/clone
+   docker build -t mykrill \
+     --build-arg RUN_USER=myuser \
+     --build-arg RUN_USER_UID=1234 \
+     --build-arg RUN_USER_GID=5678 \
+     .
+
+.. note:: If running Krill inside the container as a non-root user and mounting
+          the host filesystem or a Docker volume under the Krill data directory
+          you must ensure that the Krill data directory and subdirectories are
+          writable by Krill.
