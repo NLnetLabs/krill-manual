@@ -1810,7 +1810,7 @@ krillc bgpsec
 
 Manage BGPSec Router Certificates for your CA.
 
-Krill lets users create :RFC:8209 BGPSec Router Certificates. These
+Krill lets users create :RFC:`8209` BGPSec Router Certificates. These
 certificates are used in BGPSec to authorise a router key for an ASN
 in the RPKI.
 
