@@ -12,8 +12,8 @@ Manage ASPA Objects
               building the CLI. No UI support has been added yet.
 
 
-Install CLI:
-------------
+Install CLI
+-----------
 
 You will need to install Krill from source and enable ASPA to ensure that the
 CLI binary gets built with additional subcommands needed for this feature:
@@ -131,7 +131,7 @@ JSON response:
   ]
 
 
-Update an ASPA:
+Update an ASPA
 ---------------
 
 You can add or remove providers to/from the ASPA configuration for one of
@@ -163,7 +163,7 @@ Or using the API:
     ]
   }
 
-Remove an ASPA:
+Remove an ASPA
 ---------------
 
 You can remove the ASPA configuration for a given customer ASN.
