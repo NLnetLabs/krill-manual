@@ -94,6 +94,12 @@ line and through an API.
    ca-migrate-repo
    hsm
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Experimental
+   :name: toc-experimental
+
+   manage-aspas
 
 .. toctree::
    :maxdepth: 2
