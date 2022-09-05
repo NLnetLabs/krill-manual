@@ -93,7 +93,7 @@ line and through an API.
    ca-keyroll
    ca-migrate-repo
    hsm
-   manage_bgpsec
+   manage-bgpsec
 
 .. toctree::
    :maxdepth: 2
