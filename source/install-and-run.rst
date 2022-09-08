@@ -30,7 +30,12 @@ public rsyncd and HTTPS web server available.
 
        If you have a machine with an amd64/x86_64 architecture running Debian 9,
        10 or 11, you can install Krill from our `software package
-       repository <https://packages.nlnetlabs.nl>`_. 
+       repository <https://packages.nlnetlabs.nl>`_.
+       
+       If your machine uses an ARM architecture we also provide (via the same
+       repository) ARMv6 & ARM64 packages for Debian 10 and an ARMv7 package for
+       Debian 11, intended to support Raspberry Pi 1b, Rock64 and Raspberry Pi 4b
+       respectively.
        
        First update the ``apt`` package index: 
 
