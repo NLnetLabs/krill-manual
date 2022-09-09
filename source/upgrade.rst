@@ -108,7 +108,7 @@ of your ROA configurations.
 
 These changes should not affect you, as long as you are ignoring the new
 additional JSON fields. For a full description of the updated JSON
-responses see the:ref:`krillc roas <cmd_krillc_roas>` command.
+responses see the :ref:`krillc roas <cmd_krillc_roas>` command.
 
 v0.10.0
 ~~~~~~~
