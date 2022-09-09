@@ -1730,6 +1730,8 @@ Example JSON response:
         "prefix": "192.168.0.0/16",
         "max_length": 16,
         "state": "roa_disallowing",
+        "comment": null,
+        "roa_objects": [ ... ],
         "disallows": [
           {
             "asn": 64496,
