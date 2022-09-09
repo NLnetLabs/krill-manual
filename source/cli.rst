@@ -1656,7 +1656,8 @@ Example:
         {
           "asn": 1,
           "prefix": "10.0.0.0/20",
-          "max_length": 24
+          "max_length": 24,
+          "comment": null
         }
       ],
       "notheld": [
@@ -1668,13 +1669,15 @@ Example:
       "unknowns": [
         {
           "asn": 1,
-          "prefix": "192.168.0.0/16"
+          "prefix": "192.168.0.0/16",
+          "comment": null
         }
       ],
       "invalid_length": [
         {
           "asn": 1,
-          "prefix": "10.0.1.0/25"
+          "prefix": "10.0.1.0/25",
+          "comment": null
         }
       ]
     }
