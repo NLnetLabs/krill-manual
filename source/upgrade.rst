@@ -97,9 +97,9 @@ ROA API Changes
 - Comments
 
 ROA configurations now support an optional 'comment' field. You can
-leave this field when submitting updates (additions) of ROA
-configurations, but you will see this field in response. The value will
-be `null` in case a ROA configuration has no comment.
+omit this field when submitting updates (additions) of ROA configurations,
+but you will see this field in response. The value will be `null` in case
+a ROA configuration has no comment.
 
 - ROA Objects
 
