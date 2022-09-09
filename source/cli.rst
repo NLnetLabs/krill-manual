@@ -1370,7 +1370,7 @@ Note that we use a Krill specific notation for desscribing ROAs.
 krillc roas list
 ----------------
 
-Show current authorizations.
+Show current configured ROAs.
 
 .. parsed-literal::
 
@@ -1380,9 +1380,7 @@ Show current authorizations.
    OPTIONS:
        -c, --ca <name>         The name of the CA you wish to control. Or set env: KRILL_CLI_MY_CA
 
-Example:
-
-You can list ROAs in the following way:
+The text output shows all your current ROA configurations:
 
 .. code-block:: bash
 
@@ -1391,28 +1389,83 @@ You can list ROAs in the following way:
    2a04:b900::/29-29 => 65503 # my v6 router
    185.49.140.0/22-22 => 65502 # my secondary!!
 
-JSON output:
+The JSON response also includes information about the ROA objects that
+were issued for each of your configurations. Typically, you will have
+exactly one ROA object issued for each configuration. However, you may
+have more than one ROA object in case your CA holds the same prefix under
+more than one parent organisation - this should be extremely rare but
+this can happen in theory. You may have 0 ROA objects in case you added
+a ROA *configuration*, but you no longer hold the prefix on your CA
+certificate(s).
+
+Because of this the JSON response includes an array of ROA objects rather
+than a single object:
 
 .. code-block:: json
 
   [
     {
+      "asn": 65502,
+      "prefix": "185.49.140.0/22",
+      "max_length": 22,
+      "comment": "my secondary!!",
+      "roa_objects": [
+        {
+          "authorizations": [
+            "185.49.140.0/22-22 => 65502"
+          ],
+          "validity": {
+            "not_before": "2022-09-09T11:12:07.726607Z",
+            "not_after": "2023-09-08T11:17:07.726609Z"
+          },
+          "serial": "128656053576697823461520414002914294079408872181",
+          "uri": "rsync://localhost/repo/ca/0/3138352e34392e3134302e302f32322d3232203d3e203635353032.roa",
+          "base64": "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",
+          "hash": "a5eb7f117a920f938cfee05294284e8107b0f2b4eb33306b44c0e0a4321f0730"
+        }
+      ]
+    },
+    {
       "asn": 65501,
       "prefix": "185.49.140.0/22",
       "max_length": 22,
-      "comment": null
+      "comment": null,
+      "roa_objects": [
+        {
+          "authorizations": [
+            "185.49.140.0/22-22 => 65501"
+          ],
+          "validity": {
+            "not_before": "2022-09-09T11:12:07.804941Z",
+            "not_after": "2023-09-08T11:17:07.804943Z"
+          },
+          "serial": "383786375903727552044603555364114288366864376546",
+          "uri": "rsync://localhost/repo/ca/0/3138352e34392e3134302e302f32322d3232203d3e203635353031.roa",
+          "base64": "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",
+          "hash": "b84e4a840bfa171c22836be8b9918a1a85da1f1578fa168a4cf598f73adf9d01"
+        }
+      ]
     },
     {
       "asn": 65503,
       "prefix": "2a04:b900::/29",
       "max_length": 29,
-      "comment": "my v6 router"
-    },
-    {
-      "asn": 65502,
-      "prefix": "185.49.140.0/22",
-      "max_length": 22,
-      "comment": "my secondary!!"
+      "comment": "my v6 router",
+      "roa_objects": [
+        {
+          "authorizations": [
+            "2a04:b900::/29-29 => 65503"
+          ],
+          "validity": {
+            "not_before": "2022-09-09T11:12:07.764079Z",
+            "not_after": "2023-09-08T11:17:07.764081Z"
+          },
+          "serial": "725767789577338305707073298821075818220425658157",
+          "uri": "rsync://localhost/repo/ca/0/326130343a623930303a3a2f32392d3239203d3e203635353033.roa",
+          "base64": "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",
+          "hash": "f35bd38a7cdec57faa9df7a76bb5b98c61b09385f25cd89b43e33973e70e0560"
+        }
+      ]
     }
   ]
 
@@ -1475,7 +1528,7 @@ out altogether in which case it will default to `null`.
 
 .. Important:: ROA configurations can only be added if they are
      not yet present. Re-adding the same configuration will
-     result in an error. That said, if an 
+     result in an error. That said, if an
 
 
 * Remove a single ROA
