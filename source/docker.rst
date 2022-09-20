@@ -17,11 +17,15 @@ platforms" documentation
 Fetching and Running Krill
 --------------------------
 
-The :command:`docker run` command will automatically fetch the Krill image the
-first time you use it, and so there is no installation step in the traditional
-sense. The :command:`docker run` command can take `many arguments
-<https://docs.docker.com/engine/reference/run/>`_ and can be a bit overwhelming
-at first.
+The :command:`docker run` command will automatically fetch the Krill image for
+your CPU architecture the first time you use it, and so there is no installation
+step in the traditional sense. The :command:`docker run` command can take `many
+arguments <https://docs.docker.com/engine/reference/run/>`_ and can be a bit
+overwhelming at first.
+
+.. Note:: The CPU architectures supported by the Krill Docker image are shown
+   on the `Docker Hub Krill page <https://hub.docker.com/r/nlnetlabs/krill/tags>`
+   per Krill version (aka Docker "tag") in the `OS/ARCH` column.
 
 The command below runs Krill in the background and shows how to configure a few
 extra things like log level and volume mounts (more on this below).

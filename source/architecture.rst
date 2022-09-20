@@ -45,7 +45,7 @@ Krill offers the option to archive old, less relevant, historical information
 related to publication. You can enable this by setting the option
 ``archive_threshold_days`` in your configuration file. If set Krill will move
 all publication events older than the specified number of days to a subdirectory
-called ``archived`` under the relevant data directory, i.e. 
+called ``archived`` under the relevant data directory, i.e.
 ``data_dir/pubd/0/archived`` if you are using the Krill Publication Server and
 ``data_dir/cas/<your-ca-name>/archived`` for each of your CAs.
 
@@ -93,23 +93,23 @@ the resulting key pair.
 After receiving the command, the aggregate will return one of the following:
 
 1. An error
-     Usually this means that the command is not applicable to the aggregate 
-     state. For example, you may have tried to remove a ROA which does not 
+     Usually this means that the command is not applicable to the aggregate
+     state. For example, you may have tried to remove a ROA which does not
      exist.
 
      When Krill encounters such an error, it will store the command with some
      meta-information like the time the command was issued, and a summary of the
-     error, so that it can be seen in the history. It will then unlock the 
+     error, so that it can be seen in the history. It will then unlock the
      aggregate, so that the next command can be sent to it.
 2. No error, zero events
      In this case the command turned out to be a *no-op*, and Krill just unlocks
      the aggregate. The command sequence counter is not updated, and the command
      is not saved. This is used as a feature whenever the 'republish' background
-     job kicks in. A 'republish' command is sent, but it will only have an 
+     job kicks in. A 'republish' command is sent, but it will only have an
      actual effect if there was a need to republish — e.g. a manifest would need
      to be re-issued before it would expire.
 3. One or more events
-     In this case there *is* a desired state change in a Krill aggregate. Krill 
+     In this case there *is* a desired state change in a Krill aggregate. Krill
      will now apply and persist the changes in the following order:
 
       * Each event is stored. If an event already exists for a version, then
@@ -126,7 +126,7 @@ After receiving the command, the aggregate will return one of the following:
         the time that the command was executed. And when `multiple users
         <https://github.com/NLnetLabs/krill/issues/294>`_ will be supported,
         this will also include *who* made a change.
-      * Finally the version information file for the aggregate is updated to 
+      * Finally the version information file for the aggregate is updated to
         indicate its current version, and command sequence counter.
 
 .. Warning:: Krill will crash, **by design**, if there is any failure in saving
@@ -166,7 +166,7 @@ all the checks performed. So, we do **not recommend** forcing this.
 
 Krill will try the following checks and recovery attempts:
 
-* Verify each recorded command and its effects (events) in their historical 
+* Verify each recorded command and its effects (events) in their historical
   order.
 * If any command or event file is corrupt it will be moved to a subdirectory
   called ``corrupt`` under the relevant data directory, and all subsequent
@@ -199,17 +199,17 @@ make sure that you refer to it in the configuration file that you use for your
 Krill instance. As described above, if Krill finds that the backup contain an
 incomplete transaction, it will just fall back to the state prior to it.
 
-.. Warning:: You may want to **encrypt** your backup, because the 
-             ``data_dir/ssl`` directory contains your private keys in clear 
+.. Warning:: You may want to **encrypt** your backup, because the
+             ``data_dir/ssl`` directory contains your private keys in clear
              text. Encrypting your backup will help protect these, but of course
-             also implies that you can only restore if you have the ability to 
+             also implies that you can only restore if you have the ability to
              decrypt.
 
 Krill Upgrades
 --------------
 
 All Krill versions 0.4.1 and upwards can be automatically upgraded to the
-current version. Any required data migrations will be performed automatically. 
+current version. Any required data migrations will be performed automatically.
 To do so we recommend that you:
 
 * backup your krill data directories
@@ -240,17 +240,31 @@ your upgrade.
 Proxy and HTTPS
 ---------------
 
-Krill uses HTTPS and refuses to do plain HTTP. By default Krill will generate a
-2048 bit RSA key and self-signed certificate in :file:`/ssl` in the data
-directory when it is first started. Replacing the self-signed certificate with a
-TLS certificate issued by a CA works, but has not been tested extensively. By
-default Krill will only be available under ``https://localhost:3000``.
+HTTPS Mode
+""""""""""
 
-If you need to access the Krill UI or API (also used by the CLI) from another
-machine you can use use a proxy server such as NGINX or Apache to proxy requests
-to Krill. This proxy can then also use a proper HTTPS certificate and production
-grade TLS support.
+Krill uses HTTPS by default, and will generate a key pair and create a
+self-signed certificate if no previous key pair or certificate is found.
+Files are stored under the data directory as :file:`ssl/key.pem` and
+:file:`ssl/cert.pem` respectively.
 
+Alternatively you make Krill configure krill to not generate these files
+but use existing files at the same file locations. This should work, but
+has not been tested extensively. To use this mode you can use
+```https_mode = "existing"``` in your krill configuration file.
+
+It also possible to force Krill to disable HTTPS and use plain HTTP. We
+do not recommend this set up, but it may be useful in certain setups.
+Arguably, as long as Krill listens on 127.0.0.1 only (as is the default),
+and an HTTPS enabled proxy server is used for public access, then having
+plain HTTP traffic between the proxy and Krill over the loopback interface
+is not necessarily problematic. To use this mode set
+```https_mode = "disable"``` in your configuration file.
+
+If you need to access the Krill UI or API (also used by the CLI) from
+another machine, then we highly recommend that you use a proxy server
+such as NGINX or Apache. This proxy can then also use a proper HTTPS
+certificate signed by a web TA, and production grade TLS support.
 
 Proxy Krill UI
 """"""""""""""
@@ -260,7 +274,7 @@ order to proxy to the Krill UI you should proxy ALL requests under ``/`` to the
 Krill back-end.
 
 Note that although the UI and API are protected by a token, you should consider
-further restrictions in your proxy setup, such as restrictions on source IP or 
+further restrictions in your proxy setup, such as restrictions on source IP or
 adding your own authentication.
 
 Proxy Krill as Parent
