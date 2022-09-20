@@ -299,43 +299,74 @@ Repository Stats
 """"""""""""""""
 
 You can review Publication Server stats, including the number of files and space
-used by publishers.
+used by publishers, and the base URIs that were used to initialise the
+server.
 
 Example CLI:
 
 .. code-block:: text
 
-   $ krillc pubserver server stats
-   RRDP updated: 2021-04-08T06:40:01.337191+00:00
-   RRDP session: ec00a09d-45f9-43ff-9e4d-2739f5e05c05
-   RRDP serial:  29
+  $ krillc pubserver server stats
+  Server URIs:
+    rrdp:    https://localhost:3000/rrdp/
+    rsync:   rsync://localhost/repo/
 
-   Publisher, Objects, Size, Last Updated
-   testbed, 2, 3908, 2021-04-08T07:38:25.106777+00:00
-   ta, 3, 7592, 2021-04-08T07:38:25.557323+00:00
+  RRDP updated:      2022-09-20T09:50:12.564604+00:00
+  RRDP session:      0102f89f-3639-40cb-a967-68789c7da891
+  RRDP serial:       34
+
+  Publisher, Objects, Size, Last Updated
+  ca, 5, 8247, 2022-09-20T09:45:11+00:00
+  ta, 3, 3663, 2022-09-20T09:45:11+00:00
+  testbed, 3, 3762, 2022-09-20T09:45:11+00:00
 
 Example JSON response:
 
 .. code-block:: text
 
-   $ krillc pubserver server stats --format json
-   {
-     "publishers": {
-       "ta": {
-         "objects": 3,
-         "size": 7592,
-         "last_update": "2021-04-08T07:38:25.557323Z"
-       },
-       "testbed": {
-         "objects": 2,
-         "size": 3908,
-         "last_update": "2021-04-08T07:38:25.106777Z"
-       }
-     },
-     "session": "ec00a09d-45f9-43ff-9e4d-2739f5e05c05",
-     "serial": 29,
-     "last_update": "2021-04-08T06:40:01.337191Z"
-   }
+  $ krillc pubserver server stats --format json
+  {
+    "publishers": {
+      "ca": {
+        "objects": 5,
+        "size": 8247,
+        "manifests": [
+          {
+            "uri": "rsync://localhost/repo/ca/0/CC2487CF3A9C774BFAE2DCE4DD8368441C75C720.mft",
+            "this_update": "2022-09-20T09:45:11Z",
+            "next_update": "2022-09-21T09:57:11Z"
+          }
+        ]
+      },
+      "ta": {
+        "objects": 3,
+        "size": 3663,
+        "manifests": [
+          {
+            "uri": "rsync://localhost/repo/ta/0/0A6EA673F04AAA345D605A38E7710A2D8413B56C.mft",
+            "this_update": "2022-09-20T09:45:11Z",
+            "next_update": "2022-09-21T11:50:11Z"
+          }
+        ]
+      },
+      "testbed": {
+        "objects": 3,
+        "size": 3762,
+        "manifests": [
+          {
+            "uri": "rsync://localhost/repo/testbed/0/217876AA966B965A6EDFDED43C469B90ED11AC6D.mft",
+            "this_update": "2022-09-20T09:45:11Z",
+            "next_update": "2022-09-21T13:39:11Z"
+          }
+        ]
+      }
+    },
+    "session": "0102f89f-3639-40cb-a967-68789c7da891",
+    "serial": 34,
+    "last_update": "2022-09-20T09:50:12.564604Z",
+    "rsync_base": "rsync://localhost/repo/",
+    "rrdp_base": "https://localhost:3000/rrdp/"
+  }
 
 Example API:
 
