@@ -88,6 +88,28 @@ Important Changes
 
 .. _doc_krill_important_changes:
 
+v0.11.0
+~~~~~~~
+
+ROA API Changes
+^^^^^^^^^^^^^^^
+
+- Comments
+
+ROA configurations now support an optional 'comment' field. You can
+omit this field when submitting updates (additions) of ROA configurations,
+but you will see this field in response. The value will be ``null`` in
+case a ROA configuration has no comment.
+
+- ROA Objects
+
+Krill will now also report which ROA object(s) have been issued for each
+of your ROA configurations.
+
+These changes should not affect you, as long as you are ignoring the new
+additional JSON fields. For a full description of the updated JSON
+responses see the :ref:`krillc roas <cmd_krillc_roas>` command.
+
 v0.10.0
 ~~~~~~~
 
