@@ -1,7 +1,7 @@
 .. _doc_krill:
 
-Krill 0.11.0 (in development)
-=============================
+Krill 0.11.0
+============
 
 |docsupdated| |discord| |twitter|
 
