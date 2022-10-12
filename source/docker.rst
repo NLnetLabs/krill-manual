@@ -24,7 +24,7 @@ arguments <https://docs.docker.com/engine/reference/run/>`_ and can be a bit
 overwhelming at first.
 
 .. Note:: The CPU architectures supported by the Krill Docker image are shown
-   on the `Docker Hub Krill page <https://hub.docker.com/r/nlnetlabs/krill/tags>`
+   on the `Docker Hub Krill page <https://hub.docker.com/r/nlnetlabs/krill/tags>`_
    per Krill version (aka Docker "tag") in the `OS/ARCH` column.
 
 The command below runs Krill in the background and shows how to configure a few
