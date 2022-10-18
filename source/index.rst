@@ -1,7 +1,7 @@
 .. _doc_krill:
 
-Krill 0.11.0
-============
+Krill 0.12.0-RC1
+================
 
 |docsupdated| |discord| |twitter|
 
@@ -87,6 +87,7 @@ line and through an API.
    :name: toc-advanced
 
    cli
+   building-from-source
    multi-user
    publication-server
    manage-children

@@ -88,6 +88,41 @@ Important Changes
 
 .. _doc_krill_important_changes:
 
+v0.12.0
+~~~~~~~
+
+RRDP Deltas
+^^^^^^^^^^^
+
+In this release we renamed the advanced Publication Server configuration
+settings from "retention_*" to "rrdp_*" to reflect better what these
+settings are actually used for.
+
+We removed "retention_old_notification_files_seconds" altogether. From
+this release onwards Krill will not try to keep old RRDP and rsync files
+around. This helped to simplify the Krill code significantly. It's still
+a good idea to ensure that such old files can still be served to RPs, but
+this is handled, and handled better, by krill-sync.
+
+We added a new setting "rrdp_delta_interval_min_seconds" which can be
+used to limit the interval between publishing consecutive RRDP deltas.
+A limit helps to reduce the load on the server, and reduces the number
+of deltas that RP software would need to fetch. Small delays in publishing
+new RRDP deltas are acceptable as most RP software implementations use
+an interval of at least 10 minutes between validation runs. We recommend
+a value between 60 and 300 seconds for large repositories.
+
+Other Changes
+^^^^^^^^^^^^^
+
+Krill can now be configured to listen on multiple IP addresses. To use
+this specify an "array" of addresses in the configuration file. E.g.:
+
+```
+ip = [ "127.0.0.1", "::1" ]
+```
+
+
 v0.11.0
 ~~~~~~~
 
