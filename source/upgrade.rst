@@ -118,9 +118,9 @@ Other Changes
 Krill can now be configured to listen on multiple IP addresses. To use
 this specify an "array" of addresses in the configuration file. E.g.:
 
-```
-ip = [ "127.0.0.1", "::1" ]
-```
+.. code-block:: text
+
+   ip = [ "127.0.0.1", "::1" ]
 
 
 v0.11.0
