@@ -309,11 +309,24 @@ Before every new release of Krill, one or more release candidates are
 provided for testing through every installation method. You can also install
 a specific version, if needed.
 
+.. Note:: As a rule we test every release candidate ourselves in our own
+       production environment and only do the actual release for a new
+       version when we are confident that there are no remaining issues.
+
+       But, we really appreciate it if Krill users test out release
+       candidates and let us know if they have any questions, comments,
+       or run into any issues.
+
+       We recommend that you install release candidates on test systems
+       only. If you set it up as a child under our :ref:`testbed<doc_krill_testbed>`
+       you can test all functions without risking issues in your production
+       environment.
+
 .. tabs::
 
    .. group-tab:: Debian
 
-       If you would like to try out release candidates of Routinator you can add
+       If you would like to try out release candidates of Krill you can add
        the *proposed* repository to the existing *main* repository described
        earlier.
 
@@ -383,7 +396,7 @@ a specific version, if needed.
 
    .. group-tab:: RHEL/CentOS
 
-       To install release candidates of Routinator, create an additional repo
+       To install release candidates of Krill, create an additional repo
        file named :file:`/etc/yum.repos.d/nlnetlabs-testing.repo`, enter this
        configuration and save it:
 
