@@ -311,7 +311,7 @@ a specific version, if needed.
 
 .. Note:: As a rule we test every release candidate ourselves in our own
        production environment and only do the actual release for a new
-       version when we are confident that there are no remaining issues.
+       version when we are confident that there are no issues.
 
        But, we really appreciate it if Krill users test out release
        candidates and let us know if they have any questions, comments,
