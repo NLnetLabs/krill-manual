@@ -79,10 +79,25 @@ public rsyncd and HTTPS web server available.
        settings. Tip: The configuration file was generated for you using the
        ``krillc config simple`` command.
 
-       Once happy with the settings use ``sudo systemctl enable --now krill`` to
-       instruct systemd to enable the Krill service at boot and to start it
-       immediately. The krill daemon runs as user ``krill`` and stores its data
-       in ``/var/lib/krill``.
+       .. Warning:: If you modify the default ``data_dir``, or if you decide
+          to symlink its default directory ``/var/lib/krill/data`` to another
+          location or volume, you will need to:
+
+           1) ensure the user ``krill`` has write permissions
+           2) configure systemd to give the krill process access
+
+           The easiest way to achieve the latter is by using
+           ``systemctl edit krill`` and adding the following:
+
+           ```
+           [Service]
+           ReadWritePaths=/your/path/to/data
+           ```
+
+      Once happy with the settings use ``sudo systemctl enable --now krill`` to
+      instruct systemd to enable the Krill service at boot and to start it
+      immediately. The krill daemon runs as user ``krill`` and stores its data
+      in ``/var/lib/krill/data``, unless you modified the `data_dir` setting.
 
        You can check the status of Krill with:
 
@@ -144,10 +159,25 @@ public rsyncd and HTTPS web server available.
        settings. Tip: The configuration file was generated for you using the
        ``krillc config simple`` command.
 
-       Once happy with the settings use ``sudo systemctl enable --now krill`` to
-       instruct systemd to enable the Krill service at boot and to start it
-       immediately. The krill daemon runs as user ``krill`` and stores its data
-       in ``/var/lib/krill``.
+       .. Warning:: If you modify the default ``data_dir``, or if you decide
+          to symlink its default directory ``/var/lib/krill/data`` to another
+          location or volume, you will need to:
+
+           1) ensure the user ``krill`` has write permissions
+           2) configure systemd to give the krill process access
+
+           The easiest way to achieve the latter is by using
+           ``systemctl edit krill`` and adding the following:
+
+           ```
+           [Service]
+           ReadWritePaths=/your/path/to/data
+           ```
+
+      Once happy with the settings use ``sudo systemctl enable --now krill`` to
+      instruct systemd to enable the Krill service at boot and to start it
+      immediately. The krill daemon runs as user ``krill`` and stores its data
+      in ``/var/lib/krill/data``, unless you modified the `data_dir` setting.
 
        You can check the status of Krill with:
 
@@ -196,10 +226,25 @@ public rsyncd and HTTPS web server available.
        settings. Tip: The configuration file was generated for you using the
        ``krillc config simple`` command.
 
-       Once happy with the settings use ``sudo systemctl enable --now krill`` to
-       instruct systemd to enable the Krill service at boot and to start it
-       immediately. The krill daemon runs as user ``krill`` and stores its data
-       in ``/var/lib/krill``.
+       .. Warning:: If you modify the default ``data_dir``, or if you decide
+          to symlink its default directory ``/var/lib/krill/data`` to another
+          location or volume, you will need to:
+
+           1) ensure the user ``krill`` has write permissions
+           2) configure systemd to give the krill process access
+
+           The easiest way to achieve the latter is by using
+           ``systemctl edit krill`` and adding the following:
+
+           ```
+           [Service]
+           ReadWritePaths=/your/path/to/data
+           ```
+
+      Once happy with the settings use ``sudo systemctl enable --now krill`` to
+      instruct systemd to enable the Krill service at boot and to start it
+      immediately. The krill daemon runs as user ``krill`` and stores its data
+      in ``/var/lib/krill/data``, unless you modified the `data_dir` setting.
 
        You can check the status of Krill with:
 
