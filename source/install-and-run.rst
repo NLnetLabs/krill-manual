@@ -347,8 +347,50 @@ Updating
           rustup update
           cargo install --locked --force krill
 
-Installing Specific Versions
-----------------------------
+Rollback
+--------
+
+If you experience issues after an upgrade you may want to roll back to
+the previous Krill version you had installed. A rollback is somewhat
+risky so it should not be attempted unless there is no other choice.
+
+Also note that you may loose any changes you made since upgrading, so
+you may have to re-do ROA changes for example. Do not try to rollback
+in case you delegated CA certificates to any child CA, as loosing changes
+may then result in issues that are hard to debug.
+
+First make sure that Krill is no longer running. Then go into your Krill
+data directory and list the directories. You may see a number of
+``arch-*-<version>`` directories that Krill left in case it needed to do
+a data migration from your previous version. For example:
+
+.. code-block:: bash
+
+   /var/lib/krill/data/arch-ca_objects-0.11.0/
+   /var/lib/krill/data/arch-cas-0.11.0/
+   /var/lib/krill/data/arch-pubd-0.11.0/
+   /var/lib/krill/data/arch-pubd_objects-0.11.0/
+
+You should also see the corresponding *current* directories:
+
+.. code-block:: bash
+
+   /var/lib/krill/data/ca_objects/
+   /var/lib/krill/data/cas/
+   /var/lib/krill/data/pubd/
+   /var/lib/krill/data/pubd_objects/
+
+Note that you may NOT see all these directories for your previous version.
+Krill only keeps these backups in case a data migration was needed for
+the upgrade.
+
+To rollback backup any current directories for which an ``arch-..-<version>``
+directory exists that matches your previous Krill version. Then rename
+that directory to its "current" name: i.e. strip the arch- prefix and
+version suffix. Then re-install the previous version of Krill.
+
+Installing Release Candidates
+-----------------------------
 
 Before every new release of Krill, one or more release candidates are
 provided for testing through every installation method. You can also install
