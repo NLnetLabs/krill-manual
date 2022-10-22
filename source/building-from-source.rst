@@ -132,7 +132,7 @@ Krill will be in your path, too.
 
 
 Generate Configuration File
----------------------------
+"""""""""""""""""""""""""""
 
 After the installation has completed, there are just two things you need to
 configure before you can start using Krill. First, you will need a data
@@ -165,7 +165,7 @@ GitHub repository
 
 
 Start and Stop the Daemon
--------------------------
+"""""""""""""""""""""""""
 
 There is currently no standard script to start and stop Krill. You could use the
 following example script to start Krill. Make sure to update the
