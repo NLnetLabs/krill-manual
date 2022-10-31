@@ -354,7 +354,7 @@ If you experience issues after an upgrade you may want to roll back to
 the previous Krill version you had installed. A rollback is somewhat
 risky so it should not be attempted unless there is no other choice.
 
-Also note that you may loose any changes you made since upgrading, so
+Also note that you may lose any changes you made since upgrading, so
 you may have to re-do ROA changes for example. Do not try to rollback
 in case you delegated CA certificates to any child CA, as loosing changes
 may then result in issues that are hard to debug.
