@@ -30,11 +30,15 @@ Using an RPKI publication server relieves you of the responsibility to keep
 a public rsync and web server running at all times to make your certificate and
 ROAs available to the world.
 
-Of the five RIRs, APNIC and ARIN currently offer RPKI publication as a service for
-their members, upon request. Most other RIRs have it on their roadmap. NIC.br,
-the Brazilian NIR, provides an RPKI repository server for their members as well.
-If you need to publish your certificate and ROAs yourself, follow the steps
-described in the :ref:`doc_krill_publication_server` section.
+Of the five RIRs, RIPE NCC, APNIC and ARIN currently offer RPKI publication as a 
+service for their members. Note that the RIPE NCC lets you provision multiple
+repositories. This way you can delegate resources to other business units or 
+customers who in turn run their own CA, who can also publish in the RIPE NCC 
+repository instead of having to run their own.
+
+NIC.br, the Brazilian NIR, provides an RPKI repository server for their members
+as well. If you need to publish your certificate and ROAs yourself, follow the 
+steps described in the :ref:`doc_krill_publication_server` section.
 
 .. _member_portals:
 
