@@ -8,8 +8,8 @@ Running a Publication Server
                the responsibility to keep a public rsync and web server
                available at all times.
 
-               **NIC.br, ARIN and APNIC provide publication as a service to their
-               members.**
+               **RIPE NCC, ARIN, APNIC and NIC.br provide publication as a 
+               service to their members.**
 
 Why run your own?
 -----------------
