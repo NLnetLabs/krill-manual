@@ -118,9 +118,10 @@ presented with a choice if you would like to use hosted or non-hosted RPKI.
 
 If you want to set up delegated RPKI with Krill, you will have to choose
 non-hosted. If you are already using the hosted service and you would like to
-switch, then there is currently no option for that in the RIPE NCC portal.
+switch, then at the bottom right corner of the RPKI dashboard in the LIR Portal
+you'll find a red link saying "Revoke hosted CA". Click it, check all the 
+checkmarks in the dialog box, and fill in the required fields. 
 
-Make a note of the ROAs you created and then send an email to rpki@ripe.net
-requesting your hosted CA to be deleted, making sure to mention your
-registration id. After deletion, you will land on the setup screen from where
-you can choose non-hosted RPKI.
+Now, you'll now land at the start page to set up your Certificate Authority. 
+Select the "Delegated" radio button and accept the Terms & Conditions to create
+your new CA.
