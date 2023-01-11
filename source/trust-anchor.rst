@@ -140,7 +140,6 @@ Publication Server.
 The setup of a Krill Publication Server is described
 :ref:`here<doc_krill_publication_server>`.
 
-
 TA Proxy Publisher Request
 --------------------------
 
@@ -150,7 +149,6 @@ so it can be uploaded tot he Publication Server:
 .. code-block:: bash
 
   krillta proxy repo request > ./pub-req.xml
-
 
 Add TA Proxy as Publisher
 -------------------------
@@ -162,6 +160,12 @@ Response XML:
 
   krillc pubserver publishers add --request ./pub-req.xml >./repo-res.xml
 
+.. Note:: The Krill TA uses "ta" as its name (handle in RFC terms).
+     Krill Publication Servers normally add the handle name as a sub-dir
+     to the global base rsync path (``sia_base`` in RFC terms). However,
+     if the handle is "ta", then no sub-dir will be added. The reason is
+     that this way recursive rsync fetches for the TA certificate's
+     publication point will get the full repository content in one go.
 
 Configure Repository for TA Proxy
 ---------------------------------
@@ -320,3 +324,7 @@ your web server and rsync daemon can serve it. You will most likely
 need a dedicated configuration for this in your web server as it's a
 different path from the usual RRDP content, and you will need a separate
 rsyncd module.
+
+You should also see that a manifest and CRL were published for your
+TA. These files should be published in your Publication Server's base
+rsync directory. As explained above, the "ta" does not use a sub-dir.
