@@ -246,3 +246,48 @@ Example configuration file:
   # key rolls can be used to start using a different signer, there is no key roll
   # support for the TA. This may be implemented in future in which case we would
   # also support RPKI Signed TALs for this process.
+
+
+Initialise the TA Signer
+------------------------
+
+The TA Signer is always coupled to a single TA Proxy. We initialised the
+TA Proxy and configured a repository for it in the earlier steps. We now
+need to export some of this information so that we can an initialise the
+one single TA Signer for that Proxy.
+
+Step 1: Get the proxy ID
+
+.. code-block:: bash
+
+  krillta proxy id --format json > ./proxy-id.json
+
+Step 2: Get the proxy repo contact
+
+.. code-block:: bash
+
+  krillta proxy repo contact --format json  >./proxy-repo.json
+
+Step 3: Initialise
+
+Here you need to use the files saved in steps 1 and 2.
+
+In addition to this you will need to specify the URIs that should be used
+on the Trust Anchor Locator (TAL). Of course that TA certificate does not
+yet exist - we need to know the URIs so it can be generated properly. You
+will be able to download the TA certificate at a later stage. For now,
+make sure that you choose URIs (rsync and HTTPS) where you will host a
+copy of that certificate later.
+
+Note that the TA certificate can *not* be hosted in the normal rsync and
+RRDP repository of your publication server. You can use the same hardware,
+web server and rsync daemon, but you will need different endpoints as the
+TA certificate itself is not published using the :rfc:`8181` Publication
+Protocol.
+
+.. code-block:: bash
+
+  krillta signer init --proxy_id ./proxy-id.json \
+                      --proxy_repository_contact ./proxy-repo.json \
+                      --tal_https <HTTPS URI for TA cert on TAL>
+                      --tal_rsync <RSYNC URI for TA cert on TAL>
