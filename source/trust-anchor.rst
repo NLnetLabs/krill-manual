@@ -374,3 +374,67 @@ If you follow the exchange process described below then the TA Signer will
 sign the certificate. Since the "online" CA lives in the same Krill
 instance as the TA Proxy it will be made aware of this update immediately
 and get its signed certificate without further delay.
+
+
+Typical Proxy Signer Exchange
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The typical exchange between the Proxy and Signer follows these steps:
+- Make the request in the Proxy
+- Download the Proxy request
+- Process the Proxy request
+- Save the Signer response
+- Upload the Signer response
+
+Make a TA Proxy Request
+-----------------------
+
+.. code-block:: bash
+
+  krillta proxy signer make-request
+
+
+Download the TA Proxy Request
+-----------------------------
+
+.. code-block:: bash
+
+  krillta proxy signer show-request > ./request.json
+
+.. Note:: We may change the format from json to signed CMS in the near future,
+probably before this is released.
+
+Process TA Proxy Request
+------------------------
+
+.. code-block:: bash
+
+  krillta signer process --request ./request.json
+
+Save the TA Signer Response
+---------------------------
+
+.. code-block:: bash
+
+  krillta signer last > ./response.json
+
+
+Upload the Signer Response
+--------------------------
+
+.. code-block:: bash
+
+  krillta proxy signer process-response --response ./response.json
+
+
+
+Auditing
+^^^^^^^^
+
+You can review the exchanges seen by the TA Signer. The default output
+uses JSON and contains a lot of information. The text output is somewhat
+friendlier to the human eye:
+
+.. code-block:: bash
+
+  krillta signer exchanges --format text
