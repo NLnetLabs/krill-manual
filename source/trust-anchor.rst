@@ -4,8 +4,8 @@ Krill as a Trust Anchor
 =======================
 
 Wikipedia provides the following concise description of what a Trust Anchor
-(TA) is: _In cryptographic systems with hierarchical structure, a trust anchor
-is an authoritative entity for which trust is assumed and not derived._
+(TA) is: *In cryptographic systems with hierarchical structure, a trust anchor
+is an authoritative entity for which trust is assumed and not derived.*
 
 In the context of the RPKI we currently have five Trust Anchors operated
 by the five RIRs. Each Trust Anchor publishes its own unique :rfc:`8630`
@@ -49,21 +49,24 @@ completed responses for any child CA
 
 We strongly recommended the following setup for Krill TAs:
 
-- Standalone TA Signer (``krillta``)
+- TA Signer on separate hardware.
 - TA Proxy in Krill
-- A single child CA under the TA Proxy in the same Krill instance
-  using the same resources as the TA (i.e. all INR resources).
-- Both the TA Proxy and the child use a Publication Server in the
-  same Krill instance.
+- A single child CA under TA Proxy in the same Krill.
+- Use all IPv4, IPv6 and ASN for the Proxy and Child.
+- Use a Publication Server in the same Krill instance.
 
 The one and only child CA under the TA in this set up can then operate
-as, in effect, an *online* TA and act as a parent to RPKI CAs. The
-advantage of this approach is that this way the resource entitlements for
-the children of the *online* TA (actually a normal CA) can change at any
-time without the need for an exchange between the TA Proxy and Signer.
+as, in effect, an *online* TA and act as a parent to RPKI CAs. At this
+time we have not (yet) implemented changing resource entitlements for
+the child CA under the TA, so for now at least it's best to set this up
+with all resources that will be needed.
 
+Note that it may be an option to set up another child under this CA with
+a limited set of resources which can be changed at any time without the
+need for an exchange between the TA Proxy and Signer. This would result
+in a model similar to how the `RIPE NCC TA Structure <https://www.ripe.net/manage-ips-and-asns/resource-management/rpki/ripe-ncc-rpki-trust-anchor-structure>`_ is defined.
 
-Note:: Krill will use its Trust Anchor support if it is set up to run
+.. Info:: Krill will use its Trust Anchor support if it is set up to run
   in "Testbed" mode. However, in this case the TA Signer will be embedded
   in the same Krill instance. As an operator of the "testbed" the TA
   operations will be handled automatically by Krill in this case.
@@ -94,7 +97,7 @@ ensuring that the Proxy and Signer will only accept properly signed
 requests and responses, and in the process we will have a verifiable
 audit trail of the interactions.
 
-NOTE:: It is still undecided whether we will include ``krillta`` in the
+.. NOTE:: It is still undecided whether we will include ``krillta`` in the
    packages we build. Because this is only needed by a handful of users
    we may end up not including it by default, but instead require that
    users install it using "cargo" instead.
@@ -184,7 +187,7 @@ The configuration file must at least contain a setting for the data
 directory. Other settings are optional - you only need to change them
 if you want to change the default logging and/or use an HSM.
 
-NOTE:: At this moment "timing" parameters for the TA are hard coded. Child
+.. NOTE:: At this moment "timing" parameters for the TA are hard coded. Child
    CA certificates are signed (and re-signed) with a validity of 52 weeks.
    The CRL and MFT next update and MFT EE certificate not after time are
    set to 12 weeks after the moment of signing. We may add support for
