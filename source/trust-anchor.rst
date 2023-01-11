@@ -294,3 +294,29 @@ Protocol.
                       --proxy_repository_contact ./proxy-repo.json \
                       --tal_https <HTTPS URI for TA cert on TAL>
                       --tal_rsync <RSYNC URI for TA cert on TAL>
+
+
+Associate the TA Signer with the Proxy
+--------------------------------------
+
+Get the TA Signer 'info' JSON file and save it:
+
+.. code-block:: bash
+
+  krillta signer show > ./signer-info.json
+
+
+Then 'initialise' the signer associated with the TA Proxy. (we should
+probably rename this to 'associate' instead):
+
+.. code-block:: bash
+
+  krillta proxy signer init --info ./signer-info.json
+
+
+At this point you should see that the TA certificate is available in
+Krill under the ``/ta/ta.cer`` endpoint. Copy it and place it where
+your web server and rsync daemon can serve it. You will most likely
+need a dedicated configuration for this in your web server as it's a
+different path from the usual RRDP content, and you will need a separate
+rsyncd module.
