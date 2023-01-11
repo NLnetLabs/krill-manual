@@ -328,3 +328,49 @@ rsyncd module.
 You should also see that a manifest and CRL were published for your
 TA. These files should be published in your Publication Server's base
 rsync directory. As explained above, the "ta" does not use a sub-dir.
+
+
+Create Child CA under TA
+------------------------
+
+As mentioned in the overview section we recommend creating a single
+child CA under the TA, with all resources. This will in effect be the
+acting "online" TA.
+
+Step 1: Create the "online" CA
+
+.. code-block:: bash
+
+  krillc add --ca online
+
+Step 2: Add "online" as a child of "ta"
+
+.. code-block:: bash
+
+  krillc show --ca online --format json >./online.json
+  krillta proxy children add --info ./online.json
+
+Step 3: Add "ta" as a parent of "online"
+
+.. code-block:: bash
+
+  krillta proxy children response --child online >./res.xml
+  krillc parents add --ca online --parent ta --response ./res.xml
+
+Step 3: Add "online" as a Publisher
+
+.. code-block:: bash
+
+  krillc repo request --ca online ./pub-req.xml
+  krillc pubserver publishers add --request ./pub-req.xml > ./repo-res.xml
+  krillc repo configure --ca online --response ./repo-res.xml
+
+Now there should be a pending CSR from "online" to its parent "ta". It
+will keep sending the CSR periodically, but it will will get a response
+indicating that the CSR is scheduled for signing. You may see messages
+to this effect in the log - this is not alarming.
+
+If you follow the exchange process described below then the TA Signer will
+sign the certificate. Since the "online" CA lives in the same Krill
+instance as the TA Proxy it will be made aware of this update immediately
+and get its signed certificate without further delay.
