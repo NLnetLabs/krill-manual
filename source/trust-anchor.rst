@@ -4,8 +4,8 @@ Krill as a Trust Anchor
 =======================
 
 Wikipedia provides the following concise description of what a Trust Anchor
-(TA) is: *In cryptographic systems with hierarchical structure, a trust anchor
-is an authoritative entity for which trust is assumed and not derived.*
+(TA) is: *"In cryptographic systems with hierarchical structure, a trust anchor
+is an authoritative entity for which trust is assumed and not derived."*
 
 In the context of the RPKI we currently have five Trust Anchors operated
 by the five RIRs. Each Trust Anchor publishes its own unique :rfc:`8630`
