@@ -1,0 +1,248 @@
+.. _doc_krill_trust_anchor:
+
+Krill as a Trust Anchor
+=======================
+
+Wikipedia provides the following concise description of what a Trust Anchor
+(TA) is: _In cryptographic systems with hierarchical structure, a trust anchor
+is an authoritative entity for which trust is assumed and not derived._
+
+In the context of the RPKI we currently have five Trust Anchors operated
+by the five RIRs. Each Trust Anchor publishes its own unique :rfc:`8630`
+Trust Anchor Locator which is used by RPKI validators to validate the
+RPKI content under that RIR's hierarchy.
+
+Operators get their resources allocated under an RIR or NIR, and will
+therefore never have a need to run their own RPKI TA.
+
+That said, Krill includes support to operate an RPKI Trust Anchor
+which can be used by an RIR, or operators who wish to set up their own
+local system e.g. for testing purposes or to manage private address space.
+
+
+Overview
+^^^^^^^^
+
+The Krill TA is logically separated into a TA 'Proxy' and 'Signer'.
+
+The TA Signer is responsible for generating and using the TA RPKI key. It
+is designed to be operated using its own standalone command line tool
+called ``krillta``, preferably on a standalone and otherwise offline system.
+
+The TA Proxy always lives inside Krill itself (if enabled) and is responsible
+for all _online_ operations such as handling :rfc:`6492` communications
+with a child CA and publishing materials signed by the TA Signer using
+the :rfc:`8181` communication protocol with a Publication Server. The TA
+Proxy uses its own "identity" key and certificate for these protocols.
+
+The TA Proxy is responsible for managing which child CA(s) can operate
+under the TA, and what resources they are entitled to. But, when the TA
+Proxy receives any :rfc:`6492` request from a child they will typically
+reply with a 'not performed response' to child indicating that the request
+was received and is scheduled for processing.
+
+The TA Proxy can then generate a request for the signer through the
+CLI/API. The TA Signer then processes the request, does all the necessary
+signing and generates a response. This response is then given to the TA
+Proxy which will then publish any new signed objects, and keep the now
+completed responses for any child CA
+
+We strongly recommended the following setup for Krill TAs:
+
+- Standalone TA Signer (``krillta``)
+- TA Proxy in Krill
+- A single child CA under the TA Proxy in the same Krill instance
+  using the same resources as the TA (i.e. all INR resources).
+- Both the TA Proxy and the child use a Publication Server in the
+  same Krill instance.
+
+The one and only child CA under the TA in this set up can then operate
+as, in effect, an *online* TA and act as a parent to RPKI CAs. The
+advantage of this approach is that this way the resource entitlements for
+the children of the *online* TA (actually a normal CA) can change at any
+time without the need for an exchange between the TA Proxy and Signer.
+
+
+Note:: Krill will use its Trust Anchor support if it is set up to run
+  in "Testbed" mode. However, in this case the TA Signer will be embedded
+  in the same Krill instance. As an operator of the "testbed" the TA
+  operations will be handled automatically by Krill in this case.
+
+
+
+Set Up
+^^^^^^
+
+At this time you can have only 1 Trust Anchor per Krill instance. We
+believe that there is not likely going to be a need for managing multiple
+TAs in a single installation.
+
+Krillta Command Line Tool
+-------------------------
+
+Krill now includes ``krillta``. This is used to manage both the TA Signer,
+in which case it will expect to keep its state on a local disk and the TA
+Proxy, in which case it will connect to the Krill server in the same way
+that ``krillc`` does.
+
+The communication between the TA Proxy and Signer is done using messages
+encoded in simple JSON files. We are planning to wrap these messages in
+signed CMS - much like the CMS used in :rfc:`6492` - but this has not
+yet been done at this time. But, note that when we do this, this will
+not alter the process described below - it will improve security by
+ensuring that the Proxy and Signer will only accept properly signed
+requests and responses, and in the process we will have a verifiable
+audit trail of the interactions.
+
+NOTE:: It is still undecided whether we will include ``krillta`` in the
+   packages we build. Because this is only needed by a handful of users
+   we may end up not including it by default, but instead require that
+   users install it using "cargo" instead.
+
+
+Enable TA Support
+-----------------
+
+Add the following to your ``krill.conf`` files:
+
+.. code-block:: text
+
+  ta_support_enabled = true
+
+
+Initialise TA Proxy
+-------------------
+
+The first step in the actual set up of the Krill TA Signer and Proxy
+couple is to initialise the TA Proxy. This will create an empty TA Proxy
+that has an identity key for communication, and pretty much nothing else.
+
+.. code-block:: bash
+
+  krillta proxy init
+
+
+Initialise Publication Server
+-----------------------------
+
+We recommend that you set up and use a Publication Server in the same
+Krill instance that hosts your TA Proxy, and online TA child for that
+matter, which we will get to in a bit.
+
+The reason for this is that communication will be more efficient, and
+more importantly less error prone. I.e. it's unlikely that the same
+Krill instance would work for the TA Proxy but refuse to work for its
+Publication Server.
+
+The setup of a Krill Publication Server is described
+:ref:`here<doc_krill_publication_server>`.
+
+
+TA Proxy Publisher Request
+--------------------------
+
+Get the TA Proxy :rfc:`8183` Publisher Request XML file and save it
+so it can be uploaded tot he Publication Server:
+
+.. code-block:: bash
+
+  krillta proxy repo request > ./pub-req.xml
+
+
+Add TA Proxy as Publisher
+-------------------------
+
+Add the TA Proxy as a publisher and capture the :rfc:`8183` Repository
+Response XML:
+
+.. code-block:: bash
+
+  krillc pubserver publishers add --request ./pub-req.xml >./repo-res.xml
+
+
+Configure Repository for TA Proxy
+---------------------------------
+
+Now add the Publication Server (and its associated Repository) to the
+TA Proxy:
+
+.. code-block:: bash
+
+  krillta proxy repo configure --response ./repo-res.xml
+
+
+Configure the TA Signer
+-----------------------
+
+Create a working directory where your TA Signer can keep its state and
+log file. Then create a configuration file. If you use ``/etc/krillta.conf``
+as the configuration file, then ``krillta`` will be able to find it
+automatically, otherwise use ``-c /path/to/krillta.conf`` to override
+this default.
+
+The configuration file must at least contain a setting for the data
+directory. Other settings are optional - you only need to change them
+if you want to change the default logging and/or use an HSM.
+
+NOTE:: At this moment "timing" parameters for the TA are hard coded. Child
+   CA certificates are signed (and re-signed) with a validity of 52 weeks.
+   The CRL and MFT next update and MFT EE certificate not after time are
+   set to 12 weeks after the moment of signing. We may add support for
+   overriding these values if desired.
+
+Example configuration file:
+
+.. code-block::
+
+  ######################################################################################
+  #                                                                                    #
+  #                                      DATA                                          #
+  #                                                                                    #
+  ######################################################################################
+
+  # Specify the directory where the TA Signer will store its data.
+  data_dir = "/var/lib/krillta/data"
+
+  ######################################################################################
+  #                                                                                    #
+  #                                     LOGGING                                        #
+  #                                                                                    #
+  ######################################################################################
+
+  # Log level
+  #
+  # The maximum log level ("off", "error", "warn", "info", or "debug") for
+  # which to log messages.
+  #
+  # Defaults to "warn"
+  #
+  ### log_level = "warn"
+
+  # Log type
+  #
+  # Where to log to. One of "stderr" for stderr, "syslog" for syslog, or "file"
+  # for a file in which case $data_dir/krillta.log will be used. This cannot (yet)
+  # be overridden.
+  #
+  # Defaults to "file"
+  #
+  ### log_type = "file"
+
+  ######################################################################################
+  #                                                                                    #
+  #                                SIGNER CONFIGURATION                                #
+  #                                                                                    #
+  ######################################################################################
+
+  #
+  # By default OpenSSL is used for key generation and signing.
+  #
+  # But.. The usual Krill HSM support should also work in this context. If you want to
+  # use an HSM please read the documentation here:
+  # https://krill.docs.nlnetlabs.nl/en/stable/hsm.html
+  #
+  # Note that this configuration cannot be changed after the TA Signer has been
+  # initialised. Or rather.. where for normal Krill CAs defaults may be changed and
+  # key rolls can be used to start using a different signer, there is no key roll
+  # support for the TA. This may be implemented in future in which case we would
+  # also support RPKI Signed TALs for this process.
