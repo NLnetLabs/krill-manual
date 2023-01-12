@@ -445,6 +445,9 @@ Make a TA Proxy Request
   krillta proxy signer make-request
 
 
+*Note that the ``krillta`` subcommand combination ``proxy signer`` is
+used for actions for the ``proxy`` relating to its associated ``signer``.
+
 Download the TA Proxy Request
 -----------------------------
 
@@ -476,7 +479,6 @@ Upload the Signer Response
 .. code-block:: bash
 
   krillta proxy signer process-response --response ./response.json
-
 
 
 Auditing
