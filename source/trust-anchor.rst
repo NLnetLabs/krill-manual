@@ -24,53 +24,99 @@ wish to understand how Krill is used to the operate a TA.
 Overview
 ^^^^^^^^
 
-The Krill TA is logically separated into a TA 'Proxy' and 'Signer'.
+The Krill TA is logically separated into one 'Proxy' and one 'Signer'
+component which are associated with each other.
 
 The TA Signer is responsible for generating and using the TA RPKI key. It
 is designed to be operated using its own standalone command line tool
 called ``krillta``, preferably on a standalone and otherwise offline system.
 
-The TA Proxy always lives inside Krill itself (if enabled) and is responsible
-for all _online_ operations such as handling :rfc:`6492` communications
-with a child CA and publishing materials signed by the TA Signer using
-the :rfc:`8181` communication protocol with a Publication Server. The TA
+The TA Proxy always lives inside Krill itself and is responsible for all
+*online* operations such as handling :rfc:`6492` communications with a
+child CA and publishing materials signed by the TA Signer using the
+:rfc:`8181` communication protocol with a Publication Server. The TA
 Proxy uses its own "identity" key and certificate for these protocols.
 
 The TA Proxy is responsible for managing which child CA(s) can operate
-under the TA, and what resources they are entitled to. But, when the TA
-Proxy receives any :rfc:`6492` request from a child they will typically
-reply with a 'not performed response' to child indicating that the request
-was received and is scheduled for processing.
+under the TA, and what resources they are entitled to. When the TA Proxy
+first receives an :rfc:`6492` request from a child they reply with a
+dedicated not-performed-response (code 1104) indicating that the request is
+scheduled for processing. The child can (and does) keep sending the same
+request, and it will get another dedicated not-performed-response (code 1101)
+indicating that the request was already scheduled.
 
-The TA Proxy can then generate a request for the signer through the
-CLI/API. The TA Signer then processes the request, does all the necessary
-signing and generates a response. This response is then given to the TA
-Proxy which will then publish any new signed objects, and keep the now
-completed responses for any child CA
+Contrary to the other not-performed-responses these codes do not indicate
+that any error occurred. These codes exist to support the asynchronous
+signing by the offline TA Signer.
 
-We strongly recommended the following setup for Krill TAs:
+The actual signing process is initiated by the TA Proxy which generates
+a request for the signer through the CLI/API. The TA Signer then processes
+the request, does all the necessary signing and generates a response.
+This response is then given to the TA Proxy which will then publish any
+new signed objects. The TA Proxy will also keep the now completed response
+for the child CA, which will be returned the next time that the child CA
+sends their request to the TA Proxy.
 
-- TA Signer on separate hardware.
-- TA Proxy in Krill
-- A single child CA under TA Proxy in the same Krill.
-- Use all IPv4, IPv6 and ASN for the Proxy and Child.
-- Use a Publication Server in the same Krill instance.
+Even though in principle there could be multiple child CAs under the TA
+Proxy our design is intended to use a single child CA only. Furthermore,
+theoretically, this child CA could access the TA Proxy from a remote
+system (another Krill or RPKI CA installation) - but at this time we only
+support a local Krill CA for this purpose.
 
-The one and only child CA under the TA in this set up can then operate
-as, in effect, an *online* TA and act as a parent to RPKI CAs. At this
-time we have not (yet) implemented changing resource entitlements for
-the child CA under the TA, so for now at least it's best to set this up
-with all resources that will be needed.
+One key advantage of this model is that it allows us to trigger a re-sync
+of the local CA child with its TA Proxy parent immediately after the
+latter processed the TA Signer response.
 
-Note that it may be an option to set up another child under this CA with
-a limited set of resources which can be changed at any time without the
-need for an exchange between the TA Proxy and Signer. This would result
-in a model similar to how the `RIPE NCC TA Structure <https://www.ripe.net/manage-ips-and-asns/resource-management/rpki/ripe-ncc-rpki-trust-anchor-structure>`_ is defined.
+Internet Number Resources claimed by TA
+---------------------------------------
 
-.. Info:: Krill will use its Trust Anchor support if it is set up to run
-  in "Testbed" mode. However, in this case the TA Signer will be embedded
-  in the same Krill instance. As an operator of the "testbed" the TA
-  operations will be handled automatically by Krill in this case.
+We include *all* IPv4, IPv6 and AS number resources on the TA certificate,
+as well as the one immediate child CA. This child CA is in effect the
+acting **online** Trust Anchor in this model. This **online** CA then
+acts as a normal parent to any number of other CAs which can be co-hosted,
+or remote, as desired.
+
+Note that people may have concerns about a TA that claims all possible
+internet number resources, because this way multiple TAs claim the same
+resources and it's impossible for an observer (validator) to know which
+TA is supposed to be authoritative. Attestations found under each
+configured TA are considered equally valid by RPKI validation software.
+
+It would be better in this regard if the TA certificates would only claim
+those resources that the operating organisation is actually responsible for,
+but the problem with this is that this makes it hard to make changes to
+that set of resources. For `this reason <https://www.nro.net/regional-internet-registries-are-preparing-to-deploy-all-resources-rpki-service/>`_
+the RIR TA certificates currently all claim all internet number resources,
+though in practice they will only sign NIR or member certificates for
+resources that are actually allocated.
+
+Changing the TA certificate resources could be supported, but this would
+mean that a full exchange between an online system and a possibly
+**offline** TA Signer (in case of Krill) is performed whenever those
+resources need to change.
+
+A reasonable compromise for this set up could be to include one more CA -
+let's call it the **operational** TA - as the only child of the **online**
+TA, and use that as the parent CA for other children. This way the
+resources can be constrained and identified with relative ease, while
+they can still be modified in a timely manner when needed. This would result
+in a model similar to how the `RIPE NCC TA Structure <https://www.ripe.net/manage-ips-and-asns/resource-management/rpki/ripe-ncc-rpki-trust-anchor-structure>`_
+is defined.
+
+On the other hand, technical arguments can be raised to advocate that a
+single global Trust Anchor should be used and that that should be the
+parent for the RIR CAs, rather then having five such TAs. From a technical
+point of view this model makes a lot of sense and it was initially
+`recommended <https://www.iab.org/documents/correspondence-reports-documents/docs2010/iab-statement-on-the-rpki/>`_
+by the Internet Architecture Board (IAB). But, the political and
+operational realities make this model infeasible causing the IAB to
+`reconsider <https://www.iab.org/documents/correspondence-reports-documents/2018-2/iab-statement-on-the-rpki/>`_
+their previous statement on this matter.
+
+Note that if you are using Krill as a local TA for testing purposes, or
+for private address space management perhaps, you have the option of
+limiting the **online** TA resources to a smaller set, but if you do there
+is currently no support to change that resource set after initial setup.
 
 
 
