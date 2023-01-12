@@ -3,22 +3,23 @@
 Krill as a Trust Anchor
 =======================
 
-Wikipedia provides the following concise description of what a Trust Anchor
-(TA) is: *"In cryptographic systems with hierarchical structure, a trust anchor
-is an authoritative entity for which trust is assumed and not derived."*
+Krill can be set up to operate an RPKI Trust Anchor (TA). An RPKI TA
+serves as an `entry point for RPKI validators <https://rpki.readthedocs.io/en/latest/rpki/using-rpki-data.html#connecting-to-the-trust-anchor>`_.
+There are currently `five globally used TAs <https://rpki.readthedocs.io/en/latest/rpki/introduction.html#mapping-the-resource-allocation-hierarchy-into-the-rpki>_
+operated by the five RIRs, where each RIR is responsible for IPv4, IPv6
+and AS number resources that are allocated to them by IANA.
 
-In the context of the RPKI we currently have five Trust Anchors operated
-by the five RIRs. Each Trust Anchor publishes its own unique :rfc:`8630`
-Trust Anchor Locator which is used by RPKI validators to validate the
-RPKI content under that RIR's hierarchy.
+If you are not an RIR, then you will not need to run your own RPKI TA for
+normal RPKI operations. You would operate one or more RPKI CAs that get
+their IPv4, IPv6 and ASN number resources under one or more of the RIR
+operated TAs.
 
-Operators get their resources allocated under an RIR or NIR, and will
-therefore never have a need to run their own RPKI TA.
+That said, some users may want to operate their own TA outside of the
+TAs provided by the RIRs for testing, study or research reasons. Or perhaps
+even to manage private use address space.
 
-That said, Krill includes support to operate an RPKI Trust Anchor
-which can be used by an RIR, or operators who wish to set up their own
-local system e.g. for testing purposes or to manage private address space.
-
+Furthermore, this documentation may be of interest to readers who simply
+wish to understand how Krill is used to the operate a TA.
 
 Overview
 ^^^^^^^^
