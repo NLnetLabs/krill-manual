@@ -307,7 +307,7 @@ Example configuration file:
 Initialise the TA Signer
 ------------------------
 
-The TA Signer is always coupled to a single TA Proxy. We initialised the
+The TA Signer is always associated with a single TA Proxy. We initialised the
 TA Proxy and configured a repository for it in the earlier steps. We now
 need to export some of this information so that we can an initialise the
 one single TA Signer for that Proxy.
@@ -415,9 +415,10 @@ Step 3: Add "online" as a Publisher
   krillc repo configure --ca online --response ./repo-res.xml
 
 Now there should be a pending CSR from "online" to its parent "ta". It
-will keep sending the CSR periodically, but it will will get a response
-indicating that the CSR is scheduled for signing. You may see messages
-to this effect in the log - this is not alarming.
+will keep sending the CSR periodically, but it will will get a not-performed-response
+with codes 1104 or 1101, indicating that the CSR is received and is
+scheduled for signing. You may see messages to this effect in the log -
+this is not alarming.
 
 If you follow the exchange process described below then the TA Signer will
 sign the certificate. Since the "online" CA lives in the same Krill
@@ -429,6 +430,7 @@ Typical Proxy Signer Exchange
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 The typical exchange between the Proxy and Signer follows these steps:
+
 - Make the request in the Proxy
 - Download the Proxy request
 - Process the Proxy request
