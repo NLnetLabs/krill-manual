@@ -29,7 +29,9 @@ component which are associated with each other.
 
 The TA Signer is responsible for generating and using the TA RPKI key. It
 is designed to be operated using its own standalone command line tool
-called ``krillta``, preferably on a standalone and otherwise offline system.
+called ``krillta``. For improved security this tool can be used on a
+system that is kept disconnected from the network and offline when it is
+not in use, and optionally an HSM could be used for handling the key.
 
 The TA Proxy always lives inside Krill itself and is responsible for all
 *online* operations such as handling :rfc:`6492` communications with a
