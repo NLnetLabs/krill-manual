@@ -65,7 +65,7 @@ HSM.
           with the HSM. This is because it can be slow to generate, sign
           with and destroy one-off signing keys using an HSM.
 
-          On the other hand, because thes one-off keys are immediately
+          On the other hand, because these one-off keys are immediately
           destroyed, they do not need to be protected to the same degree
           as RPKI CA private keys, or CA identity keys. Assuming that
           the OpenSSL generation of a 2048 bit RSA key pair is secure
@@ -163,7 +163,7 @@ requests it can handle at once or how many system resources it uses.
 KMIP is arguably simpler to setup. With KMIP you only need to manage
 Krill and the HSM, there is no additional library component to manage as
 with PKCS#11. Krill itself communicates directly with the HSM and so all
-configuration, logging and resource usage is determined by Krill. In addition, 
+configuration, logging and resource usage is determined by Krill. In addition,
 monitoring is done by monitoring Krill itself. Krill connects to the
 KMIP server via TLS encrypted TCP and thus could also potentially be
 routed to one of many backend servers in a cluster, or the server could
@@ -187,9 +187,9 @@ one signer to another. Instead you will need to perform a
 :ref:`key rollover<doc_krill_ca_keyroll>` for each CA.
 
 .. Note:: Not all keys can be rolled. See the warning above about
-          migration of ID keys used in parent/child and CA/publication 
+          migration of ID keys used in parent/child and CA/publication
           server relationships.
- 
+
 
 To perform a key roll from one signer to another you must first change
 the ``default_signer`` in ``krill.conf`` to the new signer, and then
