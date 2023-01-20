@@ -152,15 +152,19 @@ audit trail of the interactions.
    users install it using "cargo" instead.
 
 
-Enable TA Support
------------------
+Run Krill with TA Support
+-------------------------
 
-Add the following to your ``krill.conf`` files:
+Set up an empty Krill installation following the normal installation
+process. Add the following to your ``krill.conf`` files in addition to
+any other set up that you need to do:
 
 .. code-block:: text
 
   ta_support_enabled = true
 
+Then run Krill as usual so that it can accessed by ``krillc``, ``krillta``
+and the UI.
 
 Initialise TA Proxy
 -------------------
@@ -335,17 +339,19 @@ will be able to download the TA certificate at a later stage. For now,
 make sure that you choose URIs (rsync and HTTPS) where you will host a
 copy of that certificate later.
 
-Note that the TA certificate can *not* be hosted in the normal rsync and
-RRDP repository of your publication server. You can use the same hardware,
-web server and rsync daemon, but you will need different endpoints as the
-TA certificate itself is not published using the :rfc:`8181` Publication
-Protocol.
+Note that TA certificate itself is not published using the :rfc:`8181`
+Publication Protocol. The Krill Publication Server expects that no other
+files are present in its RRDP and rsync directories besides except for
+the files published through this procotol.
+
+For this reason you will need to use separate dedicated HTTPS and rsync
+endpoints for the TA certificate.
 
 .. code-block:: bash
 
   krillta signer init --proxy_id ./proxy-id.json \
                       --proxy_repository_contact ./proxy-repo.json \
-                      --tal_https <HTTPS URI for TA cert on TAL>
+                      --tal_https <HTTPS URI for TA cert on TAL> \
                       --tal_rsync <RSYNC URI for TA cert on TAL>
 
 
@@ -367,12 +373,11 @@ probably rename this to 'associate' instead):
   krillta proxy signer init --info ./signer-info.json
 
 
-At this point you should see that the TA certificate is available in
-Krill under the ``/ta/ta.cer`` endpoint. Copy it and place it where
-your web server and rsync daemon can serve it. You will most likely
-need a dedicated configuration for this in your web server as it's a
-different path from the usual RRDP content, and you will need a separate
-rsyncd module.
+At this point you should see that the TAL is available under the ``/ta/ta.tal``
+endpoint. It will include the HTTPS and rsync URIs that were specified
+when the signer was initialised. You can download a copy of the TA
+certificate under the ``/ta/ta.cer`` endpoint. Copy it, and place it
+where your web server and rsync daemon can serve it.
 
 You should also see that a manifest and CRL were published for your
 TA. These files should be published in your Publication Server's base
@@ -397,7 +402,7 @@ Step 2: Add "online" as a child of "ta"
 .. code-block:: bash
 
   krillc show --ca online --format json >./online.json
-  krillta proxy children add --info ./online.json
+  krillta proxy children add --info ./online.json >./res.xml
 
 Step 3: Add "ta" as a parent of "online"
 
@@ -410,18 +415,22 @@ Step 3: Add "online" as a Publisher
 
 .. code-block:: bash
 
-  krillc repo request --ca online ./pub-req.xml
+  krillc repo request --ca online > ./pub-req.xml
   krillc pubserver publishers add --request ./pub-req.xml > ./repo-res.xml
   krillc repo configure --ca online --response ./repo-res.xml
 
-Now there should be a pending CSR from "online" to its parent "ta". It
-will keep sending the CSR periodically, but it will will get a not-performed-response
-with codes 1104 or 1101, indicating that the CSR is received and is
-scheduled for signing. You may see messages to this effect in the log -
-this is not alarming.
+If you now look at your CA using ``krillc show --ca online`` you should
+see that the parent ``ta`` was added, but no resources were received. Instead,
+you will see that the CA ``online`` has a key in state "pending".
+
+There will also be a pending Certificate Sign Request (CSR) from ``online``
+to its parent ``ta``. The CSR will be re-sent periodically, but ``online``
+will get a not-performed-response from ``ta`` with codes 1104 or 1101,
+indicating that the CSR is received and is scheduled for signing. You may
+see messages to this effect in the log - this is not alarming.
 
 If you follow the exchange process described below then the TA Signer will
-sign the certificate. Since the "online" CA lives in the same Krill
+sign the certificate. Since the ``online`` CA lives in the same Krill
 instance as the TA Proxy it will be made aware of this update immediately
 and get its signed certificate without further delay.
 
@@ -453,10 +462,14 @@ Download the TA Proxy Request
 
 .. code-block:: bash
 
-  krillta proxy signer show-request > ./request.json
+  krillta proxy signer show-request --format json > ./request.json
 
-.. Note:: We may change the format from json to signed CMS in the near future,
-probably before this is released.
+.. Note:: the request JSON includes both a readable representation of the
+    request that is made by the ``proxy`` for the ``signer``, and a
+    base64 encoded signed (CMS) object containing that same request. Any
+    attempt to tamper with the clear text part of the request, the
+    corresponding response for that matter, will result in a validation
+    failure and rejection.
 
 Process TA Proxy Request
 ------------------------
