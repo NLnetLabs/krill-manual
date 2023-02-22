@@ -407,6 +407,12 @@ Download and run Keycloak
              database which is convenient for demonstration and
              testing purposes but should not be used in a production
              setting.
+             
+.. note:: If IPv6 is enabled for Docker then Keycloak may fail to
+          start with error ``failed to resolve interface private``.
+          One way to work around this problem is to append the
+          following to the ``docker run`` command:
+          ``-Djboss.bind.address.private=127.0.0.1 -Djboss.bind.address=0.0.0.0``
 
 Follow the logs until Keycloak is ready:
 
