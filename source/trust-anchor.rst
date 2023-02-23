@@ -145,10 +145,14 @@ TAs in a single installation.
 Krillta Command Line Tool
 -------------------------
 
-Krill now includes ``krillta``. This is used to manage both the TA Signer,
-in which case it will expect to keep its state on a local disk and the TA
-Proxy, in which case it will connect to the Krill server in the same way
-that ``krillc`` does.
+A ``krillta`` command line tool is now available as a separate package.
+It is not included in the main Krill package because it will likely only
+be needed by a very small number of Krill users.
+
+``krillta`` can be used to manage both the TA Signer, in which case it
+will expect to keep its state on a local disk, and the TA Proxy, in which
+case it will connect to the Krill server in the same way that ``krillc``
+does.
 
 The communication between the TA Proxy and Signer is done using messages
 encoded in simple JSON files. We are planning to wrap these messages in
@@ -158,11 +162,6 @@ not alter the process described below - it will improve security by
 ensuring that the Proxy and Signer will only accept properly signed
 requests and responses, and in the process we will have a verifiable
 audit trail of the interactions.
-
-.. NOTE:: It is still undecided whether we will include ``krillta`` in the
-   packages we build. Because this is only needed by a handful of users
-   we may end up not including it by default, but instead require that
-   users install it using "cargo" instead.
 
 
 Run Krill with TA Support
