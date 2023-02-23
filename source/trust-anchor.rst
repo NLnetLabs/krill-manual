@@ -32,13 +32,13 @@ components which are associated with each other.
           TA Online Host             TA Disconnected Host
    +---------------------------+    +--------------------+
    |                           |    |                    |
-   |  ``krillc``    ``krillta proxy``  |    |   ``krillta signer``   |
+   |  krillc    krillta proxy  |    |   krillta signer   |
    |    |             |   ^    |    |         ^          |
-   |    +--> ``krill`` <--+   .    |    +---------.----------+
+   |    +--> krill <--+   .    |    +---------.----------+
    |                      .    |              . 
    +----------------------.----+              . offline
                           .                   . transport
-                          + . . . . . . . . . . +
+                          + . . . . . . . . . +
 
 The TA Signer is responsible for generating and using the TA RPKI key. It
 is designed to be operated using its own standalone command line tool
