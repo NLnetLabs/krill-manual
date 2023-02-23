@@ -125,3 +125,8 @@ checkmarks in the dialog box, and fill in the required fields.
 Now, you'll now land at the start page to set up your Certificate Authority. 
 Select the "Delegated" radio button and accept the Terms & Conditions to create
 your new CA.
+
+Please note that RIPE NCC offers RPKI publication as a service. It is
+highly recommended to make use of this, as it relieves you of the need to run a
+highly available repository yourself. We provide a `step-by-step guide
+<https://blog.nlnetlabs.nl/running-krill-under-ripe-ncc/>`_ to set this up.
