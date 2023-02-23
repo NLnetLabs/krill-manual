@@ -11,7 +11,7 @@ Krill 0.12.0
 .. |discord| image:: https://img.shields.io/discord/818584154278199396?label=rpki%20on%20discord&logo=discord
             :target: https://discord.gg/8dvKB5Ykhy
 
-Krill is a free, open source Resource Public Key Infrastructure (RPKI) daemon,
+Krill is a free, open source Resource Public Key Infrastructure (`RPKI <https://rpki.readthedocs.io/>`_) daemon,
 featuring a Certificate Authority (CA) and publication server, written by `NLnet
 Labs <https://nlnetlabs.nl>`_.
 
