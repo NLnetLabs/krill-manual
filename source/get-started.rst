@@ -109,7 +109,7 @@ or you can simply use the UI:
 
 Your publication server provider will give you a repository response XML. You
 can use the CLI subcommand :ref:`krillc repo configure<cmd_krillc_repo_configure>` to
-tell add this configuration to your CA, or you can simply use the UI:
+ add this configuration to your CA, or you can simply use the UI:
 
 .. figure:: img/krill-ui-repository-response.png
     :align: center
