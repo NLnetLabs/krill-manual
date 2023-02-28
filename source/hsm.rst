@@ -95,8 +95,8 @@ Cryptographic Token Name             Tested Protocols   Tested Token Form    Tes
 `YubiHSM 2`_                         PKCS#11            USB key              `#555`_
 ==================================   ================   ==================   ============
 
-.. Note:: See also Krill GitHub `issues tagged with the ``hsm`` and
-          ``interop testing`` labels <https://github.com/NLnetLabs/krill/issues?q=label%3A%22interop+testing%22+label%3A%22hsm%22>`_.
+.. Note:: See also Krill GitHub `issues tagged with the hsm and
+          interop testing labels <https://github.com/NLnetLabs/krill/issues?q=label%3A%22interop+testing%22+label%3A%22hsm%22>`_.
 
 .. _AWS CloudHSM: https://aws.amazon.com/cloudhsm/
 .. _Kryptus kNET HSM: https://www.kryptus.com/knet/
