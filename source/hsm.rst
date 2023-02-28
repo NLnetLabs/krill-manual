@@ -76,10 +76,11 @@ Compatible HSMs
 ---------------
 
 In theory Krill supports any HSM that is compatible with the
-`PKCS#11 <https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=pkcs11>`_ and/or the
-`KMIP <https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=kmip>`_ 1.2 standards. The HSM must already be
-setup and you must already be in possession of any access credentials which Krill will need to use to connect to the
-HSM.
+`PKCS#11 <https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=pkcs11>`_
+2.40 and/or the `KMIP <https://www.oasis-open.org/committees/tc_home.php?wg_abbrev=kmip>`_
+1.2 standards. The HSM must already be setup and you must already be in
+possession of any access credentials which Krill will need to use to
+connect to the HSM.
 
 Krill has been tested with the following (in alphabetical order):
 
@@ -93,6 +94,9 @@ Cryptographic Token Name             Tested Protocols   Tested Token Form    Tes
 `Utimaco Security Server`_ v4.45.3   PKCS#11            Software Simulator   `#732`_
 `YubiHSM 2`_                         PKCS#11            USB key              `#555`_
 ==================================   ================   ==================   ============
+
+.. Note:: See also Krill GitHub `issues tagged with the ``hsm`` and
+          ``interop testing`` labels <https://github.com/NLnetLabs/krill/issues?q=label%3A%22interop+testing%22+label%3A%22hsm%22>`_.
 
 .. _AWS CloudHSM: https://aws.amazon.com/cloudhsm/
 .. _Kryptus kNET HSM: https://www.kryptus.com/knet/
