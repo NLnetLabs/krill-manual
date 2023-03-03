@@ -122,7 +122,7 @@ the API.
 However, if you need to use the CLI or API from other machines, then you should
 proxy access to the path '/api' to Krill.
 
-Example nginx configuration
+Example NGINX configuration
 ---------------------------
 
 As introduced above krill has two paths that contain the endpoints. `/api` for the
@@ -140,38 +140,22 @@ the API, and all clients to publish is below.
       server_name $hostname;
       charset UTF-8;
 
+      #
+      # Access and error logs help you distinguish where a request failed:
+      # did the error come from krill? Or did NGINX fail to reach the upstream
+      # server?
+      #
       access_log "/var/log/nginx/[hostname]-access.log";
       error_log "/var/log/nginx/[hostname]-error.log";
 
-      # mozilla intermediate ssl configuration
-      ssl_certificate /path/to/signed_cert_plus_intermediates;
-      ssl_certificate_key /path/to/private_key;
-      ssl_session_timeout 1d;
-      ssl_session_cache shared:MozSSL:10m;  # about 40000 sessions
-      ssl_session_tickets off;
+      #
+      # SSL setup is missing - for recommended settings see https://ssl-config.mozilla.org
+      #
 
-      # curl https://ssl-config.mozilla.org/ffdhe2048.txt > /path/to/dhparam
-      ssl_dhparam /path/to/dhparam;
-
-      # intermediate configuration
-      ssl_protocols TLSv1.2 TLSv1.3;
-      ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
-      ssl_prefer_server_ciphers off;
-
-      # HSTS (ngx_http_headers_module is required) (63072000 seconds)
-      add_header Strict-Transport-Security "max-age=63072000" always;
-
-      # OCSP stapling
-      ssl_stapling on;
-      ssl_stapling_verify on;
-
-      # verify chain of trust of OCSP response using Root CA and Intermediate certs
-      ssl_trusted_certificate /path/to/root_CA_cert_plus_intermediates;
-
-      # replace with the IP address of your resolver
-      resolver 1.1.1.1;
-
-      # allow clients to publish up to 128mb of data (before overhead) in one request
+      #
+      # allow clients to publish up to 128mb of data (before overhead) in one
+      # request: needed to publish big repositories.
+      #
       client_max_body_size 128m;
 
       location /rfc8181 {
