@@ -130,6 +130,8 @@ krill API that you may want to restrict. `/rfc8181` is used for publication. A
 configuration that allows `192.0.2.0/24` and the IPv6 documentation prefix access to
 the API, and all clients to publish is below.
 
+It is recommended to publish the RRDP content on a different hostname.
+
 `/etc/nginx/sites-enabled/krill.example.org`
 
 .. code-block:: text
@@ -158,6 +160,11 @@ the API, and all clients to publish is below.
       #
       client_max_body_size 128m;
 
+      #
+      # The paths are split:
+      #   * /rfc8181 should be open to all child CAs
+      #   * /api has an allow-list of origins that can access it.
+      #
       location /rfc8181 {
           proxy_pass https://127.0.0.1:3000/rfc8181;
           proxy_set_header Host $host;
