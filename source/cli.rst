@@ -773,18 +773,9 @@ Example API:
     }
   }
 
-.. Important:: In Krill 0.9.0 you cannot update the configuration of the repository
-     used by your CA after it has been set.
-
-     Normally there should be no need to update this configuration after it has been
-     set up initially. However, there may be a use case to do this if for example
-     you chose to run your own Publication Server, but you can now use a Publication
-     Server provided by a third party such as your RIR or NIR.
-
-     We have an `open issue <https://github.com/NLnetLabs/krill/issues/480>`_ to
-     address this and we plan to support migrating repositories as soon as possible.
-
-
+.. Important:: If you need to change your repository configuration, then
+    follow :ref:`this<doc_krill_ca_migrate_repo>` process to migrate your
+    CA to a new repository.
 
 .. _cmd_krillc_repo_status:
 
