@@ -72,55 +72,10 @@ latter processed the TA Signer response.
 Internet Number Resources claimed by TA
 ---------------------------------------
 
-We include *all* IPv4, IPv6 and AS number resources on the TA certificate,
-as well as the one immediate child CA. This child CA is in effect the
-acting **online** Trust Anchor in this model. This **online** CA then
-acts as a normal parent to any number of other CAs which can be co-hosted,
-or remote, as desired.
-
-Note that people may have concerns about a TA that claims all possible
-internet number resources, because this way multiple TAs claim the same
-resources and it's impossible for an observer (validator) to know which
-TA is supposed to be authoritative. Attestations found under each
-configured TA are considered equally valid by RPKI validation software.
-
-It would be better in this regard if the TA certificates would only claim
-those resources that the operating organisation is actually responsible for,
-but the problem with this is that this makes it hard to make changes to
-that set of resources. For `this reason <https://www.nro.net/regional-internet-registries-are-preparing-to-deploy-all-resources-rpki-service/>`_
-the RIR TA certificates currently all claim all internet number resources,
-though in practice they will only sign NIR or member certificates for
-resources that are actually allocated.
-
-Changing the TA certificate resources could be supported, but this would
-mean that a full exchange between an online system and a possibly
-**offline** TA Signer (in case of Krill) is performed whenever those
-resources need to change.
-
-A reasonable compromise for this set up could be to include one more CA -
-let's call it the **operational** TA - as the only child of the **online**
-TA, and use that as the parent CA for other children. This way the
-resources can be constrained and identified with relative ease, while
-they can still be modified in a timely manner when needed. This would result
-in a model similar to how the `RIPE NCC TA Structure <https://www.ripe.net/manage-ips-and-asns/resource-management/rpki/ripe-ncc-rpki-trust-anchor-structure>`_
-is defined.
-
-On the other hand, technical arguments can be raised to advocate that a
-single global Trust Anchor should be used and that that should be the
-parent for the RIR CAs, rather then having five such TAs. From a technical
-point of view this model makes a lot of sense and it was initially
-`recommended <https://www.iab.org/documents/correspondence-reports-documents/docs2010/iab-statement-on-the-rpki/>`_
-by the Internet Architecture Board (IAB). But, the political and
-operational realities make this model infeasible causing the IAB to
-`reconsider <https://www.iab.org/documents/correspondence-reports-documents/2018-2/iab-statement-on-the-rpki/>`_
-their previous statement on this matter.
-
-Note that if you are using Krill as a local TA for testing purposes, or
-for private address space management perhaps, you have the option of
-limiting the **online** TA resources to a smaller set, but if you do there
-is currently no support to change that resource set after initial setup.
-
-
+For now, we include *all* IPv4, IPv6 and AS number resources on the TA
+certificate, as well as the one immediate child CA. In future, we can
+add support for initialising a TA with a smaller set of resources, and
+changing that set of resources.
 
 Set Up
 ^^^^^^
