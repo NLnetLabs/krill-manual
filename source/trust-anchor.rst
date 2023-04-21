@@ -69,9 +69,6 @@ One key advantage of this model is that it allows us to trigger a re-sync
 of the local CA child with its TA Proxy parent immediately after the
 latter processed the TA Signer response.
 
-Internet Number Resources claimed by TA
----------------------------------------
-
 For now, we include *all* IPv4, IPv6 and AS number resources on the TA
 certificate, as well as the one immediate child CA. In future, we can
 add support for initialising a TA with a smaller set of resources, and
