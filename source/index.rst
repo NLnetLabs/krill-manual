@@ -89,23 +89,16 @@ line and through an API.
    :name: toc-advanced
 
    cli
-   building-from-source
+   manage-aspas
+   manage-bgpsec
    multi-user
-   publication-server
-   manage-children
    ca-keyroll
    ca-migrate-repo
+   publication-server
+   manage-children
    hsm
-   manage-bgpsec
    trust-anchor
-
-.. toctree::
-   :maxdepth: 2
-   :hidden:
-   :caption: Experimental
-   :name: toc-experimental
-
-   manage-aspas
+   building-from-source
 
 .. toctree::
    :maxdepth: 2

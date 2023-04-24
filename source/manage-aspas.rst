@@ -3,27 +3,15 @@
 Manage ASPA Objects
 ===================
 
-.. Important:: This is an EXPERIMENTAL feature to support the discussion and
-              development of the ASPA concept which is currently being discussed
-              in the sidrops WG in the IETF. Do NOT use this in production
-              environments.
+.. Important:: ASPA objects and verification are still being discussed
+               in the IETF. We don't expect major changes going forward,
+               but please be aware that this a new RPKI object type and
+               support for it in RPKI validators and routers may still
+               be lacking.
 
-              To use this feature you will need to enable support for it when
-              building the CLI. No UI support has been added yet.
-
-
-Install CLI
------------
-
-You will need to install Krill from source and enable ASPA to ensure that the
-CLI binary gets built with additional subcommands needed for this feature:
-
-.. code-block:: bash
-
-   cargo install krill --git https://github.com/NLnetLabs/krill \
-                       --tag v0.10.0 \
-                       --features aspa \
-                       --locked
+               For the moment ASPA objects can *only* be managed through
+               the CLI. This allows early adopters to use this new type,
+               and allows the industry to build up experience.
 
 ASPA Configurations
 -------------------
