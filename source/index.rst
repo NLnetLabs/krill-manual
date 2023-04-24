@@ -59,6 +59,8 @@ certificate and ROAs with a third party, such as your NIR or RIR, or you publish
 them yourself. Krill can be managed with a web user interface, from the command
 line and through an API.
 
+|
+
 .. toctree::
    :maxdepth: 2
    :caption: Getting Started
