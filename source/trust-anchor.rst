@@ -10,7 +10,7 @@ operated by the five RIRs, where each RIR is responsible for IPv4, IPv6
 and AS number resources that are allocated to them by IANA.
 
 If you are not an RIR, then you will not need to run your own RPKI TA for
-normal RPKI operations. You would operate one or more RPKI CAs that get
+normal RPKI operations. Instead, you would operate one or more RPKI CAs that get
 their IPv4, IPv6 and ASN number resources under one or more of the RIR
 operated TAs.
 
@@ -19,13 +19,26 @@ TAs provided by the RIRs for testing, study or research reasons. Or perhaps
 even to manage private use address space.
 
 Furthermore, this documentation may be of interest to readers who simply
-wish to understand how Krill is used to the operate a TA.
+wish to understand how Krill is used to operate a TA.
 
 Overview
 ^^^^^^^^
 
-The Krill TA is logically separated into one 'Proxy' and one 'Signer'
-component which are associated with each other.
+The Krill TA is logically separated into 'Proxy' and 'Signer'
+components which are associated with each other.
+
+.. parsed-literal::
+
+          TA Online Host             TA Disconnected Host
+   +---------------------------+    +--------------------+
+   |                           |    |                    |
+   |  krillc    krillta proxy  |    |   krillta signer   |
+   |    |             |   ^    |    |         ^          |
+   |    +--> krill <--+   .    |    +---------.----------+
+   |                      .    |              . 
+   +----------------------.----+              . offline
+                          .                   . transport
+                          + . . . . . . . . . +
 
 The TA Signer is responsible for generating and using the TA RPKI key. It
 is designed to be operated using its own standalone command line tool
@@ -41,11 +54,11 @@ Proxy uses its own "identity" key and certificate for these protocols.
 
 The TA Proxy is responsible for managing which child CA(s) can operate
 under the TA, and what resources they are entitled to. When the TA Proxy
-first receives an :rfc:`6492` request from a child they reply with a
+first receives an :rfc:`6492` request from a child it will reply with a
 dedicated not-performed-response (code 1104) indicating that the request is
 scheduled for processing. The child can (and does) keep sending the same
-request, and it will get another dedicated not-performed-response (code 1101)
-indicating that the request was already scheduled.
+request, and it will get a different dedicated not-performed-response (code
+1101) indicating that the request was already scheduled.
 
 Contrary to the other not-performed-responses these codes do not indicate
 that any error occurred. These codes exist to support the asynchronous
@@ -84,10 +97,14 @@ TAs in a single installation.
 Krillta Command Line Tool
 -------------------------
 
-Krill now includes ``krillta``. This is used to manage both the TA Signer,
-in which case it will expect to keep its state on a local disk and the TA
-Proxy, in which case it will connect to the Krill server in the same way
-that ``krillc`` does.
+A ``krillta`` command line tool is now available as a separate package.
+It is not included in the main Krill package because it will likely only
+be needed by a very small number of Krill users.
+
+``krillta`` can be used to manage both the TA Signer, in which case it
+will expect to keep its state on a local disk, and the TA Proxy, in which
+case it will connect to the Krill server in the same way that ``krillc``
+does.
 
 The communication between the TA Proxy and Signer is done using messages
 encoded in simple JSON files. We are planning to wrap these messages in
@@ -97,11 +114,6 @@ not alter the process described below - it will improve security by
 ensuring that the Proxy and Signer will only accept properly signed
 requests and responses, and in the process we will have a verifiable
 audit trail of the interactions.
-
-.. NOTE:: It is still undecided whether we will include ``krillta`` in the
-   packages we build. Because this is only needed by a handful of users
-   we may end up not including it by default, but instead require that
-   users install it using "cargo" instead.
 
 
 Run Krill with TA Support
@@ -149,7 +161,7 @@ TA Proxy Publisher Request
 --------------------------
 
 Get the TA Proxy :rfc:`8183` Publisher Request XML file and save it
-so it can be uploaded tot he Publication Server:
+so it can be uploaded to the Publication Server:
 
 .. code-block:: bash
 
@@ -363,7 +375,7 @@ Step 3: Add "ta" as a parent of "online"
   krillta proxy children response --child online >./res.xml
   krillc parents add --ca online --parent ta --response ./res.xml
 
-Step 3: Add "online" as a Publisher
+Step 4: Add "online" as a Publisher
 
 .. code-block:: bash
 
@@ -456,3 +468,4 @@ friendlier to the human eye:
 .. code-block:: bash
 
   krillta signer exchanges --format text
+
