@@ -35,7 +35,7 @@ components which are associated with each other.
    |  krillc    krillta proxy  |    |   krillta signer   |
    |    |             |   ^    |    |         ^          |
    |    +--> krill <--+   .    |    +---------.----------+
-   |                      .    |              . 
+   |                      .    |              .
    +----------------------.----+              . offline
                           .                   . transport
                           + . . . . . . . . . +
@@ -106,15 +106,13 @@ will expect to keep its state on a local disk, and the TA Proxy, in which
 case it will connect to the Krill server in the same way that ``krillc``
 does.
 
-The communication between the TA Proxy and Signer is done using messages
-encoded in simple JSON files. We are planning to wrap these messages in
-signed CMS - much like the CMS used in :rfc:`6492` - but this has not
-yet been done at this time. But, note that when we do this, this will
-not alter the process described below - it will improve security by
-ensuring that the Proxy and Signer will only accept properly signed
-requests and responses, and in the process we will have a verifiable
-audit trail of the interactions.
-
+The communication between the TA Proxy and Signer is done using signed
+CMS messages - much like the CMS used in :rfc:`6492` allowing both the
+TA Proxy and Signer to validate requests and responses. Furthermore, each
+request includes a nonce value that is expected to be repeated in the
+corresponding response. Nonce values may not be repeated. This helps to
+protect against replay attacks, although in practice it's more likely
+to catch mistakes where the wrong request or response is used by accident.
 
 Run Krill with TA Support
 -------------------------
@@ -468,4 +466,3 @@ friendlier to the human eye:
 .. code-block:: bash
 
   krillta signer exchanges --format text
-
