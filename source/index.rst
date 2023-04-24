@@ -82,7 +82,6 @@ line and through an API.
    cli
    multi-user
    monitoring
-   manage-children
 
 .. toctree::
    :maxdepth: 2
@@ -112,9 +111,10 @@ line and through an API.
    :caption: Reference
    :name: toc-reference
 
+   upgrade
+   manage-children
    building-from-source
    docker
-   upgrade
    testbed
    failure-scenarios
 
