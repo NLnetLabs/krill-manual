@@ -79,8 +79,20 @@ line and through an API.
    :name: toc-core
 
    parent-interactions
-   manage-roas
+   cli
+   multi-user
    monitoring
+   manage-children
+
+.. toctree::
+   :maxdepth: 2
+   :hidden:
+   :caption: Object Types
+   :name: object-types
+   
+   manage-roas
+   manage-aspas
+   manage-bgpsec   
 
 .. toctree::
    :maxdepth: 2
@@ -88,17 +100,11 @@ line and through an API.
    :caption: Advanced
    :name: toc-advanced
 
-   cli
-   manage-aspas
-   manage-bgpsec
-   multi-user
    ca-keyroll
    ca-migrate-repo
    publication-server
-   manage-children
    hsm
    trust-anchor
-   building-from-source
 
 .. toctree::
    :maxdepth: 2
@@ -106,9 +112,10 @@ line and through an API.
    :caption: Reference
    :name: toc-reference
 
-   testbed
+   building-from-source
    docker
    upgrade
+   testbed
    failure-scenarios
 
 .. history
