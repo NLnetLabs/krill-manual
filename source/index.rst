@@ -63,6 +63,7 @@ line and through an API.
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
    :caption: Getting Started
    :name: toc-getting-started
 
@@ -73,6 +74,7 @@ line and through an API.
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
    :caption: Core
    :name: toc-core
 
@@ -82,6 +84,7 @@ line and through an API.
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
    :caption: Advanced
    :name: toc-advanced
 
@@ -98,6 +101,7 @@ line and through an API.
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
    :caption: Experimental
    :name: toc-experimental
 
@@ -105,6 +109,7 @@ line and through an API.
 
 .. toctree::
    :maxdepth: 2
+   :hidden:
    :caption: Reference
    :name: toc-reference
 
