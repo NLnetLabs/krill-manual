@@ -122,6 +122,77 @@ the API.
 However, if you need to use the CLI or API from other machines, then you should
 proxy access to the path '/api' to Krill.
 
+Example NGINX configuration
+---------------------------
+
+As introduced above krill has two paths that contain the endpoints. `/api` for the
+krill API that you may want to restrict. `/rfc8181` is used for publication. A
+configuration that allows `192.0.2.0/24` and the IPv6 documentation prefix access to
+the API, and all clients to publish is below.
+
+It is recommended to publish the RRDP content on a different hostname.
+
+`/etc/nginx/sites-enabled/krill.example.org`
+
+.. code-block:: text
+
+  server {
+      listen 443 ssl http2;
+      listen [::]:443 ssl http2;
+      server_name $hostname;
+      charset UTF-8;
+
+      #
+      # Access and error logs help you distinguish where a request failed:
+      # did the error come from krill? Or did NGINX fail to reach the upstream
+      # server?
+      #
+      access_log "/var/log/nginx/[hostname]-access.log";
+      error_log "/var/log/nginx/[hostname]-error.log";
+
+      #
+      # SSL setup is missing - for recommended settings see https://ssl-config.mozilla.org
+      #
+
+      #
+      # allow clients to publish up to 128mb of data (before overhead) in one
+      # request: needed to publish big repositories.
+      #
+      client_max_body_size 128m;
+
+      #
+      # The paths are split:
+      #   * /rfc8181 should be open to all child CAs
+      #   * /api has an allow-list of origins that can access it.
+      #
+      location /rfc8181 {
+          proxy_pass https://127.0.0.1:3000/rfc8181;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+
+          # krill does not use a valid certificate/tls is handled by nginx
+          proxy_ssl_verify off;
+      }
+
+      location /api {
+          proxy_pass https://127.0.0.1:3000/api;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+
+          # allow IPv4 and IPv6 documentation ranges
+          allow 192.0.2.0/24;
+          allow 2001:0db8::/32;
+          deny  all;
+
+          # krill does not use a valid certificate/tls is handled by nginx
+          proxy_ssl_verify off;
+      }
+  }
+
 Configure the Repository
 ------------------------
 
