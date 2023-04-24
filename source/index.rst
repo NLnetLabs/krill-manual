@@ -92,6 +92,7 @@ line and through an API.
    ca-migrate-repo
    hsm
    manage-bgpsec
+   trust-anchor
 
 .. toctree::
    :maxdepth: 2

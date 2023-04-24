@@ -108,8 +108,8 @@ or you can simply use the UI:
     Copy the publisher request XML or download the file
 
 Your publication server provider will give you a repository response XML. You
-can use the CLI subcommand :ref:`krillc repo update<cmd_krillc_repo_update>` to
-tell add this configuration to your CA, or you can simply use the UI:
+can use the CLI subcommand :ref:`krillc repo configure<cmd_krillc_repo_configure>` to
+add this configuration to your CA, or you can simply use the UI:
 
 .. figure:: img/krill-ui-repository-response.png
     :align: center
