@@ -6,7 +6,7 @@ Running a Krill Test Environment
 You do not need to run your own Krill Test Environment if you just want to
 try out Krill. You can simply install Krill on a test machine and set it
 up under the public Krill based RPKI testbed that NLnet Labs runs here:
-https://testbed.krill.cloud/index.html#/testbed
+https://testbed.krill.cloud/ui/testbed
 
 Read more about this in our `blog <https://blog.nlnetlabs.nl/testing-the-waters-with-krill/>`_.
 
@@ -186,5 +186,14 @@ claiming any resources they please. This is by design. This meant for testing. D
 mention testing? You get the point.. don't use the TAL, also listed on that page, for
 anything BUT testing.
 
-To get to the page you need to know the URI:
-https://krill.example.org/index.html#/testbed
+To get to the page go to:
+https://<yourhost>/ui/testbed
+
+You can download your TAL and TA certificate here:
+https://<yourhost>/ta/ta.tal
+https://<yourhost>/ta/ta.cer
+
+If you want to use your testbed for validating then please have a look
+at our `blog <https://blog.nlnetlabs.nl/testing-the-waters-with-krill/>`_
+where we talk a bit more about making the TAL, TA certificate and repository
+available.
