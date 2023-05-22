@@ -47,11 +47,10 @@ configurations when using the CLI:
               This is because Krill MUST (RFC) create a single ASPA object, for
               all provider ASNs.
 
-              At this point in time Krill still allows that an ASPA object is
-              created with an empty provider list. However, since implementing
-              this feature the IETF has decided that empty provider lists are not
-              allowed. We will add this constraint to Krill before
-              releasing 0.13.0.
+              The provider list may not be empty, and it must have entries
+              for both IPv4 and IPv6. If you explicitly want to state that
+              your customer AS has providers for one AFI, but not for the
+              other then you will need to add either AS0(v4) or AS0(v6).
 
 Add an ASPA
 -----------
