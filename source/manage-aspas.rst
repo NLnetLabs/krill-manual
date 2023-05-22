@@ -154,6 +154,15 @@ Or using the API:
     ]
   }
 
+.. Tip:: The update function is designed to be idempotent. You can use
+         this function to add a provider for your customer AS, even if
+         you did not yet have any ASPA defined. Krill will then just
+         create a new ASPA config for you. If you try adding a provider
+         that is already listed for the customer, then the operation will
+         simply have no effect. If you remove the last provider, then
+         Krill will remove the entire ASPA configuration and object for
+         your customer AS.
+
 Remove an ASPA
 ---------------
 
