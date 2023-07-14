@@ -3,15 +3,21 @@
 Manage ASPA Objects
 ===================
 
-.. Important:: ASPA objects and verification are still being discussed
-               in the IETF. We don't expect major changes going forward,
-               but please be aware that this a new RPKI object type and
-               support for it in RPKI validators and routers may still
-               be lacking.
+.. Warning:: The IETF is still discussing and recently changed the ASPA
+             object profile. Krill currently supports the previous (V0)
+             version of the profile. RPKI validators may reject these
+             objects.
 
-               For the moment ASPA objects can *only* be managed through
-               the CLI. This allows early adopters to use this new type,
-               and allows the industry to build up experience.
+             The change to be aware of is that the new version dropped
+             the optional AFI limit for provider ASNs. Krill 0.14.0 will
+             support the new profile. Any existing configurations will be
+             re-imported on upgrade (excluding the AFI limit). This
+             migration will remove the history for pre-0.14.0 ASPA
+             configurations so that we can remove the AFI limit concept
+             from the code, thus improving future maintainability.
+
+             In short, you can experiment with ASPA objects in Krill, but
+             keep the above in mind.
 
 ASPA Configurations
 -------------------
