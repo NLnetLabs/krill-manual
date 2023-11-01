@@ -35,9 +35,7 @@ old data, then the content of the repository is very likely to have
 changed. This means that RPKI validators would become very confused about
 regressions in the content (in particular the "serial" attribute in the
 RRDP data might regress). To resolve this issue, you will need to perform
-an RRDP session reset using the following command:
-
-``krillc pubserver server session-reset``
+an RRDP session reset using the following command:  ``krillc pubserver server session-reset``
 
 In addition to this, you will find that CAs that publish at your publication
 server will not be aware that their latest publication update(s) may be
