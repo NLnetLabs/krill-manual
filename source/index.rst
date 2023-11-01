@@ -110,6 +110,7 @@ line and through an API.
    :caption: Reference
    :name: toc-reference
 
+   backup
    upgrade
    manage-children
    building-from-source
