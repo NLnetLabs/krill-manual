@@ -68,7 +68,6 @@ line and through an API.
    :name: toc-getting-started
 
    before-you-start
-   architecture
    install-and-run
    get-started
 
@@ -88,10 +87,10 @@ line and through an API.
    :hidden:
    :caption: Object Types
    :name: object-types
-   
+
    manage-roas
    manage-aspas
-   manage-bgpsec   
+   manage-bgpsec
 
 .. toctree::
    :maxdepth: 2
