@@ -4,20 +4,23 @@ Manage ASPA Objects
 ===================
 
 .. Warning:: The IETF is still discussing and recently changed the ASPA
-             object profile. Krill currently supports the previous (V0)
-             version of the profile. RPKI validators may reject these
-             objects.
+             object profile. Krill currently supports the latest version
+             of the profile.
 
-             The change to be aware of is that the new version dropped
-             the optional AFI limit for provider ASNs. Krill 0.14.0 will
-             support the new profile. Any existing configurations will be
-             re-imported on upgrade (excluding the AFI limit). This
-             migration will remove the history for pre-0.14.0 ASPA
-             configurations so that we can remove the AFI limit concept
-             from the code, thus improving future maintainability.
+             Any existing ASPA objects that you created before Krill
+             0.14.0 will be recreated on upgrade. If you used the now
+             deprecated option to limit a provider to a certain AFI,
+             then that limit will be silently dropped on upgrade.
 
-             In short, you can experiment with ASPA objects in Krill, but
-             keep the above in mind.
+             Also note that ASPA objects are only supported in the API
+             and CLI for the moment. The API changed in 0.14.0 and will
+             now use simple numbers for the ASNs in JSON. The CLI still
+             uses the more human friendly string notation which allows
+             both simple numners, e.g. "65000", or "AS65000" to be used.
+
+             We plan to add support for ASPA management in the UI in
+             future, probably shortly after the ASPA profile will have
+             made through IETF last call.
 
 ASPA Configurations
 -------------------
@@ -39,33 +42,28 @@ ASPA Configuration Notation
 
 ASPA objects allow operators to specify a list of provider ASNs, in the sense
 of BGP rather than in terms of business relations, where their own 'customer'
-ASN can send updates. Providers can optionally be restricted to IPv4 or IPv6
-only.
+ASN can send updates.
 
 Krill uses the following notation style to make it easy to define such
 configurations when using the CLI:
 
 .. code-block:: text
 
-   AS65000 => AS65001, AS65002(v4), AS65003(v6)
+   AS65000 => AS65001, AS65002, AS65003
 
 .. Important:: You can only have ONE ASPA configuration for each customer ASN.
               This is because Krill MUST (RFC) create a single ASPA object, for
-              all provider ASNs.
+              all provider ASNs. The provider list may not be empty.
 
-              The provider list may not be empty, and it must have entries
-              for both IPv4 and IPv6. If you explicitly want to state that
-              your customer AS has providers for one AFI, but not for the
-              other then you will need to add either AS0(v4) or AS0(v6).
+Add or Update an ASPA
+---------------------
 
-Add an ASPA
------------
-
-You can add ASPA definition using the following command:
+You can add a new, or update (replace) any existing, ASPA definition using
+the following command:
 
 .. code-block:: text
 
-  $ krillc aspas add --aspa "AS65000 => AS65001, AS65002(v4), AS65003(v6)"
+  $ krillc aspas add --aspa "AS65000 => AS65001, AS65002, AS65003"
 
 This uses the following API call:
 
@@ -79,16 +77,21 @@ This uses the following API call:
   {
     "add_or_replace": [
       {
-        "customer": "AS65000",
+        "customer": 65000,
         "providers": [
-          "AS65001",
-          "AS65002(v4)",
-          "AS65003(v6)"
+          65000,
+          65002,
+          65003
         ]
       }
     ],
     "remove": []
   }
+
+
+.. Note:: The CLI only allows the addition of one ASPA configuration at
+        a time. But the API allows multiple additions or updates and/or
+        removals to be sent in a single call.
 
 
 List ASPAs
@@ -99,7 +102,7 @@ CLI:
 .. code-block:: text
 
   $ krillc aspas list
-  AS65000 => AS65001, AS65002(v4), AS65003(v6)
+  AS65000 => AS65001, AS65002, AS65003
 
 
 API:
@@ -118,11 +121,11 @@ JSON response:
   $ krillc aspas list --format json
   [
     {
-      "customer": "AS65000",
+      "customer": 65000,
       "providers": [
-        "AS65001",
-        "AS65002(v4)",
-        "AS65003(v6)"
+        65001,
+        65002,
+        65003
       ]
     }
   ]
@@ -153,10 +156,10 @@ Or using the API:
   Body:
   {
     "added": [
-      "AS65005"
+      65005
     ],
     "removed": [
-      "AS65001"
+      65001
     ]
   }
 
@@ -194,6 +197,6 @@ Or using the API:
   {
     "add_or_replace": [],
     "remove": [
-      "AS65000"
+      65000
     ]
   }
