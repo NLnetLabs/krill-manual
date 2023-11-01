@@ -16,11 +16,11 @@ Manage ASPA Objects
              and CLI for the moment. The API changed in 0.14.0 and will
              now use simple numbers for the ASNs in JSON. The CLI still
              uses the more human friendly string notation which allows
-             both simple numners, e.g. "65000", or "AS65000" to be used.
+             both simple numbers, e.g. "65000", or "AS65000" to be used.
 
              We plan to add support for ASPA management in the UI in
-             future, probably shortly after the ASPA profile will have
-             made through IETF last call.
+             future, probably shortly after the standardisation of the
+             ASPA profile is complete.
 
 ASPA Configurations
 -------------------
