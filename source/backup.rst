@@ -28,7 +28,7 @@ recover when they re-sync with you as a parent. However, this can take
 up to 36 hours (under default config options at the child). So, you may
 need to reach out to your child CAs and ask them to perform a manual
 sync, either by using the button on the "Parents" tab in the UI, or by
-running `krillc bulk refresh`.
+running ``krillc bulk refresh``.
 
 If you are using Krill as a publication server, and you needed to restore
 old data, then the content of the repository is very likely to have
@@ -37,9 +37,7 @@ regressions in the content (in particular the "serial" attribute in the
 RRDP data might regress). To resolve this issue, you will need to perform
 an RRDP session reset using the following command:
 
-```
-krillc pubserver server session-reset
-```
+``krillc pubserver server session-reset``
 
 In addition to this, you will find that CAs that publish at your publication
 server will not be aware that their latest publication update(s) may be
@@ -47,4 +45,4 @@ missing. This can mean that e.g. their latest ROAs are not there, or that
 their manifest or CRL is expired (the CA thinks they published an update).
 To resolve this, you will need to reach out to all publishing CAs and
 ask them to to perform a manual sync, either by using the button on the
-"Repository" tab in the UI, or by running `krillc bulk sync`.
+"Repository" tab in the UI, or by running ``krillc bulk sync``.
