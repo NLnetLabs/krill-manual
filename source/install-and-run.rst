@@ -7,6 +7,19 @@ Before you can start to use Krill you will need to install, configure and run
 the Krill application somewhere. Please follow the steps below and you will be
 ready to :ref:`get started<doc_krill_get_started>`.
 
+.. Warning:: Krill does NOT support clustering at this time. You can use
+         a shared disk and a standby Krill node for redundancy. However,
+         data corruption issues can occur if you run multiple active
+         Krill nodes using a shared disk. Therefore, you MUST ensure that
+         only one Krill node is active at any given time.
+
+         We plan to offer support for clustering in Krill release 0.15.0
+         by allowing a postgresql to be used for storage. Krill will then
+         rely on database transactions to ensure that no data corruption
+         can occur. The database itself then still needs to be set up for
+         redundancy of course, but there are several ways that this can
+         be done using postgresql.
+
 Quick Start
 -----------
 
@@ -79,7 +92,7 @@ public rsyncd and HTTPS web server available.
        settings. Tip: The configuration file was generated for you using the
        ``krillc config simple`` command.
 
-       .. Warning:: If you modify the default ``data_dir``, or if you decide
+       .. Warning:: If you modify the default ``storage_uri``, or if you decide
           to symlink its default directory ``/var/lib/krill/data`` to another
           location or volume, you will need to:
 
@@ -97,7 +110,7 @@ public rsyncd and HTTPS web server available.
       Once happy with the settings use ``sudo systemctl enable --now krill`` to
       instruct systemd to enable the Krill service at boot and to start it
       immediately. The krill daemon runs as user ``krill`` and stores its data
-      in ``/var/lib/krill/data``, unless you modified the `data_dir` setting.
+      in ``/var/lib/krill/data``, unless you modified the `storage_uri` setting.
 
        You can check the status of Krill with:
 
@@ -159,7 +172,7 @@ public rsyncd and HTTPS web server available.
        settings. Tip: The configuration file was generated for you using the
        ``krillc config simple`` command.
 
-       .. Warning:: If you modify the default ``data_dir``, or if you decide
+       .. Warning:: If you modify the default ``storage_uri``, or if you decide
           to symlink its default directory ``/var/lib/krill/data`` to another
           location or volume, you will need to:
 
@@ -177,7 +190,7 @@ public rsyncd and HTTPS web server available.
       Once happy with the settings use ``sudo systemctl enable --now krill`` to
       instruct systemd to enable the Krill service at boot and to start it
       immediately. The krill daemon runs as user ``krill`` and stores its data
-      in ``/var/lib/krill/data``, unless you modified the `data_dir` setting.
+      in ``/var/lib/krill/data``, unless you modified the `storage_uri` setting.
 
        You can check the status of Krill with:
 
@@ -226,7 +239,7 @@ public rsyncd and HTTPS web server available.
        settings. Tip: The configuration file was generated for you using the
        ``krillc config simple`` command.
 
-       .. Warning:: If you modify the default ``data_dir``, or if you decide
+       .. Warning:: If you modify the default ``storage_uri``, or if you decide
           to symlink its default directory ``/var/lib/krill/data`` to another
           location or volume, you will need to:
 
@@ -244,7 +257,7 @@ public rsyncd and HTTPS web server available.
       Once happy with the settings use ``sudo systemctl enable --now krill`` to
       instruct systemd to enable the Krill service at boot and to start it
       immediately. The krill daemon runs as user ``krill`` and stores its data
-      in ``/var/lib/krill/data``, unless you modified the `data_dir` setting.
+      in ``/var/lib/krill/data``, unless you modified the `storage_uri` setting.
 
        You can check the status of Krill with:
 

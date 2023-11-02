@@ -13,13 +13,14 @@ and restart it.
 
 As the first step of this upgrade, any data that needs to be migrated
 is prepared under a new directory called :file:`upgrade-data` under the
-:file:`data_dir` you configured. If you used a package to install Krill
-then the latter would be :file:`/var/lib/krill/data`.
+:file:`storage_uri` (or `data_dir`) you configured. If you used a package
+to install Krill then the latter would be :file:`/var/lib/krill/data`.
 
 If all is well then Krill will rename directories under the :file:`data_dir`
 and archive your old data structures under directories called
-:samp:`arch_cas_{version}` and/or :samp:`arch_pubd_{version}`. You can
-safely remove these directories in order to save space later.
+:samp:`arch_*`. You can safely remove these directories in order to save
+space later. If you leave them in place, they will be replaced when Krill
+needs to upgrade again.
 
 It is unlikely that a data migration should fail. We use automated and
 manual testing to make sure that these migrations work. But, of course
@@ -38,9 +39,6 @@ Prepare Upgrade with krillup
 If the fully automated upgrade process seems a bit too scary to you,
 then we recommend that you perform this step manually *before* upgrading
 krill itself.
-
-Starting with Krill 0.9.5 we have introduced a new command line tool
-that can be used to help prepare for krill migrations.
 
 If you built Krill using Cargo then you will find that a new binary
 called :command:`krillup` is installed alongside with krill. But, if you are
@@ -87,6 +85,31 @@ Important Changes
 -----------------
 
 .. _doc_krill_important_changes:
+
+v0.14.0
+~~~~~~~
+
+ASPA objects are updated to the current profile (v1). Minor fixes were
+done in the UI and Simplified and Traditional Chinese translations were
+introduced. Other than that, the transactionality and data storage were
+improved.
+
+For the full release notes see:
+https://github.com/NLnetLabs/krill/releases/tag/v0.14.0
+
+v0.13.x
+~~~~~~~
+
+In these releases we added support for ASPA in the CLI. ASPA objects in
+these releases use the ASPA profile v0 which is now deprecated. Version
+0.14.0 migrates these objects to the current profile.
+
+Other than that these versions mainly featured improvements for running
+Krill as a Trust Anchor or Publication Server.
+
+For full release notes see:
+https://github.com/NLnetLabs/krill/releases/tag/v0.13.0
+https://github.com/NLnetLabs/krill/releases/tag/v0.13.1
 
 v0.12.0
 ~~~~~~~
