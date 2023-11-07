@@ -64,7 +64,7 @@ does not require preparation:
 
 .. code-block:: text
 
-  $ krillup -c ./defaults/krill.conf
+  $ krillup prepare -c ./defaults/krill.conf
   2022-02-18 16:51:26 [INFO] Prepare upgrade using configuration file: ./defaults/krill.conf
   2022-02-18 16:51:26 [INFO] Processing data from: ./data
   2022-02-18 16:51:26 [INFO] Saving prepared data to: ./data/upgrade-data
