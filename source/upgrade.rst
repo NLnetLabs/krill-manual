@@ -64,14 +64,20 @@ does not require preparation:
 
 .. code-block:: text
 
-  $ krillup prepare -c ./defaults/krill.conf
+  $ sudo -u krill krillup prepare -c ./defaults/krill.conf
   2022-02-18 16:51:26 [INFO] Prepare upgrade using configuration file: ./defaults/krill.conf
   2022-02-18 16:51:26 [INFO] Processing data from: ./data
   2022-02-18 16:51:26 [INFO] Saving prepared data to: ./data/upgrade-data
   2022-02-18 16:51:26 [INFO] No preparation is needed for the upgrade from 0.9.3-rc1 to 0.9.5-rc1.
 
 
-.. Important:: Once migrated data cannot be rolled back to the format
+.. Important:: Do NOT run ``krillup`` as root. If you did by accident,
+               then you may need to fix the ownership of files under
+               the Krill data directory, e.g.:
+
+               sudo chown -R krill. /var/lib/krill/data/
+
+               Once migrated data cannot be rolled back to the format
                of a previous Krill version. So, while an upgrade can
                be aborted, it cannot be undone — other than by restoring
                data from the point before the upgrade and accepting that
