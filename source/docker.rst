@@ -35,7 +35,7 @@ extra things like log level and volume mounts (more on this below).
    $ docker run -d --name krill -p 127.0.0.1:3000:3000 \
      -e KRILL_LOG_LEVEL=debug \
      -e KRILL_FQDN=rpki.example.net \
-     -e KRILL_AUTH_TOKEN=correct-horse-battery-staple \
+     -e KRILL_ADMIN_TOKEN=correct-horse-battery-staple \
      -e TZ=Europe/Amsterdam \
      -v krill_data:/var/krill/data/ \
      -v /tmp/krill_rsync/:/var/krill/data/repo/rsync/ \
@@ -60,7 +60,7 @@ manage Krill via the API or the :command:`krillc` CLI tool.
 
 You can pre-configure the token via the ``auth_token`` Krill config file
 setting, or if you don't want to provide a config file you can also use the
-Docker environment variable ``KRILL_AUTH_TOKEN`` as  shown above.
+Docker environment variable ``KRILL_ADMIN_TOKEN`` as  shown above.
 
 Running the Krill CLI
 ---------------------
