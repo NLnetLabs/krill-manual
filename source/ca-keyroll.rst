@@ -153,7 +153,7 @@ before initiating this step.
 
 This stage will trigger that the 'new' key is activated. All objects, like ROAs,
 which were issued under the previous 'active' key will now be published
-under that new key. Furthermore Krill will generate a revocation revocation
+under that new key. Furthermore Krill will generate a revocation
 request for the previous active key. But, until it is indeed confirmed to
 be revoked by the parent Krill will continue to issue a CRL and manifest,
 but no other objects for it.
