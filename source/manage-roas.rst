@@ -155,8 +155,7 @@ If you prefer to use the CLI then you can manage ROAs using the subcommand
 Disable BGP Info
 ----------------
 
-If you disable the :guilabel:`Show BGP Info` toggle, Krill will just show you your plain ROAs. You
-can also disable downloading the RIS dump files altogether if you set the following directive
+You can disable downloading the RIS dump files altogether if you set the following directive
 in your krill.conf file:
 
 .. code-block:: bash
